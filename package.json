@@ -1,0 +1,21 @@
+{
+  "name": "@wox/wox",
+  "version": "1.0.0",
+  "description": "Wox application framework",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/woxjs/wox.git"
+  },
+  "keywords": [
+    "server"
+  ],
+  "author": "cevio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/woxjs/wox/issues"
+  },
+  "homepage": "https://github.com/woxjs/wox#readme",
+  "dependencies": {
+    "vue": "^2.5.17"
+  }
+}
