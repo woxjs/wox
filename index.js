@@ -47,7 +47,7 @@ export default class WoxApplication extends Server {
       webview: null,
       props: null,
     }
-    this.vue = new Vue({
+    const options = {
       el: root,
       name: 'WoxApplication',
       data: () => initData,
@@ -55,7 +55,9 @@ export default class WoxApplication extends Server {
         if (this.Bootstrap) return h(this.Bootstrap);
         return h(Page);
       }
-    });
+    };
+    this.emit('setup', options);
+    this.vue = new Vue(options);
   }
 
   createProcess() {
@@ -89,17 +91,17 @@ export default class WoxApplication extends Server {
   async createServer() {
     if (this.AppRuntime) await this.AppRuntime(this);
     this.createProcess();
+    this.emit('beforeCreate');
     this.createPage();
+    this.emit('created');
     this.use(this.Router.routes());
     if (this.historyRemoveListener) this.historyRemoveListener();
-    if (this.config.history === 'html5') {
-      this.history = new popState();
-    } else {
-      this.history = new hashChange();
-    }
+    this.history = this.config.history === 'html5' ? new popState() : new hashChange();
+    this.emit('beforeMount');
     this.historyRemoveListener = this.history
       .createServer(this.callback())
       .listen();
     this.installed = true;
+    this.emit('mounted');
   }
 }
