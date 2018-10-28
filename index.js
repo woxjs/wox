@@ -14,6 +14,7 @@ export default class WoxApplication extends Server {
     this.env = process.env.NODE_ENV || 'development';
     this.Router = new Route();
     this.installed = false;
+    this.Client = new Client(this);
     this.parseConfigs(loadConfigs);
     this.context.render = async (webview, props) => {
       if (this.vue) {
@@ -27,7 +28,9 @@ export default class WoxApplication extends Server {
   }
 
   parseConfigs(configs) {
-    const client = new Client(this);
+    const client = this.Client;
+    client.Plugin(configs.Plugin);
+    delete configs.Plugin;
     for (const channel in configs) {
       if (client[channel]) {
         client[channel](configs[channel]);
