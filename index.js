@@ -44,6 +44,8 @@ export default class WoxApplication extends Server {
     global.document.body.appendChild(root);
     Vue.prototype.$wox = this;
     Vue.component('WoxPage', Page);
+    if (this.Components) this.Components(Vue);
+    if (this.AsyncComponents) this.AsyncComponents(Vue);
     const initData = {
       webview: null,
       props: null,
