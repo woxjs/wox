@@ -39,6 +39,7 @@ export default class WoxApplication extends Server {
   }
   
   createPage() {
+    const that = this;
     const root = global.document.createElement('div');
     global.document.body.appendChild(root);
     Vue.prototype.$wox = this;
