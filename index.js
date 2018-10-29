@@ -39,13 +39,14 @@ export default class WoxApplication extends Server {
   }
   
   createPage() {
-    const that = this;
     const root = global.document.createElement('div');
     global.document.body.appendChild(root);
     Vue.prototype.$wox = this;
     Vue.component('WoxPage', Page);
     if (this.Components) this.Components(Vue);
     if (this.AsyncComponents) this.AsyncComponents(Vue);
+    if (this.Directives) this.Directives(this, Vue);
+    if (this.Filters) this.Filters(this, Vue);
     const initData = {
       webview: null,
       props: null,
@@ -82,8 +83,14 @@ export default class WoxApplication extends Server {
           result.push(middle);
         }
         result.push(async (ctx, next) => {
+          const cacheClassObject = object.__cacheClass__;
+          if (cacheClassObject) {
+            cacheClassObject.ctx = ctx;
+            return cacheClassObject[label].call(cacheClassObject, ctx, next);
+          }
           const obj = new object(ctx);
-          await obj[label](ctx, next);
+          object.__cacheClass__ = obj;
+          return await obj[label].call(obj, ctx, next);
         });
         $router[single.method](single.uri, ...result);
       }
