@@ -1,6 +1,6 @@
 {
   "name": "@wox/wox",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Wox application framework",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@wox/basic": "^1.0.0",
     "@wox/history": "^1.0.0",
-    "@wox/loader": "^1.0.7",
+    "@wox/loader": "^1.0.8",
     "@wox/router": "^1.0.0",
     "@wox/server": "^1.0.0",
     "vue": "^2.5.17"
