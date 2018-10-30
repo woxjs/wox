@@ -4,6 +4,7 @@ import Route from '@wox/router';
 import Client from '@wox/loader/client';
 import Basic from '@wox/basic';
 import Page from './page';
+import DirectiveComponent from './directives';
 import { hashChange, popState } from '@wox/history';
 
 export default class WoxApplication extends Server {
@@ -18,13 +19,23 @@ export default class WoxApplication extends Server {
     this.parseConfigs(loadConfigs);
     this.context.render = async (webview, props) => {
       if (this.vue) {
-        if (typeof webview === 'function' && webview.async) {
-          webview = await webview();
-        }
+        if (typeof webview === 'function' && webview.async) webview = await webview();
         this.vue.webview = webview;
         this.vue.props = props;
       }
     }
+  }
+
+  redirect(...args) { 
+    this.history.redirect(...args);
+  }
+
+  replace(...args) {
+    this.history.replace(...args);
+  }
+
+  reload(...args) {
+    this.history.reload(...args);
   }
 
   parseConfigs(configs) {
@@ -43,6 +54,7 @@ export default class WoxApplication extends Server {
     global.document.body.appendChild(root);
     Vue.prototype.$wox = this;
     Vue.component('WoxPage', Page);
+    DirectiveComponent(this, Vue);
     if (this.Components) this.Components(Vue);
     if (this.AsyncComponents) this.AsyncComponents(Vue);
     if (this.Directives) this.Directives(this, Vue);
