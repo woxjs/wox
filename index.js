@@ -14,6 +14,7 @@ export default class WoxApplication extends Server {
     this.plugins = {};
     this.env = process.env.NODE_ENV || 'development';
     this.installed = false;
+    this.Router = new Route();
     this.Client = new Client(this);
     this.parseConfigs(loadConfigs);
     this.context.render = async (webview, props) => {
@@ -81,7 +82,7 @@ export default class WoxApplication extends Server {
       const $router = new Route();
       const router = routes[i];
       const object = router.__class__;
-      $router.prefix(router.__prefix__);
+      const prefix = router.__prefix__;
       for (const label in router.__routes__) {
         const single = router.__routes__[label];
         const middleware = single.middlewares;
@@ -106,7 +107,7 @@ export default class WoxApplication extends Server {
         });
         $router[single.method](single.uri, ...result);
       }
-      this.use($router.routes());
+      this.Router.use(prefix, $router.routes());
     }
   }
 
@@ -116,6 +117,7 @@ export default class WoxApplication extends Server {
     this.emit('beforeCreate');
     this.createPage();
     this.emit('created');
+    this.use(this.Router.routes());
     if (this.historyRemoveListener) this.historyRemoveListener();
     this.history = this.config.history === 'html5' ? new popState() : new hashChange();
     this.emit('beforeMount');
