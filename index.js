@@ -77,38 +77,46 @@ export default class WoxApplication extends Server {
   }
 
   createProcess() {
-    const routes = Basic.getAllRouterTree();
-    for (let i = 0; i < routes.length; i++) {
+    Basic.getAllRouterTree().forEach(controller => {
       const $router = new Route();
-      const router = routes[i];
-      const object = router.__class__;
-      const prefix = router.__prefix__;
-      for (const label in router.__routes__) {
-        const single = router.__routes__[label];
-        const middleware = single.middlewares;
+      const prefix = Reflect.getMetadata('Controller', controller);
+      const uses = Reflect.getMetadata('Use', controller);
+      if (!prefix) return;
+      for (const property of Object.getOwnPropertyNames(controller.prototype)) {
+        if (property === 'constructor') continue;
+        const getter = Reflect.getOwnMetadata('Get', controller.prototype[property]);
+        const middleware = Reflect.getOwnMetadata('Middleware', controller.prototype[property]);
+        const extras = Reflect.getOwnMetadata('Middleware', controller.prototype[property]);
         const result = [];
-        for (let n = 0; n < middleware.length; n++) {
-          let middle = middleware[n].name.split('.').reduce((target, property) => {
-            if (target[property]) return target[property];
-            throw new Error(`Can not find property ${property} on ${JSON.stringify(target)}`);
-          }, this.Middleware);
-          if (middleware[n].args.length) middle = middle(...middleware[n].args);
-          result.push(middle);
+        if (!getter || !getter.path || !getter.property) return;
+        if (middleware) {
+          for (let n = 0; n < middleware.length; n++) {
+            result.push(Basic.RenderMiddlewareArguments(
+              this.Middleware, 
+              middleware[n]
+            ));
+          }
         }
+        this.emit('decorate', { property, prefix, getter, extras, controller, result });
         result.push(async (ctx, next) => {
-          const cacheClassObject = object.__cacheClass__;
+          const cacheClassObject = controller.__cacheClass__;
           if (cacheClassObject) {
             cacheClassObject.ctx = ctx;
-            return cacheClassObject[label].call(cacheClassObject, ctx, next);
+            return await cacheClassObject[getter.property].call(cacheClassObject, ctx, next);
           }
-          const obj = new object(ctx);
-          object.__cacheClass__ = obj;
-          return await obj[label].call(obj, ctx, next);
+          const obj = new controller(ctx);
+          controller.__cacheClass__ = obj;
+          return await obj[getter.property].call(obj, ctx, next);
         });
-        $router[single.method](single.uri, ...result);
+        $router.render(getter.path, ...result);
       }
-      this.Router.use(prefix, $router.routes());
-    }
+      
+      const ControllerPrepareMiddlewares = uses 
+        ? uses.map(middle => Basic.RenderMiddlewareArguments(this.Middleware, middle)) 
+        : [];
+      ControllerPrepareMiddlewares.push($router.routes());
+      this.Router.use(prefix, ...ControllerPrepareMiddlewares);
+    });
   }
 
   async createServer() {
