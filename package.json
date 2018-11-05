@@ -1,6 +1,6 @@
 {
   "name": "@wox/wox",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Wox application framework",
   "repository": {
     "type": "git",
@@ -16,11 +16,11 @@
   },
   "homepage": "https://github.com/woxjs/wox#readme",
   "dependencies": {
-    "@wox/basic": "^1.0.3",
-    "@wox/history": "^1.0.0",
+    "@wox/basic": "^1.0.4",
+    "@wox/history": "^1.0.1",
     "@wox/loader": "^1.0.9",
-    "@wox/router": "^1.0.5",
-    "@wox/server": "^1.0.0",
+    "@wox/router": "^1.0.6",
+    "@wox/server": "^1.0.1",
     "vue": "^2.5.17"
   }
 }

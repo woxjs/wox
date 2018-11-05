@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import Vue from 'vue';
 import Server from '@wox/server';
 import Route from '@wox/router';
@@ -17,6 +18,11 @@ export default class WoxApplication extends Server {
     this.Router = new Route();
     this.Client = new Client(this);
     this.parseConfigs(loadConfigs);
+    this.context.fetch = this.fetch.bind(this);
+    this.context.get = this.get.bind(this);
+    this.context.post = this.post.bind(this);
+    this.context.put = this.put.bind(this);
+    this.context.delete = this.delete.bind(this);
     this.context.render = async (webview, props) => {
       if (this.vue) {
         if (typeof webview === 'function' && webview.async) webview = await webview();
@@ -24,6 +30,46 @@ export default class WoxApplication extends Server {
         this.vue.props = props;
       }
     }
+  }
+
+  async fetch(options) {
+    const ctx = await this.history._handler(options.url, options.method, options.body);
+    ctx.status = ctx.status || 200;
+    if (ctx.status !== 200) {
+      if (ctx.error instanceof Error || Object.prototype.toString.call(ctx.error) === '[object Error]') throw ctx.error;
+      const err = new Error('Service Error');
+      err.status = err.code = ctx.status;
+      throw err;
+    }
+    return ctx.body;
+  }
+
+  get(url) {
+    return this.fetch({
+      url,
+      method: 'GET'
+    })
+  }
+
+  post(url, body) {
+    return this.fetch({
+      url, body,
+      method: 'POST'
+    })
+  }
+
+  put(url, body) {
+    return this.fetch({
+      url, body,
+      method: 'PUT'
+    })
+  }
+
+  delete(url) {
+    return this.fetch({
+      url,
+      method: 'DELETE'
+    })
   }
 
   redirect(...args) { 
@@ -77,18 +123,27 @@ export default class WoxApplication extends Server {
   }
 
   createProcess() {
-    Basic.getAllRouterTree().forEach(controller => {
+    global.WOX_ROUTER_COMPONENTS.forEach(controller => {
       const $router = new Route();
       const prefix = Reflect.getMetadata('Controller', controller);
       const uses = Reflect.getMetadata('Use', controller);
       if (!prefix) return;
       for (const property of Object.getOwnPropertyNames(controller.prototype)) {
         if (property === 'constructor') continue;
-        const getter = Reflect.getOwnMetadata('Get', controller.prototype[property]);
+        const result = [];
         const middleware = Reflect.getOwnMetadata('Middleware', controller.prototype[property]);
         const extras = Reflect.getOwnMetadata('Middleware', controller.prototype[property]);
-        const result = [];
-        if (!getter || !getter.path || !getter.property) return;
+        const getters = Basic.Methods.map(method => {
+          const httpMethodMetadata = Reflect.getOwnMetadata(method, controller.prototype[property]);
+          if (!httpMethodMetadata) return;
+          httpMethodMetadata.method = method;
+          return httpMethodMetadata;
+        }).filter(properties => !!properties);
+        if (!getters.length) continue;
+        if (getters.length > 1) {
+          throw new Error(`You can not set multi HTTP methods on '${property}: ${getters.map(getter => getter.method).join(',')}'`);
+        }
+        const getter = getters[0];
         if (middleware) {
           for (let n = 0; n < middleware.length; n++) {
             result.push(Basic.RenderMiddlewareArguments(
@@ -108,7 +163,7 @@ export default class WoxApplication extends Server {
           controller.__cacheClass__ = obj;
           return await obj[getter.property].call(obj, ctx, next);
         });
-        $router.render(getter.path, ...result);
+        $router[getter.method.toLowerCase()](getter.path, ...result);
       }
       
       const ControllerPrepareMiddlewares = uses 
