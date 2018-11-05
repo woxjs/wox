@@ -23,5 +23,9 @@
     "@wox/server": "^1.0.1",
     "reflect-metadata": "^0.1.12",
     "vue": "^2.5.17"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   }
 }
