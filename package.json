@@ -1,6 +1,6 @@
 {
   "name": "@wox/wox",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Wox application framework",
   "repository": {
     "type": "git",
@@ -16,9 +16,9 @@
   },
   "homepage": "https://github.com/woxjs/wox#readme",
   "dependencies": {
-    "@wox/basic": "^1.0.4",
+    "@wox/basic": "^1.0.5",
     "@wox/history": "^1.0.1",
-    "@wox/loader": "^1.0.9",
+    "@wox/loader": "^1.0.10",
     "@wox/router": "^1.0.6",
     "@wox/server": "^1.0.1",
     "reflect-metadata": "^0.1.12",

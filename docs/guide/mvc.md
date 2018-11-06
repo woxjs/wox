@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 4
 prev: /guide/
-next: false
+next: /guide/service
 ---
 
 # 深入理解MVC模型
@@ -27,12 +27,13 @@ Wox.js 采用mvc模型来管理整个请求模型，同时结合Vue.js的 [MVVM]
 ```bash
 /abc/efg # Abc.Efg
 /a/b/c/d/e/f/g # A.B.C.D.E.F.G
+/ab_cd/xx-dd # AbCd.XxDd
 ```
 
 它的规则就是文件夹或者文件名的驼峰化，通过`.`号相连等到的数据表达式。wox.js中都是通过这样的表达式来获取数据的。
 
 ## 编写你的MVC代码
-
+ 
 下面，将讲解如何一步一步创建MVC中的各层。
 
 ::: warning

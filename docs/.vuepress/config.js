@@ -7,7 +7,7 @@ module.exports = {
   themeConfig: {
     displayAllHeaders: true,
     repo: 'woxjs/wox',
-    repoLabel: '查看源码',
+    repoLabel: 'GitHub',
     docsDir: 'docs',
     editLinks: true,
     editLinkText: '帮助我们改善此页面！',
@@ -17,12 +17,12 @@ module.exports = {
       { text: 'API', link: '/api/' },
       { text: '脚手架', link: '/cli/' },
       { text: '核心插件', link: '/plugins/' },
-      { text: 'GitHub', link: 'https://github.com/woxjs' },
     ],
     sidebar: {
       '/guide/': [
         '',
-        'mvc'
+        'mvc',
+        'service'
       ],
       '/api/': [
         ''
