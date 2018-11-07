@@ -123,7 +123,12 @@ export default class WoxApplication extends Server {
   }
 
   createProcess() {
-    global.WOX_ROUTER_COMPONENTS.forEach(controller => {
+    const controllers = global.CLUSIC_ROUTER_COMPONENTS.slice(0).sort((a, b) => {
+      const aIndex = Reflect.getOwnMetadata('Order', a) || 0;
+      const bIndex = Reflect.getOwnMetadata('Order', b) || 0;
+      return aIndex - bIndex;
+    });
+    controllers.forEach(controller => {
       const $router = new Route();
       const prefix = Reflect.getMetadata('Controller', controller);
       const uses = Reflect.getMetadata('Use', controller);
