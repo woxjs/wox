@@ -159,13 +159,7 @@ export default class WoxApplication extends Server {
         }
         this.emit('decorate', { property, prefix, getter, extras, controller, result });
         result.push(async (ctx, next) => {
-          const cacheClassObject = controller.__cacheClass__;
-          if (cacheClassObject) {
-            cacheClassObject.ctx = ctx;
-            return await cacheClassObject[getter.property].call(cacheClassObject, ctx, next);
-          }
           const obj = new controller(ctx);
-          controller.__cacheClass__ = obj;
           return await obj[getter.property].call(obj, ctx, next);
         });
         $router[getter.method.toLowerCase()](getter.path, ...result);
