@@ -129,9 +129,9 @@ export default class WoxApplication extends Server {
       return aIndex - bIndex;
     });
     controllers.forEach(controller => {
-      const $router = new Route();
       const prefix = Reflect.getMetadata('Controller', controller);
       const uses = Reflect.getMetadata('Use', controller);
+      const $router = prefix ? new Route() : this.Router;
       if (!prefix) return;
       for (const property of Object.getOwnPropertyNames(controller.prototype)) {
         if (property === 'constructor') continue;
@@ -164,7 +164,7 @@ export default class WoxApplication extends Server {
         });
         $router[getter.method.toLowerCase()](getter.path, ...result);
       }
-      
+      if (!prefix) continue;
       const ControllerPrepareMiddlewares = uses 
         ? uses.map(middle => Basic.RenderMiddlewareArguments(this.Middleware, middle)) 
         : [];
