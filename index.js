@@ -164,7 +164,7 @@ export default class WoxApplication extends Server {
         });
         $router[getter.method.toLowerCase()](getter.path, ...result);
       }
-      if (!prefix) continue;
+      if (!prefix) return;
       const ControllerPrepareMiddlewares = uses 
         ? uses.map(middle => Basic.RenderMiddlewareArguments(this.Middleware, middle)) 
         : [];
