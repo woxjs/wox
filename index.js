@@ -123,7 +123,7 @@ export default class WoxApplication extends Server {
   }
 
   createProcess() {
-    const controllers = global.CLUSIC_ROUTER_COMPONENTS.slice(0).sort((a, b) => {
+    const controllers = global.WOX_ROUTER_COMPONENTS.slice(0).sort((a, b) => {
       const aIndex = Reflect.getOwnMetadata('Order', a) || 0;
       const bIndex = Reflect.getOwnMetadata('Order', b) || 0;
       return aIndex - bIndex;
