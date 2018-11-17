@@ -132,7 +132,6 @@ export default class WoxApplication extends Server {
       const prefix = Reflect.getMetadata('Controller', controller);
       const uses = Reflect.getMetadata('Use', controller);
       const $router = prefix ? new Route() : this.Router;
-      if (!prefix) return;
       for (const property of Object.getOwnPropertyNames(controller.prototype)) {
         if (property === 'constructor') continue;
         const result = [];
