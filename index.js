@@ -96,8 +96,14 @@ export default class WoxApplication extends Server {
   }
   
   createPage() {
-    const root = global.document.createElement('div');
-    global.document.body.appendChild(root);
+    if (!this.config.el) {
+      this.$root = global.document.createElement('div');
+      global.document.body.appendChild(this.$root);
+    } else {
+      this.$root = typeof this.config.el === 'object' 
+        ? this.config.el 
+        : global.document.querySelector(this.config.el);
+    }
     Vue.prototype.$wox = this;
     Vue.component('WoxPage', Page);
     DirectiveComponent(this, Vue);
@@ -110,7 +116,6 @@ export default class WoxApplication extends Server {
       props: null,
     }
     const options = {
-      el: root,
       name: 'WoxApplication',
       data: () => initData,
       render: h => {
@@ -186,6 +191,7 @@ export default class WoxApplication extends Server {
       .createServer(this.callback())
       .listen();
     this.installed = true;
+    this.vue.$mount(this.$root);
     this.emit('mounted');
   }
 }

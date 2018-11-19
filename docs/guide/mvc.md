@@ -16,9 +16,18 @@ Wox.js 采用mvc模型来管理整个请求模型，同时结合Vue.js的 [MVVM]
 
 所谓静态路由，就是一个路由对应一个component组件，只要路由确定页面一定是确定的。它的优势在于能够快速确定渲染页面，性能很高。但是它的优势也成为了它的劣势。往往我们在后台系统界面中，可能会出现一个路由并非对应一个component组件页面，而是需要一些变量来决定使用哪个页面。Vue-router 无法做到。
 
+在这里我们强补下路由概念：
+
+- 静态路由：`Router = Component` 路由与页面一一对应，无论任意时间来观察页面，显示的内容都是一致的，表现为感官上的一致；实际运行时表现为路由与组件的一一对应。
+- 动态路由：`Router = ComponentRender()` 路由根据时间或者环境的变化，会产生不一致的渲染效果，感官上表现为不同的页面；实际上路由应该对应的并非组件，而是一个选取组件的回调函数，比如`react-routerV4`中的render用法。
+
+为了能够在PC端后台系统上可以完美解决各种路由规则以及拦截（中间件）的问题，我们摒弃了`vue-router`，因为在`Vue-router`上，我们需要写各种`hooks`才能完成我们需要的工作，大大增加了我们的开发成本。
+
 ## Wox.js的动态路由化
 
 基于restful设计理念，我们将前端路由动态化，我们通过一个路由对应一个回调函数的模式让路由的选择趋于动态化。在路由改变的时候，我们都会自动选择需要渲染的页面。这就是wox.js的优势。我们选择koa做为原型是因为它是业界（nodejs）比较成熟的企业应用级MVC架构。它的成熟的理念已经被市场检验认证过。
+
+同时，基于自身带有`Virtual Service`的理念存在，也可以自获取数据，而脱离服务端的数据返回。类似 `this.$wox.post('/api', {})` 的调用模式，以及我们在controller层对此路由的定义`@Post('/api')`。
 
 ## 数据路径
 
@@ -113,7 +122,7 @@ export default class DemoController extends ApplicationComponent {
   @Middleware('Auth.Cert', 'v2', 'test')
   @Middleware('User.Login')
   async test() {
-    const body = this.ctx.request.body;
+    const body = this.ctx.req.body;
     this.ctx.body = 'abc ' + body.action;
   }
 }
@@ -139,6 +148,10 @@ export default app => {
   }
 }
 ```
+
+::: tip
+由于Wox.js是基于Koa模型建立，那么部分非涉及到环境变量的Koa中间件都可以直接在前端使用。如果善用中间件模型，那么将使代码非常逻辑化和简单化。本中间件模型也支持`.param(value, ctx, next)`模式，具体参考Koa的`param`使用方式。
+:::
 
 ### Service
 

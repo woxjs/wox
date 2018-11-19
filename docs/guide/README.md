@@ -13,15 +13,6 @@ Vue 不支持 IE8 及以下版本，因为 Vue 使用了 IE8 无法模拟的 ECM
 
 在使用 Vue 时，我们推荐在你的浏览器上安装 [Vue Devtools](https://github.com/vuejs/vue-devtools#vue-devtools)。它允许你在一个更友好的界面中审查和调试 Vue 应用。
 
-## NPM
-
-在用 Vue 构建大型应用时推荐使用 NPM 安装。NPM 能很好地和诸如 [webpack](https://webpack.js.org/) 或 [Browserify](http://browserify.org/) 模块打包器配合使用。同时 Vue 也提供配套工具来开发[单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)。
-
-```bash
-# 最新稳定版
-$ npm install vue
-```
-
 ## CLI
 
 使用Wox.js架构的时候，推荐通过 [CLI](/cli/) 工具创建项目，不建议通过引入原始文件自行创建。
@@ -39,9 +30,16 @@ CLI 工具假定用户对 Node.js 和相关构建工具有一定程度的了解�
 使用 CLI 工具创建一个新的项目：
 
 ```bash
+# 创建新项目
 wox new <project>
+
+# 进入项目目录
 cd <project>
+
+# 安装依赖
 npm i
+
+# 开始编码
 npm run dev
 ```
 
