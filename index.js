@@ -135,12 +135,12 @@ export default class WoxApplication extends Server {
     });
     controllers.forEach(controller => {
       const prefix = Reflect.getMetadata('Controller', controller);
-      const uses = Reflect.getMetadata('Use', controller);
+      const uses = Reflect.getMetadata('Use', controller) || [];
       const $router = prefix ? new Route() : this.Router;
       for (const property of Object.getOwnPropertyNames(controller.prototype)) {
         if (property === 'constructor') continue;
         const result = [];
-        const middleware = Reflect.getOwnMetadata('Middleware', controller.prototype[property]);
+        const middleware = Reflect.getOwnMetadata('Middleware', controller.prototype[property]) || [];
         const extras = Reflect.getOwnMetadata('Middleware', controller.prototype[property]);
         const getters = Basic.Methods.map(method => {
           const httpMethodMetadata = Reflect.getOwnMetadata(method, controller.prototype[property]);
@@ -153,13 +153,13 @@ export default class WoxApplication extends Server {
           throw new Error(`You can not set multi HTTP methods on '${property}: ${getters.map(getter => getter.method).join(',')}'`);
         }
         const getter = getters[0];
-        if (middleware) {
-          for (let n = 0; n < middleware.length; n++) {
-            result.push(Basic.RenderMiddlewareArguments(
-              this.Middleware, 
-              middleware[n]
-            ));
-          }
+        const _middleware = middleware.slice(0).reverse();
+        if (!prefix) _middleware.unshift(...uses.slice(0).reverse());
+        for (let n = 0; n < _middleware.length; n++) {
+          result.push(Basic.RenderMiddlewareArguments(
+            this.Middleware, 
+            _middleware[n]
+          ));
         }
         this.emit('decorate', { property, prefix, getter, extras, controller, result });
         result.push(async (ctx, next) => {
@@ -169,9 +169,7 @@ export default class WoxApplication extends Server {
         $router[getter.method.toLowerCase()](getter.path, ...result);
       }
       if (!prefix) return;
-      const ControllerPrepareMiddlewares = uses 
-        ? uses.map(middle => Basic.RenderMiddlewareArguments(this.Middleware, middle)) 
-        : [];
+      const ControllerPrepareMiddlewares = uses.slice(0).reverse().map(middle => Basic.RenderMiddlewareArguments(this.Middleware, middle));
       ControllerPrepareMiddlewares.push($router.routes());
       this.Router.use(prefix, ...ControllerPrepareMiddlewares);
     });
