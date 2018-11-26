@@ -23,53 +23,14 @@ export default class WoxApplication extends Server {
     this.context.post = this.post.bind(this);
     this.context.put = this.put.bind(this);
     this.context.delete = this.delete.bind(this);
-    this.context.render = async (webview, props) => {
-      if (this.vue) {
-        if (typeof webview === 'function' && webview.async) webview = await webview();
-        this.vue.webview = webview;
-        this.vue.props = props;
-      }
+    this.context.render = async function(webview, props) {
+      if (!this.app.vue) return this.throw('wox service is not ready');
+      if (this.req.from === 'api') return this.throw('can not use `redner` method in `api` modal');
+      if (typeof webview === 'function' && webview.async) webview = await webview();
+      this.app.vue.webview = webview;
+      this.app.vue.props = props;
+      this.status = 200;
     }
-  }
-
-  async fetch(options) {
-    const ctx = await this.history._handler(options.url, options.method, options.body);
-    ctx.status = ctx.status || 200;
-    if (ctx.status !== 200) {
-      if (ctx.error instanceof Error || Object.prototype.toString.call(ctx.error) === '[object Error]') throw ctx.error;
-      const err = new Error('Service Error');
-      err.status = err.code = ctx.status;
-      throw err;
-    }
-    return ctx.body;
-  }
-
-  get(url) {
-    return this.fetch({
-      url,
-      method: 'GET'
-    })
-  }
-
-  post(url, body) {
-    return this.fetch({
-      url, body,
-      method: 'POST'
-    })
-  }
-
-  put(url, body) {
-    return this.fetch({
-      url, body,
-      method: 'PUT'
-    })
-  }
-
-  delete(url) {
-    return this.fetch({
-      url,
-      method: 'DELETE'
-    })
   }
 
   redirect(...args) { 
