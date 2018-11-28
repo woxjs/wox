@@ -66,6 +66,11 @@ export default class WoxApplication extends Server {
         : global.document.querySelector(this.config.el);
     }
     Vue.prototype.$wox = this;
+    ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'delete'].forEach(param => {
+      Vue.prototype['$' + param] = (...args) => {
+        return this[param](...args);
+      };
+    });
     Vue.component('WoxPage', Page);
     DirectiveComponent(this, Vue);
     if (this.Components) this.Components(Vue);
@@ -86,6 +91,11 @@ export default class WoxApplication extends Server {
     };
     this.emit('setup', options);
     this.vue = new Vue(options);
+    this.on('ThreadEnd', ctx => {
+      if (ctx.req.from === 'browser') {
+        this.vue.$emit('enter', ctx);
+      }
+    });
   }
 
   createProcess() {
