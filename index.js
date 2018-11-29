@@ -58,12 +58,12 @@ export default class WoxApplication extends Server {
   
   createPage() {
     if (!this.config.el) {
-      this.$root = global.document.createElement('div');
-      global.document.body.appendChild(this.$root);
+      this.$root = window.document.createElement('div');
+      window.document.body.appendChild(this.$root);
     } else {
       this.$root = typeof this.config.el === 'object' 
         ? this.config.el 
-        : global.document.querySelector(this.config.el);
+        : window.document.querySelector(this.config.el);
     }
     Vue.prototype.$wox = this;
     ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'delete'].forEach(param => {
@@ -99,7 +99,7 @@ export default class WoxApplication extends Server {
   }
 
   createProcess() {
-    const controllers = global.WOX_ROUTER_COMPONENTS.slice(0).sort((a, b) => {
+    const controllers = window.WOX_ROUTER_COMPONENTS.slice(0).sort((a, b) => {
       const aIndex = Reflect.getOwnMetadata('Order', a) || 0;
       const bIndex = Reflect.getOwnMetadata('Order', b) || 0;
       return aIndex - bIndex;
