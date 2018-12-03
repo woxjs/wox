@@ -107,7 +107,9 @@ export default class WoxApplication extends Server {
     controllers.forEach(controller => {
       const prefix = Reflect.getMetadata('Controller', controller);
       const uses = Reflect.getMetadata('Use', controller) || [];
+      const params = Reflect.getMetadata('Param', controller) || [];
       const $router = prefix ? new Route() : this.Router;
+      params.forEach(param => $router.param(param.Name, Basic.RenderMiddlewareArguments(this.Middleware, param)));
       for (const property of Object.getOwnPropertyNames(controller.prototype)) {
         if (property === 'constructor') continue;
         const result = [];
