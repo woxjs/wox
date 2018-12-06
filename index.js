@@ -110,7 +110,9 @@ export default class WoxApplication extends Server {
       const params = Reflect.getMetadata('Param', controller) || [];
       const $router = prefix ? new Route() : this.Router;
       params.forEach(param => $router.param(param.Name, Basic.RenderMiddlewareArguments(this.Middleware, param)));
-      for (const property of Object.getOwnPropertyNames(controller.prototype)) {
+      const controllerProperties = Object.getOwnPropertyNames(controller.prototype);
+      for (let i = 0; i < controllerProperties.length; i++) {
+        const property = controllerProperties[i];
         if (property === 'constructor') continue;
         const result = [];
         const middleware = Reflect.getOwnMetadata('Middleware', controller.prototype[property]) || [];
