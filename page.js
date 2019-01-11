@@ -15,6 +15,15 @@ export default {
         if (typeof dynamicRenderer.$options.enter === 'function') {
           dynamicRenderer.$options.enter.call(dynamicRenderer, ctx);
         }
+        this.$root._virtualModel = dynamicRenderer;
+      }
+    });
+    this.$root.$on('leave', () => {
+      const dynamicRenderer = this.$root._virtualModel;
+      if (dynamicRenderer) {
+        if (typeof dynamicRenderer.$options.leave === 'function') {
+          dynamicRenderer.$options.leave.call(dynamicRenderer);
+        }
       }
     });
   },

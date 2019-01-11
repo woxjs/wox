@@ -96,6 +96,11 @@ export default class WoxApplication extends Server {
         this.vue.$emit('enter', ctx);
       }
     });
+    this.on('ThreadBegin', ctx => {
+      if (ctx.req.from === 'browser') {
+        this.vue.$emit('leave', ctx);
+      }
+    });
   }
 
   createProcess() {
