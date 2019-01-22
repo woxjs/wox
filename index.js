@@ -17,12 +17,12 @@ export default class WoxApplication extends Server {
     this.installed = false;
     this.Router = new Route();
     this.Client = new Client(this);
-    this.parseConfigs(loadConfigs);
     this.context.fetch = this.fetch.bind(this);
     this.context.get = this.get.bind(this);
     this.context.post = this.post.bind(this);
     this.context.put = this.put.bind(this);
     this.context.delete = this.delete.bind(this);
+    this._startLoadConfigs = async () => await this.parseConfigs(loadConfigs);
     this.context.render = async function(webview, props) {
       if (!this.app.vue) return this.throw('wox service is not ready');
       if (this.req.from === 'api') return this.throw('can not use `redner` method in `api` modal');
@@ -45,13 +45,13 @@ export default class WoxApplication extends Server {
     this.history.reload(...args);
   }
 
-  parseConfigs(configs) {
+  async parseConfigs(configs) {
     const client = this.Client;
-    client.Plugin(configs.Plugin);
+    await client.Plugin(configs.Plugin);
     delete configs.Plugin;
     for (const channel in configs) {
-      if (client[channel]) {
-        client[channel](configs[channel]);
+      if (typeof client[channel] === 'function') {
+        await client[channel](configs[channel]);
       }
     }
   }
@@ -156,6 +156,7 @@ export default class WoxApplication extends Server {
   }
 
   async createServer() {
+    await this._startLoadConfigs();
     if (this.AppRuntime) await this.AppRuntime(this);
     this.createProcess();
     this.emit('beforeCreate');
