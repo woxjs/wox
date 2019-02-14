@@ -15,15 +15,12 @@
     "url": "https://github.com/woxjs/wox/issues"
   },
   "homepage": "https://github.com/woxjs/wox#readme",
+  "peerDependencies": {
+    "vue": "^2.6.2"
+  },
   "dependencies": {
-    "@wox/basic": "^1.0.13",
-    "@wox/history": "^1.0.5",
-    "@wox/loader": "^1.0.15",
-    "@wox/router": "^1.0.8",
-    "@wox/server": "^1.0.7",
     "delegates": "^1.0.0",
-    "reflect-metadata": "^0.1.12",
-    "vue": "^2.5.21"
+    "reflect-metadata": "^0.1.12"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
