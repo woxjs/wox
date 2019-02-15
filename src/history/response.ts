@@ -1,4 +1,4 @@
-import { Response, Server } from './interface';
+import { Response, Server } from '../interface/history';
 export default class ResponseServer implements Response {
   private service: Server;
   constructor(server: Server) {

@@ -1,5 +1,5 @@
 import WoxError from './error';
-import { AsyncFunction } from './interface';
+import { AsyncFunction } from '../interface/service';
 export default function compose(middleware: Array<AsyncFunction<any>>): Function {
   return function(context: object, next: AsyncFunction<any>): Promise<any> {
     let index:number = -1;

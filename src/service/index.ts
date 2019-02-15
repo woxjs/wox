@@ -1,6 +1,6 @@
 import History from '../history/index';
-import { Application, AsyncFunction, ContextInterface } from './interface';
-import { Request, Response } from '../history/interface';
+import { Application, AsyncFunction, ContextInterface } from '../interface/service';
+import { Request, Response } from '../interface/history';
 import ContextConstructor from './context';
 import RequestConstructor from './request';
 import ResponseConstructor from './response';
@@ -12,7 +12,6 @@ export default class ApplicationService extends History implements Application {
   private context: object = Object.create(ContextConstructor);
   private request: object = Object.create(RequestConstructor);
   private response: object = Object.create(ResponseConstructor);
-  private env: string = process.env.NODE_ENV || 'development';
   private contextRequestId: number = 0;
   private listener: Function;
 
@@ -72,7 +71,7 @@ export default class ApplicationService extends History implements Application {
     return this;
   }
 
-  async startServer(url: string) {
+  async startServer(url: string = '/') {
     const fn: Function = Compose(this.middleware);
     super.createServer(async (req: Request, res: Response, next: Function) => {
       const ctx = this.createApplicationContext(req, res);

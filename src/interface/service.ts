@@ -1,9 +1,9 @@
 
-import { Server, Request, Response } from '../history/interface';
+import { Server, Request, Response } from './history';
 export type AsyncFunction<T> = (...args: any) => Promise<T>;
 export interface Application extends Server {
   use(fn: AsyncFunction<any>): Application;
-  startServer(createServer): void;
+  startServer(url: string): void;
   stopServer(): void;
   get(url: string): any;
   post(url: string, body?: any): any;

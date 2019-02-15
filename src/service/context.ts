@@ -1,4 +1,4 @@
-import delegate from 'delegates';
+import delegator from './delegator';
 import WoxError from './error';
 
 const proto = {
@@ -13,13 +13,14 @@ const proto = {
   }
 };
 
-delegate(proto, 'response')
-  .method('redirect')
+const response = new delegator(proto, 'response');
+const request = new delegator(proto, 'request');
+
+response.method('redirect')
   .method('replace')
   .method('reload');
 
-delegate(proto, 'request')
-  .access('search')
+request.access('search')
   .access('method')
   .access('query')
   .access('path')

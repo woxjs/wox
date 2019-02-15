@@ -3,12 +3,16 @@ import {
   Response,
   Server, 
   Processer, 
-  EventListenerName 
-} from './interface';
-import { AsyncFunction } from '../service/interface';
+} from '../interface/history';
+import { AsyncFunction } from '../interface/service';
 import ResponseServer from './response';
 import * as URL from 'url';
 import { EventEmitter } from 'events';
+
+const EventListenerName: { [options: string]: any } = {
+  hash: 'hashChange',
+  html5: 'popstate'
+}
 
 export default class History extends EventEmitter implements Server {
   private name: string;

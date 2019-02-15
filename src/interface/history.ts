@@ -26,8 +26,3 @@ export interface Server extends Response {
   createServer(callback: Function): void;
   run(object?: Processer): Promise<any>;
 }
-
-export enum EventListenerName {
-  hash = 'hashChange',
-  html5 = 'popstate'
-}

@@ -1,0 +1,5 @@
+{
+  "@wox/vuex": {
+    "enable": true
+  }
+}
