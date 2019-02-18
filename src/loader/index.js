@@ -20,10 +20,10 @@ module.exports = class WoxCompiler {
     return this;
   }
 
-  addDictionary(dir, isRoot, isDev) {
+  addDictionary(name, dir, isRoot, isDev, dependencies) {
     if (this.directories.indexOf(dir) === -1) {
       this.directories.push({
-        dir, isRoot, isDev
+        name, dir, isRoot, isDev, dependencies
       });
     }
     return this;
@@ -32,15 +32,15 @@ module.exports = class WoxCompiler {
   init() {
     this.plugin.init(list => {
       list.forEach(plugin => {
-        this.addDictionary(plugin.dir, false, plugin.isDev);
+        this.addDictionary(plugin.name, plugin.dir, false, plugin.isDev, plugin.dependencies);
         if (plugin.webpack) {
           plugin.webpack(this);
         }
       });
-      this.addDictionary(this.cwd, true, false);
+      this.addDictionary(null, this.cwd, true, false, []);
       this.helper.init();
       this.compilers.forEach(compiler => {
-        this.directories.forEach(({dir, isRoot, isDev}) => compiler(dir, isRoot, isDev))
+        this.directories.forEach(directory => compiler(directory));
       });
       this.write();
     });

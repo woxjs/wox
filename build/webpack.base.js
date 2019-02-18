@@ -7,7 +7,7 @@ const cwd = process.cwd();
 
 module.exports = {
   target: 'web',
-  entry: path.resolve(cwd, 'src/webpack.ts'),
+  entry: path.resolve(cwd, 'src/webpack.js'),
   context: cwd,
   module: {
     rules: Loaders(NODE_ENV)
@@ -16,7 +16,7 @@ module.exports = {
     alias: {
       '#': cwd
     },
-    extensions: [".tsx", ".ts", ".js", ".vue"]
+    extensions: [".js", ".vue", ".json"]
   },
   plugins: [
     new VueLoaderPlugin(),

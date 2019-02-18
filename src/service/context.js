@@ -2,14 +2,8 @@ import delegator from './delegator';
 import WoxError from './error';
 
 const proto = {
-  error(msg: string | Error, code?: number | string): WoxError {
-    let error: WoxError;
-    if (!(msg instanceof Error)) {
-      error = new WoxError(msg);
-      return error.setStatus(code);
-    }
-    error = new WoxError(msg.message);
-    return error.setStatus(code).setStack(msg.stack);
+  error(msg, code = 0) {
+    return new WoxError(msg instanceof Error ? msg.message : msg, code);
   }
 };
 
@@ -18,7 +12,12 @@ const request = new delegator(proto, 'request');
 
 response.method('redirect')
   .method('replace')
-  .method('reload');
+  .method('reload')
+  .method('fetch')
+  .method('get')
+  .method('post')
+  .method('put')
+  .method('delete');
 
 request.access('search')
   .access('method')

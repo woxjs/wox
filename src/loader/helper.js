@@ -16,6 +16,7 @@ module.exports = class Helper {
     this.APPLICATIONVIEW();
     this.GET_PLUGIN_CONFIGURE();
     this.GET_ROOT_CONFIGURE();
+    this.SERVICE_CONTROLLER();
   }
 
   requireContext(path, reg) {
@@ -43,7 +44,7 @@ module.exports = class Helper {
   customRender(name, prefix, reg, callback) {
     if (this.output[name]) throw new Error('name has been defined in output.');
     this.output[name] = [];
-    this.app.addCompiler((dir, isRoot, isDev) => {
+    this.app.addCompiler(({ dir, isRoot, isDev }) => {
       const fileDir = path.resolve(dir, prefix);
       if (fs.existsSync(fileDir)) return this.staticRender(name, prefix, reg, callback);
       if (this.app.watch && (isRoot || isDev)) this.addRenderWatcher(name, prefix, reg, callback);
@@ -77,34 +78,38 @@ module.exports = class Helper {
   }
 
   COMPONENT() {
-    this.customRender('component', './app/vue/component', /\.(vue|js|jsx|tsx|ts)$/);
+    this.customRender('component', './app/vue/component', /\.(vue|js|jsx)$/);
   }
 
   DIRECTIVE() {
-    this.customRender('directive', './app/vue/directive', /\.(js|ts)$/);
+    this.customRender('directive', './app/vue/directive', /\.js$/);
   }
 
   FILTER() {
-    this.customRender('filter', './app/vue/filter', /\.(js|ts)$/);
+    this.customRender('filter', './app/vue/filter', /\.js$/);
   }
 
   MIXIN() {
-    this.customRender('mixin', './app/vue/mixin', /\.(js|ts)$/);
+    this.customRender('mixin', './app/vue/mixin', /\.js$/);
+  }
+
+  SERVICE_CONTROLLER() {
+    this.customRender('controller', './app/controller', /\.js$/);
   }
 
   BOOTSTRAP() {
     this.output.bootstrap = [];
-    this.app.addCompiler(dir => {
-      const bootstrapFile = path.resolve(dir, 'app.ts');
+    this.app.addCompiler(({ dir, name, dependencies}) => {
+      const bootstrapFile = path.resolve(dir, 'app.js');
       if (fs.existsSync(bootstrapFile)) {
-        this.output.bootstrap.push(`require('${bootstrapFile}')`);
+        this.output.bootstrap.push(`{"name": ${JSON.stringify(name)}, "dependencies": ${JSON.stringify(dependencies)}, "exports": require('${bootstrapFile}')}`);
       }
     });
   }
 
   APPLICATIONVIEW() {
     this.output.view = null;
-    this.app.addCompiler(dir => {
+    this.app.addCompiler(({ dir }) => {
       const vueFile = path.resolve(dir, 'app.vue');
       if (fs.existsSync(vueFile)) {
         this.output.view = `require('${vueFile}')`;
@@ -121,7 +126,7 @@ module.exports = class Helper {
 
   GET_ROOT_CONFIGURE() {
     const result = [];
-    ['.json', '.js', '.ts', '.tsx'].forEach(suffix => {
+    ['.json', '.js'].forEach(suffix => {
       const file = path.resolve(this.app.cwd, `config/config.${this.app.env}${suffix}`);
       if (fs.existsSync(file)) {
         result.push(`require('${file}')`);

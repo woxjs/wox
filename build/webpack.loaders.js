@@ -6,10 +6,10 @@ module.exports = env => {
       test: /\.js(x)?$/i,
       loader: 'babel-loader'
     },
-    {
-      test: /\.ts(x)?$/i,
-      loader: 'ts-loader'
-    },
+    // {
+    //   test: /\.ts(x)?$/i,
+    //   loader: 'ts-loader'
+    // },
     {
       test: /\.vue$/,
       loader: 'vue-loader',
