@@ -1,11 +1,12 @@
 import { Controller, Index, Http } from '../../src/helper/decorate';
+import IndexVue from '../webview/index.vue';
 @Controller
 @Index(2)
 export default class DemoController {
 
   @Http.Get
   async welcome(ctx) {
-    console.log(2)
+    await ctx.render(IndexVue);
   }
 
   @Http.Get('/value')

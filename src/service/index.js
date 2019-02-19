@@ -6,9 +6,8 @@ import Compose from './compose';
 import WoxError from './error';
 
 export default class ApplicationService extends History {
-
-  constructor(configs = { mode: 'hash', sync: true }) {
-    super(configs.mode, configs.sync);
+  constructor(mode) {
+    super(mode);
     this.middleware = [];
     this.context = Object.create(ContextConstructor);
     this.request = Object.create(RequestConstructor);
@@ -34,7 +33,11 @@ export default class ApplicationService extends History {
 
   async serverHandleRequest(ctx, fnMiddleware) {
     return await fnMiddleware(ctx).then(() => {
-      if (ctx.body !== undefined) ctx.status = 200;
+      if (ctx.body !== undefined) {
+        if (ctx.status === 404) {
+          ctx.status = 200;
+        }
+      };
       switch (ctx.status) {
         case 404: return Promise.reject(ctx.error('Not Find Request Path: ' + ctx.path, 404));
         case 440: return Promise.reject(ctx.error('No Webview Found On ' + ctx.path, 440));
@@ -79,10 +82,15 @@ export default class ApplicationService extends History {
     const fn = Compose(this.middleware);
     super.history_create_server(async (req, res, next) => {
       const ctx = this.serverCreateContext(req, res);
+      this.emit('start', ctx);
       return await this.serverHandleRequest(ctx, fn)
-        .then(data => next(null, data))
+        .then(data => {
+          next(null, data);
+          this.emit('stop', ctx, null, data);
+        })
         .catch(e => {
           next(e);
+          this.emit('stop', ctx, e);
           return Promise.reject(e);
         });
     });

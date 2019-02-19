@@ -1,5 +1,5 @@
 export default {
-  name: 'WoxPage',
+  name: 'WoxViewPage',
   computed: {
     webview() {
       return this.$root.webview;
@@ -28,6 +28,7 @@ export default {
     });
   },
   render(h) {
+    if (!this.webview) return;
     return h(this.webview, { 
       props: this.props,
       ref: 'dynamicRenderer'

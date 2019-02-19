@@ -8,12 +8,11 @@ const EventListenerName = {
 }
 
 export default class History extends EventEmitter {
-  constructor(type, sync = true) {
+  constructor(type) {
     super();
     this.history_installed = false;
     this.history_process_listener = null;
     this.history_stop_run_process = false;
-    this.history_mode_sync = sync;
     this.history_event_name = EventListenerName[type] || 'hashChange';
     if (type === 'html5' && !window.history.pushState) {
       this.history_event_name = EventListenerName.hash;
@@ -89,7 +88,7 @@ export default class History extends EventEmitter {
     return await this.history_process_listener(request, response, next);
   }
 
-  async redirect(url, sync = this.history_mode_sync) {
+  async redirect(url, sync) {
     let result;
     switch (this.history_event_name) {
       case EventListenerName.html5:
@@ -114,7 +113,7 @@ export default class History extends EventEmitter {
     return result;
   }
 
-  async replace(url, sync = this.history_mode_sync) {
+  async replace(url, sync) {
     let result;
     switch (this.history_event_name) {
       case EventListenerName.html5:

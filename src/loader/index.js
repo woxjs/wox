@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Plugin = require('./plugin');
 const Helper = require('./helper');
+const chalk = require('chalk');
 module.exports = class WoxCompiler {
   constructor(watch, cwd) {
     this.watch = watch;
@@ -54,7 +55,12 @@ module.exports = class WoxCompiler {
     if (this.watch) {
       // compiler.plugin('afterPlugins', () => this.extract());
       compiler.plugin('watchClose', () => {
-        this.watchers.forEach(watcher => watcher.close());
+        console.log('\n');
+        this.watchers.forEach(watcher => {
+          const file = watcher._file;
+          watcher.close();
+          console.log(chalk.red('ℹ'), chalk.gray('[Wox Loader]') + ':', chalk.green('close watcher'), file);
+        });
       });
     } else {
       // compiler.plugin('afterPlugins', () => {

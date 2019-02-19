@@ -1,5 +1,8 @@
 <template>
-  <div>123</div>
+  <div>
+    <h1>hello</h1>
+    <WoxViewPage></WoxViewPage>
+  </div>
 </template>
 <script>
 export default {

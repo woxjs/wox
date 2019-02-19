@@ -2,8 +2,12 @@ import delegator from './delegator';
 import WoxError from './error';
 
 const proto = {
-  error(msg, code = 0) {
+  error(msg, code = 500) {
     return new WoxError(msg instanceof Error ? msg.message : msg, code);
+  },
+  render(webview, props) {
+    this.status = 200;
+    return this.app.render(webview, props);
   }
 };
 

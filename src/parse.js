@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import WoxError from './service/error';
 import { PluginModule } from './plugin';
-import WoxViewPage from './view-page';
+import WoxViewPage from './helper/view-page';
+import WoxVueDirectives from './helper/directive';
 export default class Parser {
 
   constructor(data = {}) {
@@ -90,14 +91,39 @@ export default class Parser {
   }
 
   BuildVue(app) {
-    Vue.component('WoxPage', WoxViewPage);
+    let el;
+    if (!app.$config.el) {
+      el = window.document.createElement('div');
+      window.document.body.appendChild(el);
+    } else {
+      el = typeof app.$config.el === 'object' 
+        ? app.$config.el 
+        : window.document.querySelector(app.$config.el);
+    }
+
+    ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'delete'].forEach(param => {
+      Vue.prototype['$' + param] = (...args) => {
+        if (typeof this[param] === 'function') {
+          return this[param](...args);
+        }
+      };
+    });
+
+    WoxVueDirectives(app);
+
+    Vue.component('WoxViewPage', WoxViewPage);
+
     const initData = {
       webview: null,
       props: null,
+      installed: false
     }
     const options = {
       name: 'WoxRuntimeViewModel',
       data: () => initData,
+      mounted() {
+        this.installed = true;
+      },
       render: h => {
         if (this.configs.view) return h(this.configs.view.default || this.configs.view);
         return h(WoxViewPage);
@@ -105,16 +131,15 @@ export default class Parser {
     };
     app.emit('setup', options);
     const vue = new Vue(options);
-    app.on('ThreadEnd', ctx => {
-      if (ctx.req.from === 'browser') {
-        vue.$emit('enter', ctx);
-      }
+    app.on('start', ctx => {
+      if (ctx.isapi) return;
+      vue.$emit('leave', ctx);
     });
-    app.on('ThreadBegin', ctx => {
-      if (ctx.req.from === 'browser') {
-        vue.$emit('leave', ctx);
-      }
+    app.on('stop', ctx => {
+      if (ctx.isapi) return;
+      vue.$emit('enter', ctx);
     });
+    vue.$mount(el);
     return vue;
   }
 }

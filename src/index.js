@@ -1,16 +1,20 @@
-import './helper/decorate';
+export * from './helper/decorate';
 import Application from './service/index';
 import { Container } from './plugin';
 import Parser from './parse';
 import Vue from 'vue';
 import Router from './router/index';
 import ControllerParser from './helper/controller';
-
+/**
+ * 配置参数
+ * @param {string} mode [*hash|html5] history监听模式
+ * @param {HTMLElement|string} el [undefined] 被注入的DOM节点 
+ */
 export default class Wox extends Application {
   constructor(config) {
     const parser = new Parser(config);
     const parsedConfigs = parser.render();
-    super({ mode: parsedConfigs.mode || 'hash', sync: parsedConfigs.sync || true });
+    super(parsedConfigs.mode || 'hash');
     Vue.prototype.$wox = this;
     this.$parser = parser;
     this.$router = new Router();
@@ -20,21 +24,12 @@ export default class Wox extends Application {
     parser.VueInjectRender(this);
   }
 
-  createViewPage() {
-    if (!this.$config.el) {
-      this.$el = window.document.createElement('div');
-      window.document.body.appendChild(this.$el);
-    } else {
-      this.$el = typeof this.$config.el === 'object' 
-        ? this.$config.el 
-        : window.document.querySelector(this.$config.el);
-    }
-
-    ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'delete'].forEach(param => {
-      Vue.prototype['$' + param] = (...args) => {
-        return this[param](...args);
-      };
-    });
+  async render(webview, props) {
+    if (!this.$vue) throw this.context.error('Vue is not installed.');
+    if (!webview) throw this.context.error('webview required.');
+    this.$vue.$root.webview = webview;
+    this.$vue.$root.props = props;
+    await new Promise(resolve => Vue.nextTick(resolve));
   }
 
   async createServer() {
@@ -43,12 +38,9 @@ export default class Wox extends Application {
     ControllerParser(this, this.$parser.ControllerRender());
     this.emit('RouterWillInstall');
     this.use(this.$router.routes());
-    this.emit('RouterDidInstalled')
-    this.createViewPage();
+    this.emit('RouterDidInstalled');
     this.$vue = this.$parser.BuildVue(this);
-    this.emit('VueDidCreated');
-    this.$vue.$mount(this.$el);
-    this.emit('VueDidMounted');
+    this.emit('ServerWillCreate');
     await super.createServer();
     this.emit('ServerDidCreated');
   }

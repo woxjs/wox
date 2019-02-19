@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
+const chalk = require('chalk');
 module.exports = class Helper {
   constructor(app) {
     this.app = app;
@@ -60,12 +61,14 @@ module.exports = class Helper {
 
   addRenderWatcher(name, fileDir, reg, callback) {
     const watcher = chokidar.watch(fileDir);
-    console.log('watch: ', fileDir)
+    console.log(chalk.blue('ℹ'), chalk.gray('[Wox Loader]') + ':', chalk.green('watching'), fileDir);
     this.app.watchers.push(watcher);
+    watcher._file = fileDir;
     watcher.on('add', () => {
       const index = this.app.watchers.indexOf(watcher);
       if (index > -1) this.app.watchers.splice(index, 1);
       watcher.close();
+      console.log(chalk.blue('ℹ'), chalk.gray('[Wox Loader]') + ':', chalk.red('unwatch'), fileDir);
       this.staticRender(name, fileDir, reg, callback);
       this.app.write();
     });

@@ -32,4 +32,7 @@ if (typeof Object.assign != 'function') {
 }
 
 const app = new Wox(configs);
-app.createServer(app.$config.url);
+app.createServer(app.$config.url).catch(e => {
+  app.destoryServer();
+  return Promise.reject(e);
+});
