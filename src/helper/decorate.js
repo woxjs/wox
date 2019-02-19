@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { Methods } from './index';
 export const Http = {};
+export const Interface = {};
 
 Methods.forEach(method => {
   Http[method] = (path, key, desc) => {

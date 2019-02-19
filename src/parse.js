@@ -90,6 +90,13 @@ export default class Parser {
     return _controllers;
   }
 
+  DecorateRender(app) {
+    const decorates = this.configs.decorate;
+    decorates.forEach(decorateContext => {
+      this.ContextEach(decorateContext, (key, decorate) => app.$plugin.setDecorate(decorate));
+    });
+  }
+
   BuildVue(app) {
     let el;
     if (!app.$config.el) {

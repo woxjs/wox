@@ -18,6 +18,7 @@ module.exports = class Helper {
     this.GET_PLUGIN_CONFIGURE();
     this.GET_ROOT_CONFIGURE();
     this.SERVICE_CONTROLLER();
+    this.DECORATE_INJECTOR();
   }
 
   requireContext(path, reg) {
@@ -98,6 +99,10 @@ module.exports = class Helper {
 
   SERVICE_CONTROLLER() {
     this.customRender('controller', './app/controller', /\.js$/);
+  }
+
+  DECORATE_INJECTOR() {
+    this.customRender('decorate', './app/decorate', /\.js$/);
   }
 
   BOOTSTRAP() {

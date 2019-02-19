@@ -1,28 +1,32 @@
-import { Controller, Index, Http } from '../../src/helper/decorate';
+import { Controller, Index, Http, Interface } from '../../src/helper/decorate';
 import IndexVue from '../webview/index.vue';
+
+class abc {
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.abc = '456';
+  }
+}
+
+
 @Controller
 @Index(2)
 export default class DemoController {
+  constructor(ctx) {
+    this.ctx = ctx;
+  }
 
   @Http.Get
-  async welcome(ctx) {
-    await ctx.render(IndexVue);
+  @Interface.Extra(123)
+  @Interface.Service('abc', abc)
+  async welcome({ Extra, Service }) {
+    // console.log('extra', Extra, Service.abc.abc)
+    await this.ctx.render(IndexVue);
+    // console.log(this.ctx.app)
   }
 
   @Http.Get('/value')
   async a() {
-    console.log(2)
-  }
-
-  @Http.Get('/value')
-  @Http.Post('/ask')
-  async b() {
-    console.log(3)
-  }
-
-  @Http.Get
-  @Http.Post('/ask')
-  async c() {
-    console.log(4)
+    return {a:1}
   }
 }

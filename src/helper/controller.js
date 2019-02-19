@@ -1,5 +1,6 @@
 import Router from '../router/index';
 export default function ControllerParser(app, controllers) {
+  const decorates = app.$plugin.decorates;
   const _controllers = controllers.slice(0).sort((a, b) => {
     const aIndex = Reflect.getOwnMetadata('Index', a) || 0;
     const bIndex = Reflect.getOwnMetadata('Index', b) || 0;
@@ -17,18 +18,41 @@ export default function ControllerParser(app, controllers) {
       if (property === 'constructor') continue;
       const middlewares = Reflect.getOwnMetadata('Middleware', controller.prototype[property]) || [];
       const Https = Reflect.getOwnMetadata('Http', controller.prototype[property]);
-      const Services = Reflect.getOwnMetadata('Service', controller.prototype[property]) || {};
+      const decorateOptions = {};
+      for (const decorate in decorates) {
+        const _decorateResult = decorates[decorate].get(controller.prototype[property]);
+        if (_decorateResult !== undefined) {
+          decorateOptions[decorate] = {
+            value: _decorateResult,
+            target: decorates[decorate]
+          };
+        }
+      }
       if (Https) {
         Https.forEach(http => {
           const _middlewares = middlewares.slice(0);
           _middlewares.push(async (ctx, next) => {
-            const _services = {};
-            for (const service in Services) {
-              _services[service] = new Services[service](ctx);
-            }
-            const _controller = new controller(ctx);
             ctx.status = 440;
-            await _controller[property].call(_controller, ctx, next, _services);
+            const _controller = new controller(ctx);
+            if (!_controller.ctx) {
+              Object.defineProperty(_controller, 'ctx', {
+                get() {
+                  return ctx;
+                }
+              })
+            }
+            const options = {};
+            for (const option in decorateOptions) {
+              const _target = decorateOptions[option].target;
+              const data = decorateOptions[option].value;
+              if (typeof _target.interfaceDidRendered === 'function') {
+                _target.interfaceDidRendered(data, { options, ctx });
+              }
+            }
+            const result = await _controller[property].call(_controller, options);
+            if (result !== undefined) {
+              ctx.body = result;
+            }
           });
           $route[http.method.toLowerCase()](http.prefix, ..._middlewares);
         });

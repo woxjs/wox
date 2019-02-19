@@ -1,4 +1,5 @@
 import Context from './service/context';
+import { Interface } from './helper/decorate';
 export class PluginModule {
   constructor(app, name, dependencies) {
     this.app = app;
@@ -19,12 +20,18 @@ export class PluginModule {
     }
     return this.app.$plugin.get(dependency);
   }
+
+  setDecorate(value) {
+    this.app.$plugin.setDecorate(value);
+    return this;
+  }
 }
 
 export class Container {
   constructor(configs) {
     this.stacks = {};
     this.configs = configs;
+    this.decorates = {};
   }
 
   set(name, target) {
@@ -38,5 +45,20 @@ export class Container {
 
   getConfig(name) {
     return this.configs[name];
+  }
+
+  setDecorate(decorate) {
+    const clazz = new decorate();
+    this.decorates[clazz.name] = clazz;
+    return this;
+  }
+
+  renderDecorateIntoInterface() {
+    for (const key in this.decorates) {
+      const target = this.decorates[key];
+      if (typeof target.interfaceWillInject === 'function') {
+        Interface[key] = (...args) => target.interfaceWillInject(...args);
+      }
+    }
   }
 }

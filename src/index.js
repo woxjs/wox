@@ -5,6 +5,7 @@ import Parser from './parse';
 import Vue from 'vue';
 import Router from './router/index';
 import ControllerParser from './helper/controller';
+import ServiceInterface from './helper/service';
 /**
  * 配置参数
  * @param {string} mode [*hash|html5] history监听模式
@@ -20,7 +21,7 @@ export default class Wox extends Application {
     this.$router = new Router();
     this.$env = process.env.NODE_ENV || 'development';
     this.$plugin = new Container(parsedConfigs.plugin_configs);
-    this.$config = parsedConfigs.custom_configs;
+    Object.defineProperty(this, '$config', { get() { return parsedConfigs.custom_configs; } });
     parser.VueInjectRender(this);
   }
 
@@ -34,14 +35,18 @@ export default class Wox extends Application {
 
   async createServer() {
     await this.$parser.PluginRender(this);
-    this.emit('PluginDidRendered');
+    await this.emit('PluginDidInstalled');
+    this.$plugin.setDecorate(ServiceInterface);
+    this.$parser.DecorateRender(this);
+    this.$plugin.renderDecorateIntoInterface();
+    await this.emit('DecorateDidInstalled');
     ControllerParser(this, this.$parser.ControllerRender());
-    this.emit('RouterWillInstall');
+    await this.emit('RouterWillInstall');
     this.use(this.$router.routes());
-    this.emit('RouterDidInstalled');
+    await this.emit('RouterDidInstalled');
     this.$vue = this.$parser.BuildVue(this);
-    this.emit('ServerWillCreate');
+    await this.emit('ServerWillCreate');
     await super.createServer();
-    this.emit('ServerDidCreated');
+    await this.emit('ServerDidCreated');
   }
 }

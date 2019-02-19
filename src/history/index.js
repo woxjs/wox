@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import EventEmitter from '../helper/events';
 import * as URL from 'url';
 import Response from './response';
 
