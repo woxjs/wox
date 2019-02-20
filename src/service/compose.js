@@ -1,13 +1,12 @@
 import WoxError from './error';
-import { AsyncFunction } from './interface';
-export default function compose(middleware: Array<AsyncFunction<any>>): Function {
-  return function(context: object, next: AsyncFunction<any>): Promise<any> {
-    let index:number = -1;
+export default function compose(middleware) {
+  return function(context, next) {
+    let index = -1;
     return dispatch(0);
-    function dispatch(i: number): Promise<any> {
+    function dispatch(i) {
       if (i <= index) return Promise.reject(new WoxError('[compose] next() called multiple times'));
       index = i;
-      let fn: Function = middleware[i];
+      let fn = middleware[i];
       if (i === middleware.length) fn = next;
       if (!fn) return Promise.resolve();
       try {

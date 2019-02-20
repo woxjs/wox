@@ -22,7 +22,8 @@ module.exports = {
       '/guide/': [
         '',
         'mvc',
-        'service'
+        'service',
+        'config'
       ],
       '/api/': [
         ''

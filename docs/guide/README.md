@@ -3,7 +3,7 @@ sidebarDepth: 4
 prev: false
 next: ./mvc
 ---
-# 安装
+# 渐进式开发指南
 
 ## 兼容性
 
@@ -50,21 +50,25 @@ npm run dev
 ├─ README.md
 ├─ package.json
 ├─ app.vue
-├─ bootstrap.js
+├─ app.js
 ├─ app
 │  ├─ controller
 │  │  └─ index.js
 │  ├─ middleware
+│  ├─ vue
+│  │  ├─ component
+│  │  ├─ directive
+│  │  ├─ filter
+│  │  └─ mixin
 │  ├─ webview
 │  │  └─ index.vue
 │  └─ service
-├─ plugin
-│  ├─ index.json
-│  ├─ development.json
-│  └─ production.json
 └─ config
-   ├─ development.js
-   └─ production.js
+   ├─ plugin.json
+   ├─ config.development.json
+   ├─ config.production.json
+   ├─ plugin.development.json
+   └─ plugin.production.json
 ```
 
 ### 主项目目录
@@ -75,25 +79,24 @@ npm run dev
 - `middleware/` middleware中间件文件存放
 - `service/` service model层文件存放
 - `webview/` 同步页面文件存放
-- `async-webview/` 异步页面文件存放
-- `components/` 同步组件文件存放
-- `async-components/` 异步组件文件存放
-- `directives/` 指令文件存放
-- `filters/` 过滤器文件存放
+- `vue/component/` 组件文件存放
+- `vue/directives/` 指令文件存放
+- `vue/filter/` filter存放文件
+- `vue/mixin/` mixin文件存放
 
 
 ### 插件配置目录
 
-文件夹 `/plugin/`下为主要的插件配置文件存放目录。主要有以下文件：
+文件夹 `/config/`下为主要的插件配置文件存放目录。主要有以下文件：
 
-- `index.json` 插件列表文件
-- `development.json` 开发环境插件配置文件
-- `production.json` 生产环境插件配置文件
+- `plugin.json` 插件列表文件
+- `plugin.development.json` 开发环境插件配置文件
+- `plugin.production.json` 生产环境插件配置文件
 
 ### 本项目配置目录
 
 本项目需要一些自定义的配置，那么我们可以通过配置此文件夹下的文件内容来改变：
 
-- `development.js` 开发环境配置文件
-- `production.js` 生产环境配置文件
+- `config.development.js` 开发环境配置文件
+- `config.production.js` 生产环境配置文件
 
