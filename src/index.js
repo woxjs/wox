@@ -33,7 +33,7 @@ export default class Wox extends Application {
     await new Promise(resolve => Vue.nextTick(resolve));
   }
 
-  async createServer() {
+  async createServer(url) {
     await this.$parser.PluginRender(this);
     await this.emit('PluginDidInstalled');
     this.$plugin.setDecorate(ServiceInterface);
@@ -46,7 +46,7 @@ export default class Wox extends Application {
     await this.emit('RouterDidInstalled');
     this.$vue = this.$parser.BuildVue(this);
     await this.emit('ServerWillCreate');
-    await super.createServer();
+    await super.createServer(url);
     await this.emit('ServerDidCreated');
   }
 }

@@ -74,7 +74,7 @@ export default class History extends EventEmitter {
 
   history_listen() {
     const listener = () => {
-      if (!history_stop_run_process) {
+      if (!this.history_stop_run_process) {
         this.history_run_process();
       }
     };
@@ -140,6 +140,17 @@ export default class History extends EventEmitter {
 
   async reload() {
     return await this.history_run_process();
+  }
+
+  history_url_render(url) {
+    if (!url) return;
+    this.history_stop_run_process = true;
+    switch (this.history_event_name) {
+      case EventListenerName.html5:
+        window.history.replaceState({}, window.document.title, url);
+        break;
+      default: replaceUriWithHash(url);
+    }
   }
 }
 
