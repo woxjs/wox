@@ -3,7 +3,7 @@
 
 wox架构
 
-![wox](./log.svg)
+![wox](./logo.svg)
 
 ## Install
 
