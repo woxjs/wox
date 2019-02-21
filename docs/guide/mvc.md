@@ -12,7 +12,7 @@ Wox.js的设计理念与解决方案非常明确，就是建立一套灵活的�
 
 类似于微服务概念，它通过虚拟请求提供组件服务之间的数据交互，并且它具有独立而完整的路由以及内部私有数据响应。它可以是一个完整项目，也可以是一个空壳项目（通过组件提供各部分所需要的路由及数据），便于快速聚合组件形成业务项目。
 
-![wox server container](../assets/wox-server-container.png)
+![wox server container](../public/wox-server-container.png)
 
 每个`wox service`相当于一个插件，而`wox server`相当于一个大的启动容器，容器可以没有任何业务逻辑，仅仅做`config`配置，达到功能高度解偶到各组件中效果。
 

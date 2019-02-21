@@ -8,7 +8,7 @@ next: false
 
 虚拟请求主要模拟后端的请求在前端的表现。它既可以渲染页面，也可以获取到数据。它的运作流程如下：
 
-![request](../assets/wox-request.png)
+![request](../public/wox-request.png)
 
 
 虚拟请求目前分为4种：
