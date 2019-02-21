@@ -65,7 +65,7 @@ export default class ApplicationService extends History {
             return Promise.reject(ctx.error('No Webview Found On ' + ctx.path, 440));
           }
         case 200: return ctx.body;
-        default: return Promise.reject(ctx.error('Unknown Error', ctx.status));
+        default: return Promise.reject(ctx.error(ctx.reason || 'Unknown Error', ctx.status));
       }
     }).catch(e => {
       if (!e.status) e.status = 500;
@@ -81,19 +81,33 @@ export default class ApplicationService extends History {
   }
 
   async get(url) {
-    return await this.fetch({ url, method: 'GET' });
+    return await this.fetch({ 
+      url, 
+      method: 'GET' 
+    });
   }
 
   async post(url, body) {
-    return await this.fetch({ url, body, method: 'POST' });
+    return await this.fetch({ 
+      url, 
+      body, 
+      method: 'POST' 
+    });
   }
 
   async put(url, body) {
-    return this.fetch({ url, body, method: 'PUT' });
+    return this.fetch({ 
+      url, 
+      body, 
+      method: 'PUT' 
+    });
   }
 
   async delete(url) {
-    return await this.fetch({ url, method: 'DELETE' });
+    return await this.fetch({ 
+      url, 
+      method: 'DELETE' 
+    });
   }
 
   use(fn) {
