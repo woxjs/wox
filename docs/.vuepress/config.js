@@ -23,7 +23,9 @@ module.exports = {
         '',
         'mvc',
         'service',
-        'config'
+        'config',
+        'runtime',
+        'request'
       ],
       '/api/': [
         ''

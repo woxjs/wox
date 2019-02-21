@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 4
 prev: /guide/service
-next: false
+next: /guide/runtime
 ---
 
 # 配置
@@ -111,4 +111,4 @@ export default async (app, plugin) => {
 }
 ```
 
-> 注意：在制作插件的时候，通常我们会提供一个配置参数的列表文件(`/.wox.plugin.config.json`)，供安装时候系统自动将此文件内容注入到主项目中。
+> 注意：在制作插件的时候，通常我们会提供一个配置参数的列表文件(`/.wox.config.json`)，供安装时候系统自动将此文件内容注入到主项目中。
