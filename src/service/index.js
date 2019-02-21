@@ -4,6 +4,7 @@ import RequestConstructor from './request';
 import ResponseConstructor from './response';
 import Compose from './compose';
 import WoxError from './error';
+import Emiter from '../helper/events';
 
 export default class ApplicationService extends History {
   constructor(mode) {
@@ -28,7 +29,18 @@ export default class ApplicationService extends History {
     response.request = request;
     context.status = 404;
     context.id = new Date().getTime() + '_' + this.contextRequestId++;
-    return context;
+    return contextEvents(context);
+  }
+
+  contextEvents(ctx) {
+    const e = new Emiter();
+    for (const i in e) {
+      if (i === 'constructor') continue;
+      if (typeof e[i] === 'function') {
+        Object.defineProperty(ctx, i, { value: e[i].bind(e) });
+      }
+    }
+    return ctx;
   }
 
   async serverHandleRequest(ctx, fnMiddleware) {
@@ -96,12 +108,25 @@ export default class ApplicationService extends History {
       await this.emit('start', ctx);
       return await this.serverHandleRequest(ctx, fn)
         .then(data => {
-          next(null)
-          return this.emit('stop', ctx, null, data).then(() => data);
+          next(null);
+          return Promise.all([
+            ctx.emit('success', data),
+            this.emit('stop', ctx)
+          ]).then(() => data);
         })
         .catch(e => {
           next(e);
-          return this.emit('stop', ctx, e).then(() => Promise.reject(e));
+          let ignore = false;
+          e.preventDefault = () => ignore = true;
+          return Promise.all([
+            ctx.emit('error', e),
+            this.emit('error', e),
+            this.emit('stop', ctx)
+          ]).then(() => {
+            if (!ignore) {
+              return Promise.reject(e);
+            }
+          });
         });
     });
     this.listener = super.history_listen();
