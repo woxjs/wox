@@ -20,7 +20,7 @@ module.exports = {
       { text: '核心插件', link: '/plugins/' },
     ],
     sidebar: {
-      '/md/guide/': [
+      '/guide/': [
         '',
         'mvc',
         'service',
@@ -28,13 +28,13 @@ module.exports = {
         'runtime',
         'request'
       ],
-      '/md/api/': [
+      '/api/': [
         ''
       ],
-      '/md/cli/': [
+      '/cli/': [
         ''
       ],
-      '/md/plugins/': [
+      '/plugins/': [
         ''
       ]
     }
