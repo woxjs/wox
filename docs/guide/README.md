@@ -18,7 +18,11 @@ Vue 不支持 IE8 及以下版本，因为 Vue 使用了 IE8 无法模拟的 ECM
 使用Wox.js架构的时候，推荐通过 [CLI](/cli/) 工具创建项目，不建议通过引入原始文件自行创建。
 
 ```bash
-npm i -g @wox/cli
+# 安装脚手架
+npm i -g @node/cli 
+
+# 安装脚手架插件
+cli install @wox/cli 
 ```
 
 ::: warning
@@ -31,7 +35,7 @@ CLI 工具假定用户对 Node.js 和相关构建工具有一定程度的了解�
 
 ```bash
 # 创建新项目
-wox new <project>
+cli wox:new [project]
 
 # 进入项目目录
 cd <project>

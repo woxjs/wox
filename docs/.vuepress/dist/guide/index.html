@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>渐进式开发指南 | WoX</title>
+    <meta name="description" content="A dynamic loader MVC architecture based on Vue.js development which use web virtual service and web virtual request mode.">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.9ede7954.css" as="style"><link rel="preload" href="/assets/js/app.50d282cb.js" as="script"><link rel="preload" href="/assets/js/9.5b4a3f1c.js" as="script"><link rel="prefetch" href="/assets/js/10.a9d7a45b.js"><link rel="prefetch" href="/assets/js/11.8c68c770.js"><link rel="prefetch" href="/assets/js/12.8f6cb9c8.js"><link rel="prefetch" href="/assets/js/13.e3d21497.js"><link rel="prefetch" href="/assets/js/2.b58a92b8.js"><link rel="prefetch" href="/assets/js/3.018b3497.js"><link rel="prefetch" href="/assets/js/4.5d58821b.js"><link rel="prefetch" href="/assets/js/5.670acb8e.js"><link rel="prefetch" href="/assets/js/6.034cf50d.js"><link rel="prefetch" href="/assets/js/7.14c690e2.js"><link rel="prefetch" href="/assets/js/8.c7e17140.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.9ede7954.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">WoX</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">简介</a></div><div class="nav-item"><a href="/guide/" class="nav-link router-link-exact-active router-link-active">指南</a></div><div class="nav-item"><a href="/api/" class="nav-link">API</a></div><div class="nav-item"><a href="/cli/" class="nav-link">脚手架</a></div><div class="nav-item"><a href="/plugins/" class="nav-link">核心插件</a></div> <a href="https://github.com/woxjs/wox" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">简介</a></div><div class="nav-item"><a href="/guide/" class="nav-link router-link-exact-active router-link-active">指南</a></div><div class="nav-item"><a href="/api/" class="nav-link">API</a></div><div class="nav-item"><a href="/cli/" class="nav-link">脚手架</a></div><div class="nav-item"><a href="/plugins/" class="nav-link">核心插件</a></div> <a href="https://github.com/woxjs/wox" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <!----> </div> <div class="page"> <div class="content"><h1 id="渐进式开发指南"><a href="#渐进式开发指南" aria-hidden="true" class="header-anchor">#</a> 渐进式开发指南</h1> <h2 id="兼容性"><a href="#兼容性" aria-hidden="true" class="header-anchor">#</a> 兼容性</h2> <p>Vue 不支持 IE8 及以下版本，因为 Vue 使用了 IE8 无法模拟的 ECMAScript 5 特性。但它支持所有兼容 <a href="https://caniuse.com/#feat=es5" target="_blank" rel="noopener noreferrer">ECMAScript 5<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 的浏览器。同理，Wox.js 的兼容性取决于 Vue 的兼容性。</p> <h2 id="vue-devtools"><a href="#vue-devtools" aria-hidden="true" class="header-anchor">#</a> Vue Devtools</h2> <p>在使用 Vue 时，我们推荐在你的浏览器上安装 <a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener noreferrer">Vue Devtools<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>。它允许你在一个更友好的界面中审查和调试 Vue 应用。</p> <h2 id="cli"><a href="#cli" aria-hidden="true" class="header-anchor">#</a> CLI</h2> <p>使用Wox.js架构的时候，推荐通过 <a href="/cli/">CLI</a> 工具创建项目，不建议通过引入原始文件自行创建。</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 安装脚手架</span>
+<span class="token function">npm</span> i -g @node/cli 
+
+<span class="token comment"># 安装脚手架插件</span>
+cli <span class="token function">install</span> @wox/cli 
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><div class="warning custom-block"><p class="custom-block-title">WARNING</p> <p>CLI 工具假定用户对 Node.js 和相关构建工具有一定程度的了解。如果你是新手，我们强烈建议先在不用构建工具的情况下通读 <strong><a href="/guide/" class="router-link-exact-active router-link-active">指南</a></strong>，在熟悉 wox.js 本身之后再使用 CLI。</p></div> <h2 id="创建项目"><a href="#创建项目" aria-hidden="true" class="header-anchor">#</a> 创建项目</h2> <p>使用 CLI 工具创建一个新的项目：</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 创建新项目</span>
+cli wox:new <span class="token punctuation">[</span>project<span class="token punctuation">]</span>
+
+<span class="token comment"># 进入项目目录</span>
+<span class="token function">cd</span> <span class="token operator">&lt;</span>project<span class="token operator">&gt;</span>
+
+<span class="token comment"># 安装依赖</span>
+<span class="token function">npm</span> i
+
+<span class="token comment"># 开始编码</span>
+<span class="token function">npm</span> run dev
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><h2 id="目录结构"><a href="#目录结构" aria-hidden="true" class="header-anchor">#</a> 目录结构</h2> <div class="language- line-numbers-mode"><pre class="language-text"><code>.
+├─ README.md
+├─ package.json
+├─ app.vue
+├─ app.js
+├─ app
+│  ├─ controller
+│  │  └─ index.js
+│  ├─ middleware
+│  ├─ vue
+│  │  ├─ component
+│  │  ├─ directive
+│  │  ├─ filter
+│  │  └─ mixin
+│  ├─ webview
+│  │  └─ index.vue
+│  └─ service
+└─ config
+   ├─ plugin.json
+   ├─ config.development.json
+   ├─ config.production.json
+   ├─ plugin.development.json
+   └─ plugin.production.json
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h3 id="主项目目录"><a href="#主项目目录" aria-hidden="true" class="header-anchor">#</a> 主项目目录</h3> <p>文件夹<code>/app/</code>下为主要的项目文件目录。主要有以下目录结构：</p> <ul><li><code>controller/</code> controller文件存放</li> <li><code>middleware/</code> middleware中间件文件存放</li> <li><code>service/</code> service model层文件存放</li> <li><code>webview/</code> 同步页面文件存放</li> <li><code>vue/component/</code> 组件文件存放</li> <li><code>vue/directives/</code> 指令文件存放</li> <li><code>vue/filter/</code> filter存放文件</li> <li><code>vue/mixin/</code> mixin文件存放</li></ul> <h3 id="插件配置目录"><a href="#插件配置目录" aria-hidden="true" class="header-anchor">#</a> 插件配置目录</h3> <p>文件夹 <code>/config/</code>下为主要的插件配置文件存放目录。主要有以下文件：</p> <ul><li><code>plugin.json</code> 插件列表文件</li> <li><code>plugin.development.json</code> 开发环境插件配置文件</li> <li><code>plugin.production.json</code> 生产环境插件配置文件</li></ul> <h3 id="本项目配置目录"><a href="#本项目配置目录" aria-hidden="true" class="header-anchor">#</a> 本项目配置目录</h3> <p>本项目需要一些自定义的配置，那么我们可以通过配置此文件夹下的文件内容来改变：</p> <ul><li><code>config.development.js</code> 开发环境配置文件</li> <li><code>config.production.js</code> 生产环境配置文件</li></ul></div> <div class="page-edit"><div class="edit-link"><a href="https://github.com/woxjs/wox/edit/master/docs/guide/README.md" target="_blank" rel="noopener noreferrer">帮助我们改善此页面！</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></div> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/guide/mvc.html">
+          设计理念
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/assets/js/app.50d282cb.js" defer></script><script src="/assets/js/9.5b4a3f1c.js" defer></script>
+  </body>
+</html>

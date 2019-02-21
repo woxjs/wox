@@ -1,7 +1,7 @@
 const path = require('path');
 module.exports = {
-  title: 'Wox.js',
-  description: '全方位的企业应用级前端业务开发 MVC 架构',
+  title: 'WoX',
+  description: 'A dynamic loader MVC architecture based on Vue.js development which use web virtual service and web virtual request mode.',
   markdown: {
     lineNumbers: true
   },
@@ -20,7 +20,7 @@ module.exports = {
       { text: '核心插件', link: '/plugins/' },
     ],
     sidebar: {
-      '/guide/': [
+      '/md/guide/': [
         '',
         'mvc',
         'service',
@@ -28,13 +28,13 @@ module.exports = {
         'runtime',
         'request'
       ],
-      '/api/': [
+      '/md/api/': [
         ''
       ],
-      '/cli/': [
+      '/md/cli/': [
         ''
       ],
-      '/plugins/': [
+      '/md/plugins/': [
         ''
       ]
     }

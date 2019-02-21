@@ -25,11 +25,43 @@ export default class Wox extends Application {
     parser.VueInjectRender(this);
   }
 
+  async $fetch(...args) {
+    return await super.fetch(...args);
+  }
+
+  async $get(...args) {
+    return await super.get(...args);
+  }
+
+  async $post(...args) {
+    return await super.post(...args);
+  }
+
+  async $put(...args) {
+    return await super.put(...args);
+  }
+
+  async $delete(...args) {
+    return await super.delete(...args);
+  }
+
+  async $redirect(...args) {
+    return await super.redirect(...args);
+  }
+
+  async $replace(...args) {
+    return await super.replace(...args);
+  }
+
+  async $reload(...args) {
+    return await super.reload(...args);
+  }
+
   async render(webview, props) {
     if (!this.$vue) throw this.context.error('Vue is not installed.');
     if (!webview) throw this.context.error('webview required.');
-    this.$vue.$root.webview = webview;
-    this.$vue.$root.props = props;
+    this.$vue.webview = webview;
+    this.$vue.props = props;
     await new Promise(resolve => Vue.nextTick(resolve));
   }
 

@@ -20,6 +20,23 @@ next: false
 
 虚拟请求的优势在接口的数据获取，都可以自我实现，具体接口从哪里获取，可以由虚拟请求路由的执行函数决定，解偶了传统的请求模式。
 
+## 定义虚拟请求
+
+在controller中定义虚拟请求
+
+```javascript {8}
+import { Http, Controller } from '@wox/wox';
+@Controller('/api/test')
+export default class Home {
+  @Http.Get('/value')
+  async Data() {
+    const body = this.ctx.req.body;
+    body.access = true;
+    this.ctx.body = body;
+  }
+}
+```
+
 ## Controller中发送虚拟请求
 
 controller中也可以通过虚拟请求取得数据。
@@ -50,3 +67,27 @@ export default {
 }
 </script>
 ```
+
+## 虚拟请求中的错误处理
+
+wox中有个全局的错误处理事件，它能够捕获到，进行自定义处理。
+
+```javascript
+app.on('error', e => console.error(e));
+```
+
+在虚拟请求中，我们还可以通过这样的模式来拦截错误
+
+```javascript
+ctx.on('error', e => console.error(e));
+```
+
+如果我们需要吞噬掉错误，那么我们需要这样写：
+
+```javascript {2}
+ctx.on('error', e => {
+  e.preventDefault();
+  console.warn(e);
+});
+```
+> 注意：`e.preventDefault();`只在虚拟请求对象上有效
