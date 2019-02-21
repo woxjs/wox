@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
   title: 'Wox.js',
   description: '全方位的企业应用级前端业务开发 MVC 架构',

@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: https://cn.vuejs.org/images/logo.png
+heroImage: img/wox-request.png
 actionText: 快速上手 →
 actionLink: /guide/
 features:

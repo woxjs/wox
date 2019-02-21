@@ -8,7 +8,7 @@ next: /guide/request
 
 Wox的启动原理非常复杂，它通过`webpack`插件的`@wox/loader`来生成自动注入的`require.context`。我们尽量保障webpack的能力来驱动wox的开发。它的启动所经历的图示如下，尽量准确的告诉开发者它的启动顺序，使得开发者能够灵活利用生命周期来开发插件。
 
-![runtime](../assets/wox-runtime.png)
+![runtime](../public/wox-runtime.png)
 
 ## webpack聚合文件.wox.js
 
