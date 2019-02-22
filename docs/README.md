@@ -17,10 +17,11 @@ footer: MIT Licensed | Copyright © 2018-present Evio Shen
 
 ```bash {5}
 # 安装脚手架工具
-$ npm i @wox/cli -g
+$ npm i @evio/cli -g
+$ cli install @wox/cli
 
 # 创建项目
-$ wox new
+$ cli wox:new
 
 # 启动开发
 $ npm run dev

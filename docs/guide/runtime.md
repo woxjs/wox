@@ -23,7 +23,7 @@ webpack会根据`config/plugin.json`中启动的插件中固定位置的文件�
 创建文件:
 
 ```bash
-cli wox <path/file> -C
+cli wox <path/file> -c
 cli wox <path/file> --component
 ```
 
@@ -53,7 +53,7 @@ webpack会根据`config/plugin.json`中启动的插件中固定位置的文件�
 创建文件:
 
 ```bash
-cli wox <path/file> -D
+cli wox <path/file> -d
 cli wox <path/file> --directive
 ```
 
@@ -80,7 +80,7 @@ webpack会根据`config/plugin.json`中启动的插件中固定位置的文件�
 创建文件:
 
 ```bash
-cli wox <path/file> -F
+cli wox <path/file> -f
 cli wox <path/file> --filter
 ```
 
@@ -103,7 +103,7 @@ webpack会根据`config/plugin.json`中启动的插件中固定位置的文件�
 创建文件:
 
 ```bash
-cli wox <path/file> -M
+cli wox <path/file> -x
 cli wox <path/file> --mixin
 ```
 
@@ -187,7 +187,7 @@ webpack会根据`config/plugin.json`中启动的插件中固定位置的文件�
 创建文件:
 
 ```bash
-cli wox <path/file> -C
+cli wox <path/file> -c
 cli wox <path/file> --controller
 ```
 
@@ -214,7 +214,7 @@ webpack会根据`config/plugin.json`中启动的插件中固定位置的文件�
 创建文件:
 
 ```bash
-cli wox <path/file> -T
+cli wox <path/file> -t
 cli wox <path/file> --decorate
 ```
 
@@ -275,7 +275,7 @@ export default (app, plugin) => {
 创建文件:
 
 ```bash
-cli wox <path/file> -S
+cli wox <path/file> -s
 cli wox <path/file> --service
 ```
 
