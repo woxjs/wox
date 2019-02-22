@@ -19,7 +19,7 @@ Vue 不支持 IE8 及以下版本，因为 Vue 使用了 IE8 无法模拟的 ECM
 
 ```bash
 # 安装脚手架
-npm i -g @node/cli 
+npm i -g @evio/cli 
 
 # 安装脚手架插件
 cli install @wox/cli 

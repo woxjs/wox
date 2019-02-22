@@ -35,7 +35,8 @@ module.exports = {
         ''
       ],
       '/plugins/': [
-        ''
+        '',
+        'vuex'
       ]
     }
   }
