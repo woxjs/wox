@@ -1,6 +1,6 @@
 {
   "name": "@wox/wox",
-  "version": "2.0.5",
+  "version": "2.0.7",
   "description": "Wox application framework",
   "repository": {
     "type": "git",
@@ -8,6 +8,11 @@
   },
   "keywords": [
     "server"
+  ],
+  "files":[
+    "src",
+    "index.js",
+    "README.md"
   ],
   "author": "cevio",
   "license": "MIT",

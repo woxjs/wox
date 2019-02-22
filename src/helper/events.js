@@ -1,4 +1,18 @@
 export default class EventEmitter {
+  static get Methods() {
+    return [
+      'on',
+      'off',
+      'addListener',
+      'removeListener',
+      'prependListener',
+      'removeAllListeners',
+      'emit',
+      'eventNames',
+      'listenerCount',
+      'listeners'
+    ]
+  }
   constructor() {
     this._eventStacks = {};
   }

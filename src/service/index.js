@@ -29,17 +29,16 @@ export default class ApplicationService extends History {
     response.request = request;
     context.status = 404;
     context.id = new Date().getTime() + '_' + this.contextRequestId++;
-    return contextEvents(context);
+    return this.contextEvents(context);
   }
 
   contextEvents(ctx) {
     const e = new Emiter();
-    for (const i in e) {
-      if (i === 'constructor') continue;
+    Emiter.Methods.forEach(i => {
       if (typeof e[i] === 'function') {
         Object.defineProperty(ctx, i, { value: e[i].bind(e) });
       }
-    }
+    });
     return ctx;
   }
 
