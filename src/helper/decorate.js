@@ -72,13 +72,3 @@ export function Param(id, ...args) {
     }
   }
 }
-
-export function Service(key, clazz) {
-  return (target, propertyKey, descriptor) => {
-    if (!propertyKey && !descriptor) return;
-    let services = Reflect.getMetadata('Param', descriptor.value);
-    if (!services) services = {};
-    services[key] = clazz;
-    Reflect.defineMetadata('Service', services, descriptor.value);
-  }
-}

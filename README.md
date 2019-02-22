@@ -1,22 +1,9 @@
-# @wox / wox
+<center>![wox](./logo.svg)</center>
 
+# Wox.js
 
-wox架构
+A dynamic loader MVC architecture based on Vue.js development which use web virtual service and web virtual request mode.
 
-![wox](./logo.svg)
+## Document
 
-## Install
-
-```shell
-npm i @wox/wox
-```
-
-## Usage
-
-```javascript
-import Wox from '@wox/wox';
-import Configs from '@wox/config';
-new Wox(Configs).createServer();
-```
-
-`@wox/config`将会在loader插件中编译出文件。webpack的resolve.alias必须指向该文件。
+[view docs](https://woxjs.github.io/)

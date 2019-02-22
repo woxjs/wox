@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: img/wox-request.png
+heroImage: https://raw.githubusercontent.com/woxjs/wox/master/logo.svg?sanitize=true
 actionText: 快速上手 →
 actionLink: /guide/
 features:
