@@ -25,9 +25,7 @@ class ApplicationAction {
   }
 
   unbind() {
-    if (this.handle) {
-      el.removeEventListener('click', this.handle);
-    }
+    if (this.handle) this.el.removeEventListener('click', this.handle);
     if (this.el.__wox_directive_taqrget__) {
       delete this.el.__wox_directive_taqrget__;
     }
@@ -42,8 +40,8 @@ export default app => {
         el.__wox_directive_taqrget__ = target;
       },
       unbind(el) {
-        if (this.el.__wox_directive_taqrget__) {
-          this.el.__wox_directive_taqrget__.unbind();
+        if (el.__wox_directive_taqrget__) {
+          el.__wox_directive_taqrget__.unbind();
         }
       },
       update(el, binding) {
