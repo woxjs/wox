@@ -3,7 +3,7 @@ import * as URL from '../url/index';
 import Response from './response';
 
 const EventListenerName = {
-  hash: 'hashChange',
+  hash: 'hashchange',
   html5: 'popstate'
 }
 
