@@ -1,4 +1,4 @@
-<center>![wox](./logo.svg)</center>
+<p align="center"><a href="https://woxjs.github.io/" target="_blank"><img src="logo.svg" width="350" /></a></p>
 
 # Wox.js
 

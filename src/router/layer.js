@@ -1,5 +1,4 @@
 import pathToRegExp from 'path-to-regexp';
-import uri from 'urijs';
 
 module.exports = Layer;
 
@@ -92,60 +91,6 @@ Layer.prototype.params = function (path, captures, existingParams) {
 Layer.prototype.captures = function (path) {
   if (this.opts.ignoreCaptures) return [];
   return path.match(this.regexp).slice(1);
-};
-
-/**
- * Generate URL for route using given `params`.
- *
- * @example
- *
- * ```javascript
- * var route = new Layer(['GET'], '/users/:id', fn);
- *
- * route.url({ id: 123 }); // => "/users/123"
- * ```
- *
- * @param {Object} params url parameters
- * @returns {String}
- * @private
- */
-
-Layer.prototype.url = function (params, options) {
-  var args = params;
-  var url = this.path.replace(/\(\.\*\)/g, '');
-  var toPath = pathToRegExp.compile(url);
-  var replaced;
-
-  if (typeof params != 'object') {
-    args = Array.prototype.slice.call(arguments);
-    if (typeof args[args.length - 1] == 'object') {
-      options = args[args.length - 1];
-      args = args.slice(0, args.length - 1);
-    }
-  }
-
-  var tokens = pathToRegExp.parse(url);
-  var replace = {};
-
-  if (args instanceof Array) {
-    for (var len = tokens.length, i=0, j=0; i<len; i++) {
-      if (tokens[i].name) replace[tokens[i].name] = args[j++];
-    }
-  } else if (tokens.some(token => token.name)) {
-    replace = params;
-  } else {
-    options = params;
-  }
-
-  replaced = toPath(replace);
-
-  if (options && options.query) {
-    var replaced = new uri(replaced)
-    replaced.search(options.query);
-    return replaced.toString();
-  }
-
-  return replaced;
 };
 
 /**

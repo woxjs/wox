@@ -1,5 +1,5 @@
 import EventEmitter from '../helper/events';
-import * as URL from 'url';
+import * as URL from '../url/index';
 import Response from './response';
 
 const EventListenerName = {

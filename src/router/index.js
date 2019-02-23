@@ -104,7 +104,6 @@ function Router(opts) {
  *  // ...
  * });
  *
- * router.url('user', 3);
  * // => "/users/3"
  * ```
  *
@@ -376,47 +375,6 @@ Router.prototype.all = function (name, path, middleware) {
 };
 
 /**
- * Redirect `source` to `destination` URL with optional 30x status `code`.
- *
- * Both `source` and `destination` can be route names.
- *
- * ```javascript
- * router.redirect('/login', 'sign-in');
- * ```
- *
- * This is equivalent to:
- *
- * ```javascript
- * router.all('/login', ctx => {
- *   ctx.redirect('/sign-in');
- *   ctx.status = 301;
- * });
- * ```
- *
- * @param {String} source URL or route name.
- * @param {String} destination URL or route name.
- * @param {Number=} code HTTP status code (default: 301).
- * @returns {Router}
- */
-
-Router.prototype.redirect = function (source, destination, code) {
-  // lookup source route by name
-  if (source[0] !== '/') {
-    source = this.url(source);
-  }
-
-  // lookup destination route by name
-  if (destination[0] !== '/') {
-    destination = this.url(destination);
-  }
-
-  return this.all(source, ctx => {
-    ctx.redirect(destination);
-    ctx.status = code || 301;
-  });
-};
-
-/**
  * Create and register a route.
  *
  * @param {String} path Path string.
@@ -482,52 +440,6 @@ Router.prototype.route = function (name) {
   }
 
   return false;
-};
-
-/**
- * Generate URL for route. Takes a route name and map of named `params`.
- *
- * @example
- *
- * ```javascript
- * router.get('user', '/users/:id', (ctx, next) => {
- *   // ...
- * });
- *
- * router.url('user', 3);
- * // => "/users/3"
- *
- * router.url('user', { id: 3 });
- * // => "/users/3"
- *
- * router.use((ctx, next) => {
- *   // redirect to named route
- *   ctx.redirect(ctx.router.url('sign-in'));
- * })
- *
- * router.url('user', { id: 3 }, { query: { limit: 1 } });
- * // => "/users/3?limit=1"
- *
- * router.url('user', { id: 3 }, { query: "limit=1" });
- * // => "/users/3?limit=1"
- * ```
- *
- * @param {String} name route name
- * @param {Object} params url parameters
- * @param {Object} [options] options parameter
- * @param {Object|String} [options.query] query options
- * @returns {String|Error}
- */
-
-Router.prototype.url = function (name, params) {
-  var route = this.route(name);
-
-  if (route) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    return route.url.apply(route, args);
-  }
-
-  return new Error("No route found for name: " + name);
 };
 
 /**
@@ -602,23 +514,4 @@ Router.prototype.param = function (param, middleware) {
     route.param(param, middleware);
   });
   return this;
-};
-
-/**
- * Generate URL from url pattern and given `params`.
- *
- * @example
- *
- * ```javascript
- * var url = Router.url('/users/:id', {id: 1});
- * // => "/users/1"
- * ```
- *
- * @param {String} path url pattern
- * @param {Object} params url parameters
- * @returns {String}
- */
-Router.url = function (path, params) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    return Layer.prototype.url.apply({ path: path }, args);
 };
