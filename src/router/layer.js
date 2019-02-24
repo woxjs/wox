@@ -1,6 +1,6 @@
-import pathToRegExp from 'path-to-regexp';
+import pathToRegExp from '../helper/path-to-regexp';
 
-module.exports = Layer;
+export default Layer;
 
 /**
  * Initialize a new routing Layer with given `method`, `path`, and `middleware`.

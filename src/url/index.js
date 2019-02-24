@@ -21,14 +21,13 @@
 
 'use strict';
 
-var util = require('./util');
+import util from './util';
 
-exports.parse = urlParse;
-exports.resolve = urlResolve;
-exports.resolveObject = urlResolveObject;
-exports.format = urlFormat;
-
-exports.Url = Url;
+export const parse = urlParse;
+export const resolve = urlResolve;
+export const resolveObject = urlResolveObject;
+export const format = urlFormat;
+export default Url;
 
 function Url() {
   this.protocol = null;
