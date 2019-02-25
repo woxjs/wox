@@ -1,21 +1,246 @@
 /*!
- * Wox.js v2.0.10
+ * Wox.js v2.1.1
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
-import _regeneratorRuntime from '@babel/runtime/regenerator';
-import _asyncToGenerator from '@babel/runtime/helpers/asyncToGenerator';
-import _classCallCheck from '@babel/runtime/helpers/classCallCheck';
-import _createClass from '@babel/runtime/helpers/createClass';
-import _possibleConstructorReturn from '@babel/runtime/helpers/possibleConstructorReturn';
-import _assertThisInitialized from '@babel/runtime/helpers/assertThisInitialized';
-import _getPrototypeOf from '@babel/runtime/helpers/getPrototypeOf';
-import _get from '@babel/runtime/helpers/get';
-import _inherits from '@babel/runtime/helpers/inherits';
-import _typeof from '@babel/runtime/helpers/typeof';
-import _wrapNativeSuper from '@babel/runtime/helpers/wrapNativeSuper';
-import _toConsumableArray from '@babel/runtime/helpers/toConsumableArray';
 import Vue from 'vue';
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _construct(Parent, args, Class) {
+  if (isNativeReflectConstruct()) {
+    _construct = Reflect.construct;
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+
+  return _construct.apply(null, arguments);
+}
+
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+
+      _cache.set(Class, Wrapper);
+    }
+
+    function Wrapper() {
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+    }
+
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    return _setPrototypeOf(Wrapper, Class);
+  };
+
+  return _wrapNativeSuper(Class);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (typeof call === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+}
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
 
 /*! *****************************************************************************
 Copyright (C) Microsoft. All rights reserved.
@@ -1312,7 +1537,7 @@ function () {
     value: function () {
       var _emit = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee(name) {
+      regeneratorRuntime.mark(function _callee(name) {
         var listeners,
             _len,
             args,
@@ -1321,7 +1546,7 @@ function () {
             listener,
             _args = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -2092,11 +2317,11 @@ function () {
     value: function () {
       var _redirect = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee() {
+      regeneratorRuntime.mark(function _callee() {
         var _this$history;
 
         var _args = arguments;
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -2125,11 +2350,11 @@ function () {
     value: function () {
       var _replace = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee2() {
+      regeneratorRuntime.mark(function _callee2() {
         var _this$history2;
 
         var _args2 = arguments;
-        return _regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -2158,8 +2383,8 @@ function () {
     value: function () {
       var _reload = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee3() {
-        return _regeneratorRuntime.wrap(function _callee3$(_context3) {
+      regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -2297,10 +2522,10 @@ function (_EventEmitter) {
     value: function () {
       var _history_run_process = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee(object) {
+      regeneratorRuntime.mark(function _callee(object) {
         var _this$history_create_, request, response, next;
 
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -2330,9 +2555,9 @@ function (_EventEmitter) {
     value: function () {
       var _redirect = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee2(url, sync) {
+      regeneratorRuntime.mark(function _callee2(url, sync) {
         var result;
-        return _regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -2416,9 +2641,9 @@ function (_EventEmitter) {
     value: function () {
       var _replace = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee3(url, sync) {
+      regeneratorRuntime.mark(function _callee3(url, sync) {
         var result;
-        return _regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -2502,8 +2727,8 @@ function (_EventEmitter) {
     value: function () {
       var _reload = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee4() {
-        return _regeneratorRuntime.wrap(function _callee4$(_context4) {
+      regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -2755,11 +2980,11 @@ var ResponseConstructor = {
   redirect: function () {
     var _redirect = _asyncToGenerator(
     /*#__PURE__*/
-    _regeneratorRuntime.mark(function _callee() {
+    regeneratorRuntime.mark(function _callee() {
       var _this$res;
 
       var _args = arguments;
-      return _regeneratorRuntime.wrap(function _callee$(_context) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -2786,11 +3011,11 @@ var ResponseConstructor = {
   replace: function () {
     var _replace = _asyncToGenerator(
     /*#__PURE__*/
-    _regeneratorRuntime.mark(function _callee2() {
+    regeneratorRuntime.mark(function _callee2() {
       var _this$res2;
 
       var _args2 = arguments;
-      return _regeneratorRuntime.wrap(function _callee2$(_context2) {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
@@ -2817,8 +3042,8 @@ var ResponseConstructor = {
   reload: function () {
     var _reload = _asyncToGenerator(
     /*#__PURE__*/
-    _regeneratorRuntime.mark(function _callee3() {
-      return _regeneratorRuntime.wrap(function _callee3$(_context3) {
+    regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
@@ -2845,11 +3070,11 @@ var ResponseConstructor = {
   fetch: function () {
     var _fetch = _asyncToGenerator(
     /*#__PURE__*/
-    _regeneratorRuntime.mark(function _callee4() {
+    regeneratorRuntime.mark(function _callee4() {
       var _this$app;
 
       var _args4 = arguments;
-      return _regeneratorRuntime.wrap(function _callee4$(_context4) {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
@@ -2876,11 +3101,11 @@ var ResponseConstructor = {
   get: function () {
     var _get = _asyncToGenerator(
     /*#__PURE__*/
-    _regeneratorRuntime.mark(function _callee5() {
+    regeneratorRuntime.mark(function _callee5() {
       var _this$app2;
 
       var _args5 = arguments;
-      return _regeneratorRuntime.wrap(function _callee5$(_context5) {
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
@@ -2907,11 +3132,11 @@ var ResponseConstructor = {
   post: function () {
     var _post = _asyncToGenerator(
     /*#__PURE__*/
-    _regeneratorRuntime.mark(function _callee6() {
+    regeneratorRuntime.mark(function _callee6() {
       var _this$app3;
 
       var _args6 = arguments;
-      return _regeneratorRuntime.wrap(function _callee6$(_context6) {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
@@ -2938,11 +3163,11 @@ var ResponseConstructor = {
   put: function () {
     var _put = _asyncToGenerator(
     /*#__PURE__*/
-    _regeneratorRuntime.mark(function _callee7() {
+    regeneratorRuntime.mark(function _callee7() {
       var _this$app4;
 
       var _args7 = arguments;
-      return _regeneratorRuntime.wrap(function _callee7$(_context7) {
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
             case 0:
@@ -2969,11 +3194,11 @@ var ResponseConstructor = {
   delete: function () {
     var _delete2 = _asyncToGenerator(
     /*#__PURE__*/
-    _regeneratorRuntime.mark(function _callee8() {
+    regeneratorRuntime.mark(function _callee8() {
       var _this$app5;
 
       var _args8 = arguments;
-      return _regeneratorRuntime.wrap(function _callee8$(_context8) {
+      return regeneratorRuntime.wrap(function _callee8$(_context8) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:
@@ -3074,8 +3299,8 @@ function (_History) {
     value: function () {
       var _serverHandleRequest = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee(ctx, fnMiddleware) {
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
+      regeneratorRuntime.mark(function _callee(ctx, fnMiddleware) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -3137,9 +3362,9 @@ function (_History) {
     value: function () {
       var _fetch = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee2(options) {
+      regeneratorRuntime.mark(function _callee2(options) {
         var result;
-        return _regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -3186,8 +3411,8 @@ function (_History) {
     value: function () {
       var _get2 = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee3(url) {
-        return _regeneratorRuntime.wrap(function _callee3$(_context3) {
+      regeneratorRuntime.mark(function _callee3(url) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -3219,8 +3444,8 @@ function (_History) {
     value: function () {
       var _post = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee4(url, body) {
-        return _regeneratorRuntime.wrap(function _callee4$(_context4) {
+      regeneratorRuntime.mark(function _callee4(url, body) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -3253,8 +3478,8 @@ function (_History) {
     value: function () {
       var _put = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee5(url, body) {
-        return _regeneratorRuntime.wrap(function _callee5$(_context5) {
+      regeneratorRuntime.mark(function _callee5(url, body) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
@@ -3283,8 +3508,8 @@ function (_History) {
     value: function () {
       var _delete2 = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee6(url) {
-        return _regeneratorRuntime.wrap(function _callee6$(_context6) {
+      regeneratorRuntime.mark(function _callee6(url) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
@@ -3322,11 +3547,11 @@ function (_History) {
     value: function () {
       var _createServer = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee8(url) {
+      regeneratorRuntime.mark(function _callee8(url) {
         var _this2 = this;
 
         var fn;
-        return _regeneratorRuntime.wrap(function _callee8$(_context8) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
@@ -3337,9 +3562,9 @@ function (_History) {
                 function () {
                   var _ref = _asyncToGenerator(
                   /*#__PURE__*/
-                  _regeneratorRuntime.mark(function _callee7(req, res, next) {
+                  regeneratorRuntime.mark(function _callee7(req, res, next) {
                     var ctx;
-                    return _regeneratorRuntime.wrap(function _callee7$(_context7) {
+                    return regeneratorRuntime.wrap(function _callee7$(_context7) {
                       while (1) {
                         switch (_context7.prev = _context7.next) {
                           case 0:
@@ -3584,8 +3809,8 @@ function () {
       /*#__PURE__*/
       _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee() {
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
+      regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -3729,9 +3954,9 @@ function () {
     value: function () {
       var _PluginRender = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee(app) {
+      regeneratorRuntime.mark(function _callee(app) {
         var bootstraps, i, bootstrap, args, pluginExports;
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -4847,10 +5072,10 @@ function ControllerParser(app, controllers) {
           function () {
             var _ref = _asyncToGenerator(
             /*#__PURE__*/
-            _regeneratorRuntime.mark(function _callee(ctx, next) {
+            regeneratorRuntime.mark(function _callee(ctx, next) {
               var _controller, options, option, _target, data, result;
 
-              return _regeneratorRuntime.wrap(function _callee$(_context) {
+              return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
@@ -5034,7 +5259,7 @@ function (_Application) {
     value: function () {
       var _$fetch = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee() {
+      regeneratorRuntime.mark(function _callee() {
         var _get2;
 
         var _len,
@@ -5042,7 +5267,7 @@ function (_Application) {
             _key,
             _args = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -5075,7 +5300,7 @@ function (_Application) {
     value: function () {
       var _$get = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee2() {
+      regeneratorRuntime.mark(function _callee2() {
         var _get3;
 
         var _len2,
@@ -5083,7 +5308,7 @@ function (_Application) {
             _key2,
             _args2 = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -5116,7 +5341,7 @@ function (_Application) {
     value: function () {
       var _$post = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee3() {
+      regeneratorRuntime.mark(function _callee3() {
         var _get4;
 
         var _len3,
@@ -5124,7 +5349,7 @@ function (_Application) {
             _key3,
             _args3 = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -5157,7 +5382,7 @@ function (_Application) {
     value: function () {
       var _$put = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee4() {
+      regeneratorRuntime.mark(function _callee4() {
         var _get5;
 
         var _len4,
@@ -5165,7 +5390,7 @@ function (_Application) {
             _key4,
             _args4 = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -5198,7 +5423,7 @@ function (_Application) {
     value: function () {
       var _$delete = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee5() {
+      regeneratorRuntime.mark(function _callee5() {
         var _get6;
 
         var _len5,
@@ -5206,7 +5431,7 @@ function (_Application) {
             _key5,
             _args5 = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
@@ -5239,7 +5464,7 @@ function (_Application) {
     value: function () {
       var _$redirect = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee6() {
+      regeneratorRuntime.mark(function _callee6() {
         var _get7;
 
         var _len6,
@@ -5247,7 +5472,7 @@ function (_Application) {
             _key6,
             _args6 = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
@@ -5280,7 +5505,7 @@ function (_Application) {
     value: function () {
       var _$replace = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee7() {
+      regeneratorRuntime.mark(function _callee7() {
         var _get8;
 
         var _len7,
@@ -5288,7 +5513,7 @@ function (_Application) {
             _key7,
             _args7 = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
@@ -5321,7 +5546,7 @@ function (_Application) {
     value: function () {
       var _$reload = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee8() {
+      regeneratorRuntime.mark(function _callee8() {
         var _get9;
 
         var _len8,
@@ -5329,7 +5554,7 @@ function (_Application) {
             _key8,
             _args8 = arguments;
 
-        return _regeneratorRuntime.wrap(function _callee8$(_context8) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
@@ -5362,8 +5587,8 @@ function (_Application) {
     value: function () {
       var _render = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee9(webview, props) {
-        return _regeneratorRuntime.wrap(function _callee9$(_context9) {
+      regeneratorRuntime.mark(function _callee9(webview, props) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
@@ -5409,8 +5634,8 @@ function (_Application) {
     value: function () {
       var _createServer = _asyncToGenerator(
       /*#__PURE__*/
-      _regeneratorRuntime.mark(function _callee10(url) {
-        return _regeneratorRuntime.wrap(function _callee10$(_context10) {
+      regeneratorRuntime.mark(function _callee10(url) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
