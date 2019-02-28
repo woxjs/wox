@@ -77,6 +77,34 @@ new client.constructor(pather, client.util, client.pkg);
 
 - **pather** `string` 表示插件所在的根目录。
 
+### Make Plugin
+
+创建新的插件模板
+
+```bash
+cli make [plugin]
+```
+
+### Dev link
+
+开发模式下通过模板创建后需要link到`@evio/cli`上，所以我们需要使用以下命令
+
+```bash
+cli link
+```
+
+> 注意：你必须进入到插件文件夹下
+
+### Dev unlink
+
+通过link软链的插件，需要解除软链，那么我们需要使用以下命令
+
+```bash
+cli unlink
+```
+
+> 注意：你必须进入到插件文件夹下
+
 ## @wox/cli
 
 它是wox架构的支持工具。
