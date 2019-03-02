@@ -11,7 +11,7 @@ Methods.forEach(method => {
         if (!HttpMetaData) HttpMetaData = [];
         HttpMetaData.unshift({
           method: method,
-          prefix: path
+          prefix: path === '/' ? '(/?)' : path
         });
         Reflect.defineMetadata('Http', HttpMetaData, descriptor.value);
       }
@@ -29,10 +29,10 @@ Methods.forEach(method => {
 
 export function Controller(prefix) {
   if (typeof prefix === 'function') {
-    Reflect.defineMetadata('Controller', '/', prefix);
+    Reflect.defineMetadata('Controller', '(/?)', prefix);
     return Reflect.defineMetadata('Index', 99, prefix);
   }
-  return target => Reflect.defineMetadata('Controller', prefix, target);
+  return target => Reflect.defineMetadata('Controller', prefix === '/' ? '(/?)' : prefix, target);
 }
 
 export function Index(i) {
