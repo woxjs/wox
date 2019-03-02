@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.1
+ * Wox.js v2.1.4
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -1386,7 +1386,7 @@ Methods.forEach(function (method) {
         if (!HttpMetaData) { HttpMetaData = []; }
         HttpMetaData.unshift({
           method: method,
-          prefix: path
+          prefix: path === '/' ? '(/?)' : path
         });
         Reflect.defineMetadata('Http', HttpMetaData, descriptor.value);
       };
@@ -1395,7 +1395,7 @@ Methods.forEach(function (method) {
       if (!HttpMetaData) { HttpMetaData = []; }
       HttpMetaData.unshift({
         method: method,
-        prefix: '(/)?'
+        prefix: '(/?)'
       });
       Reflect.defineMetadata('Http', HttpMetaData, desc.value);
     }
@@ -1403,12 +1403,12 @@ Methods.forEach(function (method) {
 });
 function Controller(prefix) {
   if (typeof prefix === 'function') {
-    Reflect.defineMetadata('Controller', '/', prefix);
+    Reflect.defineMetadata('Controller', '(/?)', prefix);
     return Reflect.defineMetadata('Index', 99, prefix);
   }
 
   return function (target) {
-    return Reflect.defineMetadata('Controller', prefix, target);
+    return Reflect.defineMetadata('Controller', prefix === '/' ? '(/?)' : prefix, target);
   };
 }
 function Index(i) {
@@ -4511,7 +4511,7 @@ Layer.prototype.param = function (param, fn) {
 
 Layer.prototype.setPrefix = function (prefix) {
   if (this.path) {
-    this.path = (prefix + this.path).replace(/[\/]+/g, '/');
+    this.path = prefix + this.path;
     this.paramNames = [];
     this.regexp = pathToRegexp(this.path, this.paramNames, this.opts);
   }
