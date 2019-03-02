@@ -155,7 +155,7 @@ Layer.prototype.param = function (param, fn) {
 
 Layer.prototype.setPrefix = function (prefix) {
   if (this.path) {
-    this.path = (prefix + this.path).replace(/[\/]+/g, '/');
+    this.path = prefix + this.path;
     this.paramNames = [];
     this.regexp = pathToRegExp(this.path, this.paramNames, this.opts);
   }

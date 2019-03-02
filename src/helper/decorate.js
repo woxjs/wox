@@ -20,7 +20,7 @@ Methods.forEach(method => {
       if (!HttpMetaData) HttpMetaData = [];
       HttpMetaData.unshift({
         method: method,
-        prefix: '(/)?'
+        prefix: '(/?)'
       });
       Reflect.defineMetadata('Http', HttpMetaData, desc.value);
     }
