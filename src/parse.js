@@ -108,10 +108,14 @@ export default class Parser {
         : window.document.querySelector(app.$config.el);
     }
 
-    ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'delete'].forEach(param => {
-      Vue.prototype['$' + param] = (...args) => {
-        if (typeof this[param] === 'function') {
-          return this[param](...args);
+    ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'del'].forEach(param => {
+      const $param = '$' + param;
+      if (Vue.prototype[param]) throw new Error(`'${param}' is inject on vue.js`);
+      Vue.prototype[$param] = (...args) => {
+        let name = $param;
+        if (param === 'del') name = '$del';
+        if (typeof app[name] === 'function') {
+          return app[name](...args);
         }
       };
     });
