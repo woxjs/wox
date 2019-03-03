@@ -17,7 +17,7 @@ A dynamic loader MVC architecture based on Vue.js development which use web virt
 
 ### preview
 
-![wox.png](./assets/wox.png)
+<p align="center"><img src="./assets/wox.png" width="300" alt="preview"></p>
 
 ## License
 
