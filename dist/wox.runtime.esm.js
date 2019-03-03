@@ -4048,10 +4048,16 @@ function () {
         el = _typeof(app.$config.el) === 'object' ? app.$config.el : window.document.querySelector(app.$config.el);
       }
 
-      ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'delete'].forEach(function (param) {
-        Vue.prototype['$' + param] = function () {
-          if (typeof _this3[param] === 'function') {
-            return _this3[param].apply(_this3, arguments);
+      ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'del'].forEach(function (param) {
+        var $param = '$' + param;
+        if (Vue.prototype[param]) { throw new Error("'".concat(param, "' is inject on vue.js")); }
+
+        Vue.prototype[$param] = function () {
+          var name = $param;
+          if (param === 'del') { name = '$del'; }
+
+          if (typeof app[name] === 'function') {
+            return app[name].apply(app, arguments);
           }
         };
       });

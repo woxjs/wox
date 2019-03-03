@@ -134,9 +134,9 @@ this.ctx.params.id
 
 `this.$put` 调用虚拟请求
 
-### vm.$delete
+### vm.$del
 
-`this.$delete` 调用虚拟请求
+`this.$del` 调用虚拟请求
 
 ### vm.$redirect
 
@@ -313,7 +313,7 @@ app.$fetch({
 
 ### app.$delete
 
-同 [vm.$delete](#vm-delete)
+同 [vm.$del](#vm-delete)
 
 ### app.$redirect
 
