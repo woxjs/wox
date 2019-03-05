@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.4
+ * Wox.js v2.1.6
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -5701,5 +5701,8 @@ function (_Application) {
   return Wox;
 }(ApplicationService);
 
-export default Wox;
-export { Http, Interface, Controller, Index, Middleware, Param };
+var Wox$1 = Wox;
+var DecorateInterface = Interface$1;
+var EventEmitter$1 = EventEmitter;
+
+export { Wox$1 as Wox, DecorateInterface, EventEmitter$1 as EventEmitter, Methods, Http, Interface, Controller, Index, Middleware, Param };
