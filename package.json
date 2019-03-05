@@ -1,6 +1,6 @@
 {
   "name": "@wox/wox",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Wox application framework",
   "main": "dist/wox.runtime.esm.js",
   "repository": {

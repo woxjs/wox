@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.4
+ * Wox.js v2.1.6
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
