@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.6
+ * Wox.js v2.1.8
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -2765,6 +2765,19 @@ function (_EventEmitter) {
 
         default:
           replaceUriWithHash(url);
+      }
+    }
+  }, {
+    key: "history_href",
+    value: function history_href(url) {
+      var location = window.location;
+
+      switch (this.history_event_name) {
+        case EventListenerName.html5:
+          return location.origin + url;
+
+        default:
+          return location.origin + location.pathname + location.search + '#' + url;
       }
     }
   }]);

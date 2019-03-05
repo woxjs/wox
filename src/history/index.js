@@ -152,6 +152,14 @@ export default class History extends EventEmitter {
       default: replaceUriWithHash(url);
     }
   }
+
+  history_href(url) {
+    const location = window.location;
+    switch (this.history_event_name) {
+      case EventListenerName.html5: return location.origin + url;
+      default: return location.origin + location.pathname + location.search + '#' + url;
+    }
+  }
 }
 
 function replaceUriWithHash(url) {
