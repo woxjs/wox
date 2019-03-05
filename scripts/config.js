@@ -14,7 +14,7 @@ const banner =
 const resolve = p => path.resolve(__dirname, '../', p);
 const builds = {
   'web-runtime-cjs-prod': {
-    entry: resolve('src/index.js'),
+    entry: resolve('index.js'),
     dest: resolve('dist/wox.runtime.common.prod.js'),
     format: 'cjs',
     env: 'production',
@@ -22,14 +22,14 @@ const builds = {
     banner
   },
   'web-runtime-esm': {
-    entry: resolve('src/index.js'),
+    entry: resolve('index.js'),
     dest: resolve('dist/wox.runtime.esm.js'),
     format: 'es',
     external: ['vue'],
     banner
   },
   'web-runtime-prod': {
-    entry: resolve('src/index.js'),
+    entry: resolve('index.js'),
     dest: resolve('dist/wox.runtime.min.js'),
     format: 'umd',
     external: ['vue'],
