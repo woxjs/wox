@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.8
+ * Wox.js v2.1.10
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -5258,7 +5258,7 @@ function (_Application) {
 
     var parser = new Parser(config);
     var parsedConfigs = parser.render();
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Wox).call(this, parsedConfigs.mode || 'hash'));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Wox).call(this, parsedConfigs.custom_configs.mode || 'hash'));
     Vue.prototype.$app = _assertThisInitialized(_this);
     _this.$parser = parser;
     _this.$router = new Router();
