@@ -19,6 +19,7 @@ footer: MIT Licensed | Copyright © 2018-present Evio Shen
 # 安装脚手架工具
 $ npm i @evio/cli -g
 $ cli install @wox/cli
+$ npm install -g @vue/cli
 
 # 创建项目
 $ cli wox:new
