@@ -15,7 +15,7 @@ export default class Wox extends Application {
   constructor(config) {
     const parser = new Parser(config);
     const parsedConfigs = parser.render();
-    super(parsedConfigs.mode || 'hash');
+    super(parsedConfigs.custom_configs.mode || 'hash');
     Vue.prototype.$app = this;
     this.$parser = parser;
     this.$router = new Router();
