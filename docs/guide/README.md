@@ -23,10 +23,14 @@ npm i -g @evio/cli
 
 # 安装脚手架插件
 cli install @wox/cli 
+
+# 安装Vue脚手架
+npm install -g @vue/cli
 ```
 
 ::: warning
 CLI 工具假定用户对 Node.js 和相关构建工具有一定程度的了解。如果你是新手，我们强烈建议先在不用构建工具的情况下通读 **[指南](/guide/)**，在熟悉 wox.js 本身之后再使用 CLI。
+`vue.config.js`与`babel.config.js`的配置，请查看[https://cli.vuejs.org/zh/](https://cli.vuejs.org/zh/)
 :::
 
 ## 创建项目
@@ -53,6 +57,8 @@ npm run dev
 .
 ├─ README.md
 ├─ package.json
+├─ vue.config.js
+├─ babel.config.js
 ├─ app.vue
 ├─ app.js
 ├─ app
