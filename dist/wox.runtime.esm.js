@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.10
+ * Wox.js v2.1.12
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -4052,6 +4052,15 @@ function () {
     value: function BuildVue(app) {
       var _this3 = this;
 
+      var el;
+
+      if (!app.$config.el) {
+        el = window.document.createElement('div');
+        window.document.body.appendChild(el);
+      } else {
+        el = _typeof(app.$config.el) === 'object' ? app.$config.el : window.document.querySelector(app.$config.el);
+      }
+
       ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'del'].forEach(function (param) {
         var $param = '$' + param;
         if (Vue.prototype[param]) { throw new Error("'".concat(param, "' is inject on vue.js")); }
@@ -4095,7 +4104,12 @@ function () {
         if (ctx.isapi) { return; }
         vue.$emit('enter', ctx);
       });
-      return vue;
+      vue.$mount(el);
+      return new Promise(function (resolve) {
+        return vue.$nextTick(function () {
+          return resolve(vue);
+        });
+      });
     }
   }]);
 
@@ -5673,24 +5687,23 @@ function (_Application) {
                 return this.emit('RouterDidInstalled');
 
               case 15:
-                this.$vue = this.$parser.BuildVue(this);
-                _context10.next = 18;
-                return this.emit('ServerWillCreate');
+                _context10.next = 17;
+                return this.$parser.BuildVue(this);
 
-              case 18:
+              case 17:
+                this.$vue = _context10.sent;
                 _context10.next = 20;
-                return _get(_getPrototypeOf(Wox.prototype), "createServer", this).call(this, url);
+                return this.emit('ServerWillCreate');
 
               case 20:
                 _context10.next = 22;
-                return this.emit('ServerDidCreated');
+                return _get(_getPrototypeOf(Wox.prototype), "createServer", this).call(this, url);
 
               case 22:
-                this.mount();
-                _context10.next = 25;
-                return this.emit('mounted');
+                _context10.next = 24;
+                return this.emit('ServerDidCreated');
 
-              case 25:
+              case 24:
               case "end":
                 return _context10.stop();
             }
@@ -5704,20 +5717,6 @@ function (_Application) {
 
       return createServer;
     }()
-  }, {
-    key: "mount",
-    value: function mount() {
-      var el;
-
-      if (!this.$config.el) {
-        el = window.document.createElement('div');
-        window.document.body.appendChild(el);
-      } else {
-        el = _typeof(this.$config.el) === 'object' ? this.$config.el : window.document.querySelector(this.$config.el);
-      }
-
-      this.$vue.$mount(el);
-    }
   }]);
 
   return Wox;
