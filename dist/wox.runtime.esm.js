@@ -4052,15 +4052,6 @@ function () {
     value: function BuildVue(app) {
       var _this3 = this;
 
-      var el;
-
-      if (!app.$config.el) {
-        el = window.document.createElement('div');
-        window.document.body.appendChild(el);
-      } else {
-        el = _typeof(app.$config.el) === 'object' ? app.$config.el : window.document.querySelector(app.$config.el);
-      }
-
       ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'del'].forEach(function (param) {
         var $param = '$' + param;
         if (Vue.prototype[param]) { throw new Error("'".concat(param, "' is inject on vue.js")); }
@@ -4104,7 +4095,6 @@ function () {
         if (ctx.isapi) { return; }
         vue.$emit('enter', ctx);
       });
-      vue.$mount(el);
       return vue;
     }
   }]);
@@ -5696,6 +5686,11 @@ function (_Application) {
                 return this.emit('ServerDidCreated');
 
               case 22:
+                this.mount();
+                _context10.next = 25;
+                return this.emit('mounted');
+
+              case 25:
               case "end":
                 return _context10.stop();
             }
@@ -5709,6 +5704,20 @@ function (_Application) {
 
       return createServer;
     }()
+  }, {
+    key: "mount",
+    value: function mount() {
+      var el;
+
+      if (!this.$config.el) {
+        el = window.document.createElement('div');
+        window.document.body.appendChild(el);
+      } else {
+        el = _typeof(this.$config.el) === 'object' ? this.$config.el : window.document.querySelector(this.$config.el);
+      }
+
+      this.$vue.$mount(el);
+    }
   }]);
 
   return Wox;
