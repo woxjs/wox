@@ -107,7 +107,7 @@ export default class Parser {
         ? app.$config.el 
         : window.document.querySelector(app.$config.el);
     }
-
+    
     ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'del'].forEach(param => {
       const $param = '$' + param;
       if (Vue.prototype[param]) throw new Error(`'${param}' is inject on vue.js`);
@@ -151,6 +151,6 @@ export default class Parser {
       vue.$emit('enter', ctx);
     });
     vue.$mount(el);
-    return vue;
+    return new Promise(resolve => vue.$nextTick(() => resolve(vue)));
   }
 }

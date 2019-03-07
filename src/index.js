@@ -76,7 +76,7 @@ export default class Wox extends Application {
     await this.emit('RouterWillInstall');
     this.use(this.$router.routes());
     await this.emit('RouterDidInstalled');
-    this.$vue = this.$parser.BuildVue(this);
+    this.$vue = await this.$parser.BuildVue(this);
     await this.emit('ServerWillCreate');
     await super.createServer(url);
     await this.emit('ServerDidCreated');
