@@ -80,20 +80,5 @@ export default class Wox extends Application {
     await this.emit('ServerWillCreate');
     await super.createServer(url);
     await this.emit('ServerDidCreated');
-    this.mount();
-    await this.emit('mounted');
-  }
-
-  mount() {
-    let el;
-    if (!this.$config.el) {
-      el = window.document.createElement('div');
-      window.document.body.appendChild(el);
-    } else {
-      el = typeof this.$config.el === 'object' 
-        ? this.$config.el 
-        : window.document.querySelector(this.$config.el);
-    }
-    this.$vue.$mount(el);
   }
 }

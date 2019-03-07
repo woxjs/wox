@@ -98,6 +98,16 @@ export default class Parser {
   }
 
   BuildVue(app) {
+    let el;
+    if (!app.$config.el) {
+      el = window.document.createElement('div');
+      window.document.body.appendChild(el);
+    } else {
+      el = typeof app.$config.el === 'object' 
+        ? app.$config.el 
+        : window.document.querySelector(app.$config.el);
+    }
+    
     ['redirect', 'replace', 'reload', 'get', 'post', 'put', 'del'].forEach(param => {
       const $param = '$' + param;
       if (Vue.prototype[param]) throw new Error(`'${param}' is inject on vue.js`);
@@ -140,7 +150,7 @@ export default class Parser {
       if (ctx.isapi) return;
       vue.$emit('enter', ctx);
     });
-    
-    return vue;
+    vue.$mount(el);
+    return new Promise(resolve => vue.$nextTick(() => resolve(vue)));
   }
 }
