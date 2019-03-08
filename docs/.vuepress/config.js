@@ -26,7 +26,8 @@ module.exports = {
         'service',
         'config',
         'runtime',
-        'request'
+        'request',
+        'controller'
       ],
       '/api/': [
         ''

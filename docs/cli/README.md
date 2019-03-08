@@ -156,21 +156,24 @@ Usage: wox [options] <path>
 create a new wox file by type
 
 Options:
-  -p, --component [type]  create a new `Vue.component` file
-  -d, --directive         create a new `Vue.directive` file
-  -f, --filter            create a new `Vue.filter` file
-  -x, --mixin             create a new `Vue.mixin` file
-  -c, --controller        create a new `Controller` file
-  -m, --middleware        create a new `Middleware` file
-  -s, --service           create a new `Service` file
-  -t, --decorate          create a new `Decorate` file
-  -w, --webview           create a new `Decorate` file
-  -h, --help              output usage information
+  -p, --component [type]   create a new `Vue.component` file (default: null)
+  -d, --directive          create a new `Vue.directive` file
+  -f, --filter             create a new `Vue.filter` file
+  -x, --mixin              create a new `Vue.mixin` file
+  -c, --controller [type]  create a new `Controller` file (default: null)
+  -m, --middleware         create a new `Middleware` file
+  -s, --service [type]     create a new `Service` file (default: null)
+  -t, --decorate           create a new `Decorate` file
+  -w, --webview            create a new `Webview` file
+  -h, --help               output usage information
 ```
 
 通过`-`符号来区分创建的类型文件。
 
-> 注意：`component`比较特殊，它有4种格式`-p` `-p=vue` `-p=js` `-p=jsx`，每个不同类型将创建不同的文件结尾。
+> 注意：
+> `component`比较特殊，它有4种格式`-p` `-p vue` `-p js` `-p jsx`，每个不同类型将创建不同的文件结尾。
+> `controller`比较特殊，它有3种格式`-c` `-c js` `-c jsx`，每个不同类型将创建不同的文件结尾。
+> `service`比较特殊，它有3种格式`-s` `-s js` `-s jsx`，每个不同类型将创建不同的文件结尾。
 
 ### 对wox进行插件的工具扩展
 
