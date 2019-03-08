@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.12
+ * Wox.js v2.1.13
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -1373,6 +1373,56 @@ var Reflect$1;
         }
     });
 })(Reflect$1 || (Reflect$1 = {}));
+
+var wrapContext = function wrapContext(ctx, target) {
+  if (!target.ctx) {
+    Object.defineProperty(target, 'ctx', {
+      get: function get() {
+        return ctx;
+      }
+    });
+  }
+
+  if (!target.$createElement) {
+    Object.defineProperty(target, '$createElement', {
+      get: function get() {
+        return ctx.app.$vue.$createElement;
+      }
+    });
+  }
+
+  return target;
+};
+var isVnode = function isVnode(ctx, result) {
+  return result && result.context === ctx.app.$vue;
+};
+var wrapVnodeComponent = function wrapVnodeComponent(vnode) {
+  return Vue.extend({
+    enter: function enter(ctx) {
+      var dynamicRenderer = this.$refs.dynamicVnodeRenderer;
+
+      if (dynamicRenderer) {
+        if (typeof dynamicRenderer.$options.enter === 'function') {
+          dynamicRenderer.$options.enter.call(dynamicRenderer, ctx);
+        }
+      }
+    },
+    leave: function leave(ctx) {
+      var dynamicRenderer = this.$refs.dynamicVnodeRenderer;
+
+      if (dynamicRenderer) {
+        if (typeof dynamicRenderer.$options.leave === 'function') {
+          dynamicRenderer.$options.leave.call(dynamicRenderer, ctx);
+        }
+      }
+    },
+    render: function render(h) {
+      return h(vnode, {
+        ref: 'dynamicVnodeRenderer'
+      });
+    }
+  });
+};
 
 var Methods = ['Get', 'Post', 'Put', 'Delete'];
 
@@ -5103,16 +5153,7 @@ function ControllerParser(app, controllers) {
                   switch (_context.prev = _context.next) {
                     case 0:
                       ctx.status = 440;
-                      _controller = new controller(ctx);
-
-                      if (!_controller.ctx) {
-                        Object.defineProperty(_controller, 'ctx', {
-                          get: function get() {
-                            return ctx;
-                          }
-                        });
-                      }
-
+                      _controller = wrapContext(ctx, new controller(ctx));
                       options = {};
 
                       for (option in decorateOptions) {
@@ -5127,17 +5168,34 @@ function ControllerParser(app, controllers) {
                         }
                       }
 
-                      _context.next = 7;
+                      _context.next = 6;
                       return _controller[property].call(_controller, options);
 
-                    case 7:
+                    case 6:
                       result = _context.sent;
 
-                      if (result !== undefined) {
-                        ctx.body = result;
+                      if (!isVnode(ctx, result)) {
+                        _context.next = 9;
+                        break;
                       }
 
+                      return _context.abrupt("return", ctx.app.render(wrapVnodeComponent(result)));
+
                     case 9:
+                      if (!(result !== undefined)) {
+                        _context.next = 13;
+                        break;
+                      }
+
+                      ctx.body = result;
+                      _context.next = 15;
+                      break;
+
+                    case 13:
+                      _context.next = 15;
+                      return next();
+
+                    case 15:
                     case "end":
                       return _context.stop();
                   }
@@ -5224,15 +5282,7 @@ function (_Interface) {
       var _services = {};
 
       for (var service in Services) {
-        _services[service] = new Services[service](ctx);
-
-        if (!_services[service].ctx) {
-          Object.defineProperty(_services[service], 'ctx', {
-            get: function get() {
-              return ctx;
-            }
-          });
-        }
+        _services[service] = wrapContext(ctx, new Services[service](ctx));
       }
 
       if (Object.keys(_services).length > 0) {
@@ -5726,4 +5776,4 @@ var Wox$1 = Wox;
 var DecorateInterface = Interface$1;
 var EventEmitter$1 = EventEmitter;
 
-export { Wox$1 as Wox, DecorateInterface, EventEmitter$1 as EventEmitter, Methods, Http, Interface, Controller, Index, Middleware, Param };
+export { Wox$1 as Wox, DecorateInterface, EventEmitter$1 as EventEmitter, Methods, Http, Interface, Controller, Index, Middleware, Param, wrapContext, isVnode, wrapVnodeComponent };

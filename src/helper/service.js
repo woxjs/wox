@@ -1,4 +1,5 @@
 import Interface from './interface';
+import { wrapContext } from './wrap';
 export default class Service extends Interface {
   constructor() {
     super('Service');
@@ -17,14 +18,7 @@ export default class Service extends Interface {
   interfaceDidRendered(Services, { options, ctx }) {
     const _services = {};
     for (const service in Services) {
-      _services[service] = new Services[service](ctx);
-      if (!_services[service].ctx) {
-        Object.defineProperty(_services[service], 'ctx', {
-          get() {
-            return ctx;
-          }
-        })
-      }
+      _services[service] = wrapContext(ctx, new Services[service](ctx));
     }
     if (Object.keys(_services).length > 0) {
       options.Service = _services;

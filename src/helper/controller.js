@@ -1,4 +1,5 @@
 import Router from '../router/index';
+import { wrapContext, isVnode, wrapVnodeComponent } from './wrap';
 export default function ControllerParser(app, controllers) {
   const decorates = app.$plugin.decorates;
   const _controllers = controllers.slice(0).sort((a, b) => {
@@ -33,14 +34,7 @@ export default function ControllerParser(app, controllers) {
           const _middlewares = middlewares.slice(0);
           _middlewares.push(async (ctx, next) => {
             ctx.status = 440;
-            const _controller = new controller(ctx);
-            if (!_controller.ctx) {
-              Object.defineProperty(_controller, 'ctx', {
-                get() {
-                  return ctx;
-                }
-              })
-            }
+            const _controller = wrapContext(ctx, new controller(ctx));
             const options = {};
             for (const option in decorateOptions) {
               const _target = decorateOptions[option].target;
@@ -50,8 +44,11 @@ export default function ControllerParser(app, controllers) {
               }
             }
             const result = await _controller[property].call(_controller, options);
+            if (isVnode(ctx, result)) return ctx.app.render(wrapVnodeComponent(result));
             if (result !== undefined) {
               ctx.body = result;
+            } else {
+              await next();
             }
           });
           $route[http.method.toLowerCase()](http.prefix, ..._middlewares);

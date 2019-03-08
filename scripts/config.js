@@ -47,7 +47,7 @@ function genConfig (name) {
       resolver(),
       babel({
         exclude: 'node_modules/**', // 只编译我们的源代码
-        runtimeHelpers: true 
+        // runtimeHelpers: true 
       })
     ].concat(opts.plugins || []),
     output: {
