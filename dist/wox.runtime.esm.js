@@ -5173,27 +5173,28 @@ function ControllerParser(app, controllers) {
                       result = _context.sent;
 
                       if (!isVnode(ctx, result)) {
-                        _context.next = 9;
+                        _context.next = 10;
                         break;
                       }
 
+                      ctx.status = 200;
                       return _context.abrupt("return", ctx.app.render(wrapVnodeComponent(result)));
 
-                    case 9:
+                    case 10:
                       if (!(result !== undefined)) {
-                        _context.next = 13;
+                        _context.next = 14;
                         break;
                       }
 
                       ctx.body = result;
-                      _context.next = 15;
+                      _context.next = 16;
                       break;
 
-                    case 13:
-                      _context.next = 15;
+                    case 14:
+                      _context.next = 16;
                       return next();
 
-                    case 15:
+                    case 16:
                     case "end":
                       return _context.stop();
                   }

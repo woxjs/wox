@@ -44,7 +44,10 @@ export default function ControllerParser(app, controllers) {
               }
             }
             const result = await _controller[property].call(_controller, options);
-            if (isVnode(ctx, result)) return ctx.app.render(wrapVnodeComponent(result));
+            if (isVnode(ctx, result)) {
+              ctx.status = 200;
+              return ctx.app.render(wrapVnodeComponent(result));
+            }
             if (result !== undefined) {
               ctx.body = result;
             } else {
