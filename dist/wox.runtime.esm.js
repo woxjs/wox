@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.15
+ * Wox.js v2.1.17
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -3858,12 +3858,13 @@ function () {
   _createClass(ApplicationAction, [{
     key: "set",
     value: function set(value, arg) {
+      var modifiers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       this.url = value;
-      this.sync = arg === 'sync';
+      this.sync = arg === 'sync' || modifiers.sync;
     }
   }, {
     key: "bind",
-    value: function bind(value, arg) {
+    value: function bind(value, arg, modifiers) {
       var _this = this;
 
       this.handle =
@@ -3891,15 +3892,15 @@ function () {
         }, _callee);
       }));
       this.el.addEventListener('click', this.handle);
-      this.set(value, arg);
+      this.set(value, arg, modifiers);
     }
   }, {
     key: "unbind",
     value: function unbind() {
       if (this.handle) { this.el.removeEventListener('click', this.handle); }
 
-      if (this.el.__wox_directive_taqrget__) {
-        delete this.el.__wox_directive_taqrget__;
+      if (this.el.__wox_directive_target__) {
+        delete this.el.__wox_directive_target__;
       }
     }
   }]);
@@ -3912,22 +3913,22 @@ var WoxVueDirectives = (function (app) {
     Vue.directive(name, {
       bind: function bind(el, binding) {
         var target = new ApplicationAction(app, el, name);
-        target.bind(binding.value, binding.arg);
-        el.__wox_directive_taqrget__ = target;
+        target.bind(binding.value, binding.arg, binding.modifiers);
+        el.__wox_directive_target__ = target;
       },
       unbind: function unbind(el) {
-        if (el.__wox_directive_taqrget__) {
-          el.__wox_directive_taqrget__.unbind();
+        if (el.__wox_directive_target__) {
+          el.__wox_directive_target__.unbind();
         }
       },
       update: function update(el, binding) {
-        if (el.__wox_directive_taqrget__) {
-          el.__wox_directive_taqrget__.set(binding.value, binding.arg);
+        if (el.__wox_directive_target__) {
+          el.__wox_directive_target__.set(binding.value, binding.arg, binding.modifiers);
         }
       },
       componentUpdated: function componentUpdated(el, binding) {
-        if (el.__wox_directive_taqrget__) {
-          el.__wox_directive_taqrget__.set(binding.value, binding.arg);
+        if (el.__wox_directive_target__) {
+          el.__wox_directive_target__.set(binding.value, binding.arg, binding.modifiers);
         }
       }
     });

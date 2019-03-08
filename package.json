@@ -1,6 +1,6 @@
 {
   "name": "@wox/wox",
-  "version": "2.1.16",
+  "version": "2.1.17",
   "description": "Wox application framework",
   "main": "index.js",
   "repository": {
