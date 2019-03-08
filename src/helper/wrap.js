@@ -20,26 +20,24 @@ export const isVnode = (ctx, result) => {
 
 export const wrapVnodeComponent = (vnode) => {
   return Vue.extend({
+    render: () => vnode,
     enter(ctx) {
-      const dynamicRenderer = this.$refs.dynamicVnodeRenderer;
-      if (dynamicRenderer) {
-        if (typeof dynamicRenderer.$options.enter === 'function') {
-          dynamicRenderer.$options.enter.call(dynamicRenderer, ctx);
-        }
+      if (this.$children && this.$children.length) {
+        this.$children.forEach(children => {
+          if (typeof children.$options.enter === 'function') {
+            children.$options.enter.call(children, ctx);
+          }
+        })
       }
     },
     leave(ctx) {
-      const dynamicRenderer = this.$refs.dynamicVnodeRenderer;
-      if (dynamicRenderer) {
-        if (typeof dynamicRenderer.$options.leave === 'function') {
-          dynamicRenderer.$options.leave.call(dynamicRenderer, ctx);
-        }
+      if (this.$children && this.$children.length) {
+        this.$children.forEach(children => {
+          if (typeof children.$options.leave === 'function') {
+            children.$options.leave.call(children, ctx);
+          }
+        })
       }
-    },
-    render(h) {
-      return h(vnode, {
-        ref: 'dynamicVnodeRenderer'
-      });
     }
   })
 }
