@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.13
+ * Wox.js v2.1.15
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -1398,28 +1398,26 @@ var isVnode = function isVnode(ctx, result) {
 };
 var wrapVnodeComponent = function wrapVnodeComponent(vnode) {
   return Vue.extend({
+    render: function render() {
+      return vnode;
+    },
     enter: function enter(ctx) {
-      var dynamicRenderer = this.$refs.dynamicVnodeRenderer;
-
-      if (dynamicRenderer) {
-        if (typeof dynamicRenderer.$options.enter === 'function') {
-          dynamicRenderer.$options.enter.call(dynamicRenderer, ctx);
-        }
+      if (this.$children && this.$children.length) {
+        this.$children.forEach(function (children) {
+          if (typeof children.$options.enter === 'function') {
+            children.$options.enter.call(children, ctx);
+          }
+        });
       }
     },
     leave: function leave(ctx) {
-      var dynamicRenderer = this.$refs.dynamicVnodeRenderer;
-
-      if (dynamicRenderer) {
-        if (typeof dynamicRenderer.$options.leave === 'function') {
-          dynamicRenderer.$options.leave.call(dynamicRenderer, ctx);
-        }
+      if (this.$children && this.$children.length) {
+        this.$children.forEach(function (children) {
+          if (typeof children.$options.leave === 'function') {
+            children.$options.leave.call(children, ctx);
+          }
+        });
       }
-    },
-    render: function render(h) {
-      return h(vnode, {
-        ref: 'dynamicVnodeRenderer'
-      });
     }
   });
 };
