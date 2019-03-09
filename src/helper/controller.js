@@ -43,16 +43,12 @@ export default function ControllerParser(app, controllers) {
                 _target.interfaceDidRendered(data, { options, ctx });
               }
             }
-            const result = await _controller[property].call(_controller, options);
+            const result = await _controller[property].call(_controller, options, next);
             if (isVnode(ctx, result)) {
               ctx.status = 200;
-              return ctx.app.render(wrapVnodeComponent(result));
+              return await ctx.render(wrapVnodeComponent(result));
             }
-            if (result !== undefined) {
-              ctx.body = result;
-            } else {
-              await next();
-            }
+            if (result !== undefined) ctx.body = result;
           });
           $route[http.method.toLowerCase()](http.prefix, ..._middlewares);
         });

@@ -1,5 +1,5 @@
 /*!
- * Wox.js v2.1.17
+ * Wox.js v2.1.18
  * (c) 2018-2019 Evio Shen
  * Released under the MIT License.
  */
@@ -2503,7 +2503,7 @@ function (_EventEmitter) {
 
       var req = this.history_parse(object.url);
       req.body = object.body;
-      req.isapi = !!object.url;
+      req.isapi = typeof object.isapi === 'boolean' ? !!object.isapi : !!object.url;
       req.method = object.method ? object.method.toUpperCase() : 'GET';
 
       if (!req.isapi) {
@@ -2622,7 +2622,8 @@ function (_EventEmitter) {
                 this.history_stop_run_process = true;
                 _context2.next = 7;
                 return this.history_run_process({
-                  url: url
+                  url: url,
+                  isapi: false
                 });
 
               case 7:
@@ -2650,7 +2651,8 @@ function (_EventEmitter) {
 
                 _context2.next = 19;
                 return this.history_run_process({
-                  url: url
+                  url: url,
+                  isapi: false
                 });
 
               case 19:
@@ -2708,7 +2710,8 @@ function (_EventEmitter) {
                 this.history_stop_run_process = true;
                 _context3.next = 7;
                 return this.history_run_process({
-                  url: url
+                  url: url,
+                  isapi: false
                 });
 
               case 7:
@@ -2736,7 +2739,8 @@ function (_EventEmitter) {
 
                 _context3.next = 19;
                 return this.history_run_process({
-                  url: url
+                  url: url,
+                  isapi: false
                 });
 
               case 19:
@@ -2781,7 +2785,9 @@ function (_EventEmitter) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return this.history_run_process();
+                return this.history_run_process({
+                  isapi: false
+                });
 
               case 2:
                 return _context4.abrupt("return", _context4.sent);
@@ -3423,37 +3429,42 @@ function (_History) {
     value: function () {
       var _fetch = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(options) {
-        var result;
+      regeneratorRuntime.mark(function _callee2() {
+        var options,
+            result,
+            _args2 = arguments;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                options = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {};
+                options.isapi = true;
+
                 if (this.history_installed) {
-                  _context2.next = 2;
+                  _context2.next = 4;
                   break;
                 }
 
                 throw proto.error('No history installed', 502);
 
-              case 2:
-                _context2.next = 4;
+              case 4:
+                _context2.next = 6;
                 return _get(_getPrototypeOf(ApplicationService.prototype), "history_run_process", this).call(this, options);
 
-              case 4:
+              case 6:
                 result = _context2.sent;
 
                 if (!(result instanceof WoxError)) {
-                  _context2.next = 7;
+                  _context2.next = 9;
                   break;
                 }
 
                 throw result;
 
-              case 7:
+              case 9:
                 return _context2.abrupt("return", result);
 
-              case 8:
+              case 10:
               case "end":
                 return _context2.stop();
             }
@@ -3461,7 +3472,7 @@ function (_History) {
         }, _callee2, this);
       }));
 
-      function fetch(_x3) {
+      function fetch() {
         return _fetch.apply(this, arguments);
       }
 
@@ -3494,7 +3505,7 @@ function (_History) {
         }, _callee3, this);
       }));
 
-      function get(_x4) {
+      function get(_x3) {
         return _get2.apply(this, arguments);
       }
 
@@ -3528,7 +3539,7 @@ function (_History) {
         }, _callee4, this);
       }));
 
-      function post(_x5, _x6) {
+      function post(_x4, _x5) {
         return _post.apply(this, arguments);
       }
 
@@ -3558,7 +3569,7 @@ function (_History) {
         }, _callee5, this);
       }));
 
-      function put(_x7, _x8) {
+      function put(_x6, _x7) {
         return _put.apply(this, arguments);
       }
 
@@ -3591,7 +3602,7 @@ function (_History) {
         }, _callee6, this);
       }));
 
-      function _delete(_x9) {
+      function _delete(_x8) {
         return _delete2.apply(this, arguments);
       }
 
@@ -3666,7 +3677,7 @@ function (_History) {
                     }, _callee7);
                   }));
 
-                  return function (_x11, _x12, _x13) {
+                  return function (_x10, _x11, _x12) {
                     return _ref.apply(this, arguments);
                   };
                 }());
@@ -3685,7 +3696,7 @@ function (_History) {
         }, _callee8, this);
       }));
 
-      function createServer(_x10) {
+      function createServer(_x9) {
         return _createServer.apply(this, arguments);
       }
 
@@ -5168,34 +5179,27 @@ function ControllerParser(app, controllers) {
                       }
 
                       _context.next = 6;
-                      return _controller[property].call(_controller, options);
+                      return _controller[property].call(_controller, options, next);
 
                     case 6:
                       result = _context.sent;
 
                       if (!isVnode(ctx, result)) {
-                        _context.next = 10;
+                        _context.next = 12;
                         break;
                       }
 
                       ctx.status = 200;
-                      return _context.abrupt("return", ctx.app.render(wrapVnodeComponent(result)));
+                      _context.next = 11;
+                      return ctx.render(wrapVnodeComponent(result));
 
-                    case 10:
-                      if (!(result !== undefined)) {
-                        _context.next = 14;
-                        break;
-                      }
+                    case 11:
+                      return _context.abrupt("return", _context.sent);
 
-                      ctx.body = result;
-                      _context.next = 16;
-                      break;
+                    case 12:
+                      if (result !== undefined) { ctx.body = result; }
 
-                    case 14:
-                      _context.next = 16;
-                      return next();
-
-                    case 16:
+                    case 13:
                     case "end":
                       return _context.stop();
                   }

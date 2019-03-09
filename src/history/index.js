@@ -26,7 +26,7 @@ export default class History extends EventEmitter {
     };
     const req = this.history_parse(object.url);
     req.body = object.body;
-    req.isapi = !!object.url;
+    req.isapi = typeof object.isapi === 'boolean' ? !!object.isapi : !!object.url;
     req.method = object.method ? object.method.toUpperCase() : 'GET';
     if (!req.isapi) {
       req.referer = this.history_referer;
@@ -94,7 +94,7 @@ export default class History extends EventEmitter {
       case EventListenerName.html5:
         if (sync) {
           this.history_stop_run_process = true;
-          result = await this.history_run_process({ url });
+          result = await this.history_run_process({ url, isapi: false });
           window.history.pushState({}, window.document.title, url);
         } else {
           window.history.pushState({}, window.document.title, url);
@@ -103,7 +103,7 @@ export default class History extends EventEmitter {
         break;
       default:
         if (sync) {
-          result = await this.history_run_process({ url });
+          result = await this.history_run_process({ url, isapi: false });
           window.location.hash = url;
         } else {
           window.location.hash = url;
@@ -119,7 +119,7 @@ export default class History extends EventEmitter {
       case EventListenerName.html5:
         if (sync) {
           this.history_stop_run_process = true;
-          result = await this.history_run_process({ url });
+          result = await this.history_run_process({ url, isapi: false });
           window.history.replaceState({}, window.document.title, url);
         } else {
           window.history.replaceState({}, window.document.title, url);
@@ -128,7 +128,7 @@ export default class History extends EventEmitter {
         break;
       default:
         if (sync) {
-          result = await this.history_run_process({ url });
+          result = await this.history_run_process({ url, isapi: false });
           replaceUriWithHash(url);
         } else {
           replaceUriWithHash(url);
@@ -139,7 +139,7 @@ export default class History extends EventEmitter {
   }
 
   async reload() {
-    return await this.history_run_process();
+    return await this.history_run_process({ isapi: false });
   }
 
   history_url_render(url) {

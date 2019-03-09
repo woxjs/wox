@@ -72,7 +72,8 @@ export default class ApplicationService extends History {
     });
   }
 
-  async fetch(options) {
+  async fetch(options = {}) {
+    options.isapi = true;
     if (!this.history_installed) throw ContextConstructor.error('No history installed', 502);
     const result = await super.history_run_process(options);
     if (result instanceof WoxError) throw result;
