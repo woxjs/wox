@@ -15,7 +15,7 @@ A dynamic loader MVC architecture based on Vue.js development which use web virt
 - **Based on vue.js:** Use `Vue.js` as the underlying data-driven engine to make data MVVM dynamically responsive, enjoy all the features and support brought by Vue.js ecology, and quickly build the page you want.
 - **Super Plugins:** Plug-ins not only aim at `UI Components`, but also provide the ability of master-slave inheritance, so that the whole project can be completed only by configuring plug-ins to achieve the effect of business module componentization.
 
-`Wox.js` was originally designed to solve the dynamic routing problem on mobile and PC terminals. With our continuous exploration, it can carry the `empty project + multi-plug-in' mode to solve the pain point of business componentization. We constantly need to develop and balance business, so that `wox.js` can shoulder the mission of large-scale enterprise front-end application development architecture.
+`Wox.js` was originally designed to solve the dynamic routing problem on mobile and PC terminals. With our continuous exploration, it can carry the `empty project + multi-plug-in` mode to solve the pain point of business componentization. We constantly need to develop and balance business, so that `wox.js` can shoulder the mission of large-scale enterprise front-end application development architecture.
 
 ### Documentation
 
