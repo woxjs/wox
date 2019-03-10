@@ -54,7 +54,7 @@ export default class Parser {
       })
     });
     mixins.forEach(context => {
-      this.ContextEach(context, (key, mixin) => Vue.mixin(mixin));
+      this.ContextEach(context, (key, mixin) => Vue.mixin(typeof directive === 'function' ? mixin(app) : mixin));
     });
   }
 
