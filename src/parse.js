@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import WoxError from './service/error';
 import { PluginModule } from './plugin';
+import upperCamelCase from 'uppercamelcase';
 import WoxViewPage from './helper/view-page';
 import WoxVueDirectives from './helper/directive';
 export default class Parser {
@@ -27,7 +28,7 @@ export default class Parser {
     this.result.plugin_configs = result.default || result;
   }
 
-  VueInjectRender() {
+  VueInjectRender(app) {
     const components = this.configs.component;
     const directives = this.configs.directive;
     const filters = this.configs.filter;
@@ -40,13 +41,15 @@ export default class Parser {
     });
     directives.forEach(context => {
       this.ContextEach(context, (key, directive) => {
-        const name = key.split('/').slice(-1)[0].split('.').slice(0, -1)[0];
-        Vue.directive(name, directive);
+        const names = key.split('/').slice(-1)[0].split('.').slice(0, -1);
+        if (names.length !== 1) throw app.context.error(`can not named with '.' on directive file<${key}>.`);
+        if (names.filter(name => name.indexOf(':') > -1).length) throw app.context.error(`can not named with ':' on directive file<${key}>.`);
+        Vue.directive(names[0], typeof directive === 'function' ? directive(app) : directive);
       });
     });
     filters.forEach(context => {
       this.ContextEach(context, (key, filter) => {
-        const name = key.split('/').slice(-1)[0].split('.').slice(0, -1)[0];
+        const name = upperCamelCase(...key.split('/').slice(-1)[0].split('.').slice(0, -1));
         Vue.filter(name, filter);
       })
     });

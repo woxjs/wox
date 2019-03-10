@@ -10,9 +10,9 @@ export default class ApplicationService extends History {
   constructor(mode) {
     super(mode);
     this.middleware = [];
-    this.context = Object.create(ContextConstructor);
-    this.request = Object.create(RequestConstructor);
-    this.response = Object.create(ResponseConstructor);
+    this.context = ContextConstructor;
+    this.request = RequestConstructor;
+    this.response = ResponseConstructor;
     this.contextRequestId = 0;
     this.listener = null;
   }

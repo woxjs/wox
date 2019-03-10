@@ -1,5 +1,5 @@
 import EventEmitter from '../helper/events';
-import * as URL from '../url/index';
+import UrlParse from 'url-parse';
 import Response from './response';
 
 const EventListenerName = {
@@ -20,26 +20,16 @@ export default class History extends EventEmitter {
   }
 
   history_create_context(object = {}) {
-    let next = (err, data) => {
-      this.history_stop_run_process = false;
-      return data;
-    };
     const req = this.history_parse(object.url);
     req.body = object.body;
-    req.isapi = typeof object.isapi === 'boolean' ? !!object.isapi : !!object.url;
+    req.isapi = !!object.isapi;
     req.method = object.method ? object.method.toUpperCase() : 'GET';
-    if (!req.isapi) {
-      req.referer = this.history_referer;
-      next = (err, data) => {
-        if (!err) {
-          this.history_referer = req.href;
-        }
-        this.history_stop_run_process = false;
-        return data;
-      }
-    }
+    req.referer = this.history_referer;
     return {
-      next,
+      next: !req.isapi ? err => {
+        if (!err) this.history_referer = req.href;
+        this.history_stop_run_process = false;
+      } : () => this.history_stop_run_process = false,
       request: req,
       response: new Response(this)
     }
@@ -48,7 +38,7 @@ export default class History extends EventEmitter {
   history_parse(path) {
     switch (this.history_event_name) {
       case EventListenerName.html5:
-        return URL.parse(
+        return UrlParse(
           path ? window.location.origin + path
                : window.location.href,
           true
@@ -56,7 +46,7 @@ export default class History extends EventEmitter {
       default:
         const location = window.location;
         const hash = path && path.charAt(0) !== '#' ? '#' + path : location.hash;
-        const obj = URL.parse(
+        const obj = UrlParse(
           hash.length ? hash.substr(1) : '/', 
           true
         );

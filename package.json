@@ -1,6 +1,6 @@
 {
   "name": "@wox/wox",
-  "version": "2.1.18",
+  "version": "2.1.19",
   "description": "Wox application framework",
   "main": "index.js",
   "repository": {
@@ -11,7 +11,6 @@
     "server"
   ],
   "files": [
-    "dist",
     "src",
     "index.js",
     "README.md"
@@ -26,7 +25,9 @@
     "vue": "^2.6.6"
   },
   "dependencies": {
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "uppercamelcase": "^3.0.0",
+    "url-parse": "^1.4.4"
   },
   "scripts": {
     "build": "node scripts/build.js",
