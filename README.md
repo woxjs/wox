@@ -63,7 +63,7 @@ export default class IndexController {
     const timestamp = await this.ctx.post('/timestamp');
     return <IndexPage timestamp={timestamp} />
   }
-  
+
   @Http.Post('/timestamp')
   @Interface.Service('index', IndexService)
   async TimeStamp({ Service }) {
@@ -73,7 +73,7 @@ export default class IndexController {
 }
 ```
 
-### preview
+### Screenshots
 
 <p align="center"><img src="./assets/wox.png" width="300" alt="preview"></p>
 
