@@ -3,7 +3,6 @@ import ContextConstructor from './context';
 import RequestConstructor from './request';
 import ResponseConstructor from './response';
 import Compose from './compose';
-import WoxError from './error';
 import Emiter from '../helper/events';
 
 export default class ApplicationService extends History {
@@ -76,7 +75,7 @@ export default class ApplicationService extends History {
     options.isapi = true;
     if (!this.history_installed) throw ContextConstructor.error('No history installed', 502);
     const result = await super.history_run_process(options);
-    if (result instanceof WoxError) throw result;
+    if (result instanceof Error) throw result;
     return result;
   }
 

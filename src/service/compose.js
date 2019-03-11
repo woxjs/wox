@@ -1,10 +1,9 @@
-import WoxError from './error';
 export default function compose(middleware) {
   return function(context, next) {
     let index = -1;
     return dispatch(0);
     function dispatch(i) {
-      if (i <= index) return Promise.reject(new WoxError('[compose] next() called multiple times'));
+      if (i <= index) return Promise.reject(new Error('[compose] next() called multiple times'));
       index = i;
       let fn = middleware[i];
       if (i === middleware.length) fn = next;
