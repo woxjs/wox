@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import WoxError from './service/error';
 import { PluginModule } from './plugin';
 import upperCamelCase from 'uppercamelcase';
 import WoxViewPage from './helper/view-page';
@@ -35,7 +34,7 @@ export default class Parser {
     const mixins = this.configs.mixin;
     components.forEach(context => {
       this.ContextEach(context, (key, component) => {
-        if (!component.name) throw new WoxError(`component miss name option in ${key}.`);
+        if (!component.name) throw app.context.error(`component miss name option in ${key}.`);
         Vue.component(component.name, component);
       });
     });

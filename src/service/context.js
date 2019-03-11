@@ -1,9 +1,11 @@
 import delegator from './delegator';
-import WoxError from './error';
-
+const CUSTOM_ERROR_NAME = 'Wox Error';
 const proto = {
   error(msg, code = 500) {
-    return new WoxError(msg instanceof Error ? msg.message : msg, code);
+    if (!(msg instanceof Error)) msg = new Error(msg);
+    msg.name = CUSTOM_ERROR_NAME;
+    msg.status = msg.code = code || 500;
+    return msg;
   },
   render(webview, props) {
     this.status = 200;
