@@ -10,3 +10,4 @@ perf
 npm-debug.log
 .vscode
 .wox.js
+dist
