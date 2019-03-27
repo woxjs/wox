@@ -3,11 +3,11 @@ sidebarDepth: 4
 ---
 # 接口
 
-我们约定下一些特殊的命名：
+为了便于交流，请让我们在使用wox的开发过程中遵照一些命名约定：
 
-- **wox** 表示`require('@wox/wox)`返回的对象，即全局对象。
-- **app** 表示`new wox()`后的对象，即实例化对象，或应用对象。
-- **ctx** 表示虚拟请求对象上下文。
+- **wox** 表示`require('@wox/wox)`返回的对象。
+- **app** 表示 Wox 的实例。
+- **ctx** 表示虚拟请求的上下文对象。
 
 ## 全局API
 
@@ -120,7 +120,7 @@ this.ctx.params.id
 
 ### vm.$app
 
-`this.$app`返回app对象
+`this.$app` 返回app对象
 
 ### vm.$get
 
@@ -273,7 +273,7 @@ app对象的顶层路由对象，具体参考[koa-router](https://github.com/Zij
 
 当前的环境变量
 
-### app.$vue
+### app.$vue 建议更名为：app.$vm
 
 Vue实例化后被挂载到app上到对象，也就是根`vm`
 
@@ -330,8 +330,10 @@ app.$fetch({
 ## 虚拟请求对象
 
 ### ctx.app
+指向当前项目中的Wox实例。
 
-app对象
+### ctx.render
+可以把这个方法看作是由 Vue 提供的 [createElement](https://cn.vuejs.org/v2/guide/render-function.html#createElement-%E5%8F%82%E6%95%B0) 函数的别名。
 
 ### ctx.req
 
@@ -342,7 +344,6 @@ request 对象
 response 对象
 
 ### ctx.status
-
 状态码
 
 ### ctx.id
