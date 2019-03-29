@@ -1,20 +1,20 @@
-import delegator from './delegator';
-const CUSTOM_ERROR_NAME = 'Wox Error';
+import delegator from './delegator'
+const CUSTOM_ERROR_NAME = 'Wox Error'
 const proto = {
-  error(msg, code = 500) {
-    if (!(msg instanceof Error)) msg = new Error(msg);
-    msg.name = CUSTOM_ERROR_NAME;
-    msg.status = msg.code = code || 500;
-    return msg;
+  error (msg, code = 500) {
+    if (!(msg instanceof Error)) msg = new Error(msg)
+    msg.name = CUSTOM_ERROR_NAME
+    msg.status = msg.code = code || 500
+    return msg
   },
-  render(webview, props) {
-    this.status = 200;
-    return this.app.render(webview, props);
+  render (webview, props) {
+    this.status = 200
+    return this.app.render(webview, props)
   }
-};
+}
 
-const response = new delegator(proto, 'response');
-const request = new delegator(proto, 'request');
+const response = new delegator(proto, 'response')
+const request = new delegator(proto, 'request')
 
 response.method('redirect')
   .method('replace')
@@ -23,7 +23,7 @@ response.method('redirect')
   .method('get')
   .method('post')
   .method('put')
-  .method('delete');
+  .method('delete')
 
 request.access('search')
   .access('method')
@@ -37,7 +37,7 @@ request.access('search')
   .getter('hostname')
   .getter('secure')
   .getter('isapi')
-  .access('referer');
+  .access('referer')
 
 
-export default proto;
+export default proto

@@ -1,74 +1,74 @@
-import 'reflect-metadata';
-import { Methods } from './index';
-export const Http = {};
-export const Interface = {};
+import 'reflect-metadata'
+import { Methods } from './index'
+export const Http = {}
+export const Interface = {}
 
 Methods.forEach(method => {
   Http[method] = (path, key, desc) => {
     if (typeof path === 'string') {
       return (target, propertyKey, descriptor) => {
-        let HttpMetaData = Reflect.getMetadata('Http', descriptor.value);
-        if (!HttpMetaData) HttpMetaData = [];
+        let HttpMetaData = Reflect.getMetadata('Http', descriptor.value)
+        if (!HttpMetaData) HttpMetaData = []
         HttpMetaData.unshift({
           method: method,
           prefix: path === '/' ? '(/?)' : path
-        });
-        Reflect.defineMetadata('Http', HttpMetaData, descriptor.value);
+        })
+        Reflect.defineMetadata('Http', HttpMetaData, descriptor.value)
       }
     } else {
-      let HttpMetaData = Reflect.getMetadata('Http', desc.value);
-      if (!HttpMetaData) HttpMetaData = [];
+      let HttpMetaData = Reflect.getMetadata('Http', desc.value)
+      if (!HttpMetaData) HttpMetaData = []
       HttpMetaData.unshift({
         method: method,
         prefix: '(/?)'
-      });
-      Reflect.defineMetadata('Http', HttpMetaData, desc.value);
+      })
+      Reflect.defineMetadata('Http', HttpMetaData, desc.value)
     }
   }
-});
+})
 
-export function Controller(prefix) {
+export function Controller (prefix) {
   if (typeof prefix === 'function') {
-    Reflect.defineMetadata('Controller', '(/?)', prefix);
-    return Reflect.defineMetadata('Index', 99, prefix);
+    Reflect.defineMetadata('Controller', '(/?)', prefix)
+    return Reflect.defineMetadata('Index', 99, prefix)
   }
-  return target => Reflect.defineMetadata('Controller', prefix === '/' ? '(/?)' : prefix, target);
+  return target => Reflect.defineMetadata('Controller', prefix === '/' ? '(/?)' : prefix, target)
 }
 
-export function Index(i) {
+export function Index (i) {
   return (target, propertyKey, descriptor) => {
     if (!propertyKey && !descriptor) {
-      return Reflect.defineMetadata('Index', i, target);
+      return Reflect.defineMetadata('Index', i, target)
     }
   }
 }
 
-export function Middleware(...args) {
+export function Middleware (...args) {
   return (target, propertyKey, descriptor) => {
     if (!propertyKey && !descriptor) {
-      let parentMiddlewares = Reflect.getMetadata('Middleware', target);
-      if (!parentMiddlewares) parentMiddlewares = [];
-      parentMiddlewares.unshift(...args);
-      Reflect.defineMetadata('Middleware', parentMiddlewares, target);
+      let parentMiddlewares = Reflect.getMetadata('Middleware', target)
+      if (!parentMiddlewares) parentMiddlewares = []
+      parentMiddlewares.unshift(...args)
+      Reflect.defineMetadata('Middleware', parentMiddlewares, target)
     } else {
-      let childMiddlewares = Reflect.getMetadata('Middleware', target);
-      if (!childMiddlewares) childMiddlewares = [];
-      childMiddlewares.unshift(...args);
-      Reflect.defineMetadata('Middleware', childMiddlewares, descriptor.value);
+      let childMiddlewares = Reflect.getMetadata('Middleware', target)
+      if (!childMiddlewares) childMiddlewares = []
+      childMiddlewares.unshift(...args)
+      Reflect.defineMetadata('Middleware', childMiddlewares, descriptor.value)
     }
   }
 }
 
-export function Param(id, ...args) {
+export function Param (id, ...args) {
   return (target, propertyKey, descriptor) => {
     if (!propertyKey && !descriptor) {
-      let Params = Reflect.getMetadata('Param', target);
-      if (!Params) Params = [];
+      let Params = Reflect.getMetadata('Param', target)
+      if (!Params) Params = []
       Params.push({
         id: id,
         middlewares: args
-      });
-      Reflect.defineMetadata('Param', Params, target);
+      })
+      Reflect.defineMetadata('Param', Params, target)
     }
   }
 }

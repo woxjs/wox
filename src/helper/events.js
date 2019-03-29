@@ -1,5 +1,5 @@
 export default class EventEmitter {
-  static get Methods() {
+  static get Methods () {
     return [
       'on',
       'off',
@@ -13,69 +13,68 @@ export default class EventEmitter {
       'listeners'
     ]
   }
-  constructor() {
-    this._eventStacks = {};
+  constructor () {
+    this._eventStacks = {}
   }
 
-  on(name, listener) {
-    this.addListener(name, listener);
+  on (name, listener) {
+    this.addListener(name, listener)
   }
 
-  off(name, listener) {
-    this.removeListener(name, listener);
+  off (name, listener) {
+    this.removeListener(name, listener)
   }
 
-  addListener(name, listener) {
+  addListener (name, listener) {
     if (!this._eventStacks[name]) {
-      this._eventStacks[name] = [];
+      this._eventStacks[name] = []
     }
-    this._eventStacks[name].push(listener);
+    this._eventStacks[name].push(listener)
   }
 
-  removeListener(name, listener) {
-    const listeners = this.listeners(name);
-    const index = listeners.indexOf(listener);
+  removeListener (name, listener) {
+    const listeners = this.listeners(name)
+    const index = listeners.indexOf(listener)
     if (index > -1) {
-      listeners.splice(index, 1);
+      listeners.splice(index, 1)
       if (this.listenerCount(name) === 0) {
-        this.removeAllListeners(name);
+        this.removeAllListeners(name)
       }
     }
   }
 
-  prependListener(name, listener) {
+  prependListener (name, listener) {
     if (!this._eventStacks[name]) {
-      this._eventStacks[name] = [];
+      this._eventStacks[name] = []
     }
-    this._eventStacks[name].unshift(listener);
+    this._eventStacks[name].unshift(listener)
   }
 
-  removeAllListeners(name) {
+  removeAllListeners (name) {
     if (this._eventStacks[name]) {
-      delete this._eventStacks[name];
+      delete this._eventStacks[name]
     }
   }
 
-  async emit(name, ...args) {
-    const listeners = this.listeners(name);
-    if (!listeners) return;
+  async emit (name, ...args) {
+    const listeners = this.listeners(name)
+    if (!listeners) return
     for (let i = 0; i < listeners.length; i++) {
-      const listener = listeners[i];
-      await listener(...args);
+      const listener = listeners[i]
+      await listener(...args)
     }
   }
 
-  eventNames() {
-    return Object.keys(this._eventStacks);
+  eventNames () {
+    return Object.keys(this._eventStacks)
   }
 
-  listenerCount(name) {
-    const listeners = this.listeners(name);
-    return listeners ? listeners.length : 0;
+  listenerCount (name) {
+    const listeners = this.listeners(name)
+    return listeners ? listeners.length : 0
   }
 
-
-  listeners(name) {
-    return this._eventStacks[name];
+  listeners (name) {
+    return this._eventStacks[name]
   }
 }

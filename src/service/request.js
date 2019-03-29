@@ -1,35 +1,35 @@
 export default {
-  get url() {
-    return this.req.href;
+  get url () {
+    return this.req.href
   },
-  get method() {
-    return this.req.method || 'GET';
+  get method () {
+    return this.req.method || 'GET'
   },
-  get path() {
-    return this.req.pathname;
+  get path () {
+    return this.req.pathname
   },
-  get query() {
-    return this.req.query;
+  get query () {
+    return this.req.query
   },
-  get search() {
-    return this.req.search;
+  get search () {
+    return this.req.search
   },
-  get host() {
-    return this.req.host;
+  get host () {
+    return this.req.host
   },
-  get hostname() {
-    return this.req.hostname;
+  get hostname () {
+    return this.req.hostname
   },
-  get protocol() {
-    return this.req.protocol;
+  get protocol () {
+    return this.req.protocol
   },
-  get secure() {
-    return 'https' === this.protocol;
+  get secure () {
+    return this.protocol === 'https'
   },
-  get isapi() {
-    return this.req.isapi;
+  get isapi () {
+    return this.req.isapi
   },
-  get referer() {
-    return this.req.referer;
+  get referer () {
+    return this.req.referer
   }
-};
+}

@@ -372,7 +372,7 @@ response 对象
 
 ### ctx.query
 
-当前请求参数
+返回当前请求的查询参数
 
 ### ctx.search
 
