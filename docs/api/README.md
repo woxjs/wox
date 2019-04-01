@@ -5,7 +5,7 @@ sidebarDepth: 4
 
 为了便于交流，请让我们在使用wox的开发过程中遵照一些命名约定：
 
-- **wox** 表示`require('@wox/wox)`返回的对象。
+- **wox** 表示由`require('@wox/wox)`返回的对象。
 - **app** 表示 Wox 的实例。
 - **ctx** 表示虚拟请求的上下文对象。
 
@@ -13,16 +13,16 @@ sidebarDepth: 4
 
 ### wox.Wox
 
-wox.Wox(configs: object)
+wox.Wox(config: object)
 
 它是应用对象的母体
 
 *参数：*
 
-- **configs** `.wox.js`文件 [配置](/guide/runtime.html#webpack%E8%81%9A%E5%90%88%E6%96%87%E4%BB%B6-wox-js)
+- **config** `.wox.js`文件 [配置](/guide/runtime.html#webpack%E8%81%9A%E5%90%88%E6%96%87%E4%BB%B6-wox-js)
 
 ```javascript
-const app = new wox.Wox(configs);
+const app = new wox.Wox(config);
 ```
 
 > 注意：一般我们不会直接使用这个对象，供后期`TypeScript`化时候引用。
@@ -239,10 +239,10 @@ this.ctx.params.id
 
 ### app.$parser
 
-我们只需要关注一个对象`configs`，用来提起`.wox.js`中的数据。
+我们只需要关注一个对象`config`，用来提起`.wox.js`中的数据。
 
 ```javascript
-app.$parser.configs;
+app.$parser.config;
 ```
 
 ### app.$plugin
