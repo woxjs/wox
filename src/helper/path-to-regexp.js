@@ -4,7 +4,7 @@
 export default pathToRegexp
 
 /**
- * Default configs.
+ * Default config.
  */
 var DEFAULT_DELIMITER = '/'
 

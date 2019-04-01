@@ -14,14 +14,14 @@ export * from './helper/decorate'
 export default class Wox extends Application {
   constructor (config) {
     const parser = new Parser(config)
-    const parsedConfigs = parser.render()
-    super(parsedConfigs.custom_configs.mode || 'hash')
+    const parsedconfig = parser.render()
+    super(parsedconfig.custom_config.mode || 'hash')
     Vue.prototype.$app = this
     this.$parser = parser
     this.$router = new Router()
     this.$env = process.env.NODE_ENV || 'development'
-    this.$plugin = new Container(parsedConfigs.plugin_configs)
-    Object.defineProperty(this, '$config', { get () { return parsedConfigs.custom_configs } })
+    this.$plugin = new Container(parsedconfig.plugin_config)
+    Object.defineProperty(this, '$config', { get () { return parsedconfig.custom_config } })
     parser.VueInjectRender(this)
   }
 

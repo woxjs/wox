@@ -5,7 +5,7 @@ import WoxViewPage from './helper/view-page'
 import WoxVueDirectives from './helper/directive'
 export default class Parser {
   constructor (data = {}) {
-    this.configs = data
+    this.config = data
     this.result = {}
   }
 
@@ -16,21 +16,21 @@ export default class Parser {
   }
 
   CustomConfigRender () {
-    const result = this.configs.custom_configs || []
+    const result = this.config.custom_config || []
     const res = result.map(ret => ret.default || ret)
-    this.result.custom_configs = Object.assign({}, ...res)
+    this.result.custom_config = Object.assign({}, ...res)
   }
 
   PluginConfigRender () {
-    const result = this.configs.plugin_configs || {}
-    this.result.plugin_configs = result.default || result
+    const result = this.config.plugin_config || {}
+    this.result.plugin_config = result.default || result
   }
 
   VueInjectRender (app) {
-    const components = this.configs.component
-    const directives = this.configs.directive
-    const filters = this.configs.filter
-    const mixins = this.configs.mixin
+    const components = this.config.component
+    const directives = this.config.directive
+    const filters = this.config.filter
+    const mixins = this.config.mixin
     components.forEach(context => {
       this.ContextEach(context, (key, component) => {
         if (!component.name) throw app.context.error(`component miss name option in ${key}.`)
@@ -65,7 +65,7 @@ export default class Parser {
   }
 
   async PluginRender (app) {
-    const bootstraps = this.configs.bootstrap
+    const bootstraps = this.config.bootstrap
     for (let i = 0; i < bootstraps.length; i++) {
       const bootstrap = bootstraps[i]
       const args = [app]
@@ -77,7 +77,7 @@ export default class Parser {
 
   ControllerRender () {
     const _controllers = []
-    const controllers = this.configs.controller
+    const controllers = this.config.controller
     for (let i = 0; i < controllers.length; i++) {
       const controllerContext = controllers[i]
       this.ContextEach(controllerContext, (key, controller) => {
@@ -92,7 +92,7 @@ export default class Parser {
   }
 
   DecorateRender (app) {
-    const decorates = this.configs.decorate
+    const decorates = this.config.decorate
     decorates.forEach(decorateContext => {
       this.ContextEach(decorateContext, (key, decorate) => app.$plugin.setDecorate(decorate))
     })
@@ -137,7 +137,7 @@ export default class Parser {
         this.installed = true
       },
       render: h => {
-        if (this.configs.view) return h(this.configs.view.default || this.configs.view)
+        if (this.config.view) return h(this.config.view.default || this.config.view)
         return h(WoxViewPage)
       }
     }
