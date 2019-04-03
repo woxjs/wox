@@ -1,6 +1,6 @@
 {
   "name": "@wox/wox",
-  "version": "2.1.23",
+  "version": "2.1.24",
   "description": "Wox application framework",
   "main": "index.js",
   "repository": {
@@ -32,7 +32,8 @@
   "scripts": {
     "build": "node scripts/build.js",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "docs:deploy": "sh deploy.sh"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",

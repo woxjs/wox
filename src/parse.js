@@ -114,7 +114,7 @@ export default class Parser {
       if (Vue.prototype[param]) throw new Error(`'${param}' is inject on vue.js`)
       Vue.prototype[$param] = (...args) => {
         let name = $param
-        if (param === 'del') name = '$del'
+        if (param === 'del') name = 'delete'
         if (typeof app[name] === 'function') {
           return app[name](...args)
         }
