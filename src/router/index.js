@@ -180,7 +180,7 @@ function Router (opts) {
 Methods.forEach(method => {
   Router.prototype[method.toLowerCase()] = function (name, path, middleware) {
     var middleware
-  
+
     if (typeof path === 'string' || path instanceof RegExp) {
       middleware = Array.prototype.slice.call(arguments, 2)
     } else {
@@ -192,7 +192,7 @@ Methods.forEach(method => {
     this.register(path, [method.toUpperCase()], middleware, {
       name: name
     })
-  
+
     return this
   }
 })
@@ -268,7 +268,7 @@ Router.prototype.use = function () {
   })
 
   return this
-};
+}
 
 /**
  * Set the path prefix for a Router instance that was already initialized.
@@ -293,7 +293,7 @@ Router.prototype.prefix = function (prefix) {
   })
 
   return this
-};
+}
 
 /**
  * Returns router middleware which dispatches a route matching the request.
@@ -337,12 +337,12 @@ Router.prototype.routes = Router.prototype.middleware = function () {
     }, [])
 
     return compose(layerChain)(ctx, next)
-  };
+  }
 
   dispatch.router = this
 
   return dispatch
-};
+}
 
 /**
  * Register route with all methods.
@@ -371,7 +371,7 @@ Router.prototype.all = function (name, path, middleware) {
   })
 
   return this
-};
+}
 
 /**
  * Create and register a route.
@@ -420,7 +420,7 @@ Router.prototype.register = function (path, methods, middleware, opts) {
   stack.push(route)
 
   return route
-};
+}
 
 /**
  * Lookup route with given `name`.
@@ -439,7 +439,7 @@ Router.prototype.route = function (name) {
   }
 
   return false
-};
+}
 
 /**
  * Match given `path` and return corresponding routes.
@@ -463,7 +463,6 @@ Router.prototype.match = function (path, method) {
   for (var len = layers.length, i = 0; i < len; i++) {
     layer = layers[i]
 
-
     if (layer.match(path)) {
       matched.path.push(layer)
 
@@ -475,7 +474,7 @@ Router.prototype.match = function (path, method) {
   }
 
   return matched
-};
+}
 
 /**
  * Run middleware for named route parameters. Useful for auto-loading or
@@ -513,4 +512,4 @@ Router.prototype.param = function (param, middleware) {
     route.param(param, middleware)
   })
   return this
-};
+}

@@ -241,18 +241,17 @@ export default class UnknownDecorate extends DecorateInterface {
 
 ```javascript
 import { Http, Controller, Interface } from '@wox/wox';
-@Controller('/test')
+@Controller()
 export default class IndexController {
   @Http.Get('/value')
   @Interface.Unknown(123)
   async Home({ list }) {
-    this.ctx.body = { abc: list };
-    // => list: [123, 456]
+    return { abc: list }
   }
 }
-```
 
-当我们访问`/test/value`路由的时候，内部返回的值为`{abc: [123, 456]}`。
+// 此后，当wox应用程序请求`/value`地址时，路由器返回的数据为`{abc: [123, 456]}`。
+```
 
 
 ## Bootstrap render

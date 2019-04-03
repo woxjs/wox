@@ -85,9 +85,9 @@ npm run dev
 
 文件夹`/app/`下为主要的项目文件目录。主要有以下目录结构：
 
-- `controller/` controller文件存放
-- `middleware/` middleware中间件文件存放
-- `service/` service model层文件存放
+- `controller/` controller的作用类似与vue-router，用于存放可异步获取的数据的路由规则。
+- `middleware/` middleware文件夹存放用于改装虚拟请求的中间件。
+- `service/` service文件夹用于存放
 - `webview/` 同步页面文件存放
 - `vue/component/` 组件文件存放
 - `vue/directives/` 指令文件存放

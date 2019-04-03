@@ -83,13 +83,13 @@ wox.Index(i: number)
 
 ### wox.Middleware
 
-wox.Middleware(...midwares: Middleware)
+wox.Middleware(...middlewares: Middleware)
 
 中间件集合，表示这个路由所需要进过的中间件。
 
 *参数：*
 
-- **midwares** [中间件](https://hijiangtao.github.io/2017/11/10/Mastering-Koa-Middleware/)
+- **middlewares** [中间件](https://hijiangtao.github.io/2017/11/10/Mastering-Koa-Middleware/)
 
 ```javascript
 @Http.Get
@@ -102,7 +102,7 @@ wox.Middleware(...midwares: Middleware)
 
 ### wox.Param
 
-wox.Param(name: string, midw: Middleware)
+wox.Param(name: string, middleware: Middleware)
 
 param是中间件的特殊用法。具体看[这里](http://17koa.com/koa-generator-examples/http/get/params.html)
 
