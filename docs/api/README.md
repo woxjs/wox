@@ -54,13 +54,13 @@ const app = new wox.Wox(config);
 
 ### wox.Controller
 
-wox.Controller(prefix: string)
+wox.Controller(path: string)
 
 注解Controller。
 
 *参数：*
 
-- **prefix** prefix前缀路由
+- **path** 路由器
 
 ```javascript
 @Controller('/api')
@@ -140,6 +140,10 @@ this.ctx.params.id
 
 ### vm.$redirect
 
+*作用：*
+转跳到指定的url。这个方法会向 `history` 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。
+
+*用法：*
 `vm.$redirect(url: string, sync: boolean)`
 
 *参数：*
@@ -148,8 +152,11 @@ this.ctx.params.id
 - **sync** 是否同步跳转
 
 ### vm.$repalce
+*作用：*
+把当前页面的url替换为指定的url。（此方法跟 $redirect 方法的区别在于，它不会向 `history` 栈添加新记录）
 
-`vm.$repalce(url: string, sync: boolean)`
+*用法：*
+`vm.$replace(url: string, sync: boolean)`
 
 *参数：*
 
@@ -157,37 +164,48 @@ this.ctx.params.id
 - **sync** 是否同步跳转
 
 ### vm.$reload
+*作用：*
+让整个app重新走一遍生命周期。
 
+*用法：*
 `vm.$reload()`
-
-重载路由。
 
 
 ## Vue 扩展指令
-
 ### v-redirect
+*作用：*
+相当于 `v-on:click="$redirect"`
 
+*用法：*
 `v-redirect:sync="url"` 或者 `v-redirect="url"`
 
-跳转地址
+*参数：*
+同 [vm.$redirect](#vm.$redirect)
 
 ### v-replace
+*作用：*
+相当于 `v-on:click="$replace"`
 
+*用法：*
 `v-replace:sync="url"` 或者 `v-replace="url"`
 
-替换地址
+*参数：*
+同 [vm.$replace](#vm.$replace)
 
 ### v-reload
+*作用：*
+相当于 `v-on:click="$reload"`
 
-`v-replace`
+*用法：*
+`v-reload="url"`
 
-重载路由。
+*参数：*
+同 [vm.$reload](#vm.$reload)
 
 ## Vue 扩展生命周期
-
 ### enter
-
-在webview中注入了`enter`生命周期
+wox-cli 会对`webview`文件夹内的.vue文件中注入`enter`生命周期钩子。
+这个钩子会在页面的路由导航选择其所在的.vue文件时触发。
 
 ```vue {10,11,12}
 <template>
@@ -212,7 +230,8 @@ this.ctx.params.id
 
 ### leave
 
-在webview中注入了`leave`生命周期
+wox-cli 会对`webview`文件夹内的.vue文件中注入`leave`生命周期钩子。
+这个钩子会在页面的路由导航离开其所在的.vue文件时触发。
 
 ```vue {10,11,12}
 <template>
@@ -246,24 +265,26 @@ app.$parser.config;
 ```
 
 ### app.$plugin
+*作用：*
+引用当前wox应用程序的插件对象列表，以用于管理插件。
+*数据类型：*
+array
 
-插件树对象。管理插件。
-
-#### app.$plugin.setDecorate(clazz)
+#### app.$plugin.setDecorate(class)
 
 添加一个注解
 
-#### app.$plugin.set(name, target)
+#### app.$plugin.set(name, targetPlugin)
 
-添加一个名为`name`的插件`target`对象到插件树中
+把`targetPlugin`添加到插件树中，并取名为 `name`。
 
 #### app.$plugin.get(name)
 
-获取一个名为`name`的插件
+获取名为`name`的插件。
 
 #### app.$plugin.getConfig(name)
 
-获取一个名为`name`的插件的配置参数
+获取名为`name`的插件的配置参数。
 
 ### app.$router
 
@@ -275,7 +296,7 @@ app对象的顶层路由对象，具体参考[koa-router](https://github.com/Zij
 
 ### app.$vue 建议更名为：app.$vm
 
-Vue实例化后被挂载到app上到对象，也就是根`vm`
+返回Vue实例树中的根实例
 
 ### app.$fetch
 
@@ -363,16 +384,20 @@ response 对象
 当前请求url
 
 ### ctx.method
-
-当前请求方式
+*作用：*
+获取当前请求的发送方式
+*数据类型：*
+`'get'` 或者 `'post'`
 
 ### ctx.path
-
-当前请求路径
+*作用：*
+获取当前请求的路径
+*数据类型：*
+PathString
 
 ### ctx.query
-
-返回当前请求的查询参数
+*作用：*
+获取当前请求的查询参数
 
 ### ctx.search
 
