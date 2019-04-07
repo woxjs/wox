@@ -29,7 +29,9 @@ module.exports = {
         ''
       ],
       '/cli/': [
-        ''
+        '',
+        'factory',
+        'wox'
       ],
       '/plugins/': [
         '',
