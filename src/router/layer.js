@@ -1,6 +1,6 @@
-import pathToRegExp from '../helper/path-to-regexp'
+import pathToRegExp from '../helper/path-to-regexp';
 
-export default Layer
+export default Layer;
 
 /**
  * Initialize a new routing Layer with given `method`, `path`, and `middleware`.
@@ -16,33 +16,33 @@ export default Layer
  * @private
  */
 
-function Layer (path, methods, middleware, opts) {
-  this.opts = opts || {}
-  this.name = this.opts.name || null
-  this.methods = []
-  this.paramNames = []
-  this.stack = Array.isArray(middleware) ? middleware : [middleware]
+function Layer(path, methods, middleware, opts) {
+  this.opts = opts || {};
+  this.name = this.opts.name || null;
+  this.methods = [];
+  this.paramNames = [];
+  this.stack = Array.isArray(middleware) ? middleware : [middleware];
 
-  methods.forEach(function (method) {
-    var l = this.methods.push(method.toUpperCase())
-    if (this.methods[l - 1] === 'GET') {
-      this.methods.unshift('HEAD')
+  methods.forEach(function(method) {
+    var l = this.methods.push(method.toUpperCase());
+    if (this.methods[l-1] === 'GET') {
+      this.methods.unshift('HEAD');
     }
-  }, this)
+  }, this);
 
   // ensure middleware is a function
-  this.stack.forEach(function (fn) {
-    var type = (typeof fn)
+  this.stack.forEach(function(fn) {
+    var type = (typeof fn);
     if (type !== 'function') {
       throw new Error(
-        methods.toString() + ' `' + (this.opts.name || path) + '`: `middleware` ' +
-        'must be a function, not `' + type + '`'
-      )
+        methods.toString() + " `" + (this.opts.name || path) +"`: `middleware` "
+        + "must be a function, not `" + type + "`"
+      );
     }
-  }, this)
+  }, this);
 
-  this.path = path
-  this.regexp = pathToRegExp(path, this.paramNames, this.opts)
+  this.path = path;
+  this.regexp = pathToRegExp(path, this.paramNames, this.opts);
 };
 
 /**
@@ -54,7 +54,7 @@ function Layer (path, methods, middleware, opts) {
  */
 
 Layer.prototype.match = function (path) {
-  return this.regexp.test(path)
+  return this.regexp.test(path);
 };
 
 /**
@@ -68,16 +68,16 @@ Layer.prototype.match = function (path) {
  */
 
 Layer.prototype.params = function (path, captures, existingParams) {
-  var params = existingParams || {}
+  var params = existingParams || {};
 
-  for (var len = captures.length, i = 0; i < len; i++) {
+  for (var len = captures.length, i=0; i<len; i++) {
     if (this.paramNames[i]) {
-      var c = captures[i]
-      params[this.paramNames[i].name] = c ? safeDecodeURIComponent(c) : c
+      var c = captures[i];
+      params[this.paramNames[i].name] = c ? safeDecodeURIComponent(c) : c;
     }
   }
 
-  return params
+  return params;
 };
 
 /**
@@ -89,8 +89,8 @@ Layer.prototype.params = function (path, captures, existingParams) {
  */
 
 Layer.prototype.captures = function (path) {
-  if (this.opts.ignoreCaptures) return []
-  return path.match(this.regexp).slice(1)
+  if (this.opts.ignoreCaptures) return [];
+  return path.match(this.regexp).slice(1);
 };
 
 /**
@@ -117,18 +117,18 @@ Layer.prototype.captures = function (path) {
  */
 
 Layer.prototype.param = function (param, fn) {
-  var stack = this.stack
-  var params = this.paramNames
+  var stack = this.stack;
+  var params = this.paramNames;
   var middleware = function (ctx, next) {
-    return fn.call(this, ctx.params[param], ctx, next)
+    return fn.call(this, ctx.params[param], ctx, next);
   };
-  middleware.param = param
+  middleware.param = param;
 
   var names = params.map(function (p) {
-    return p.name
-  })
+    return p.name;
+  });
 
-  var x = names.indexOf(param)
+  var x = names.indexOf(param);
   if (x > -1) {
     // iterate through the stack, to figure out where to place the handler fn
     stack.some(function (fn, i) {
@@ -136,13 +136,13 @@ Layer.prototype.param = function (param, fn) {
       // if the param handler at this part of the stack comes after the one we are adding, stop here
       if (!fn.param || names.indexOf(fn.param) > x) {
         // inject this param handler right before the current item
-        stack.splice(i, 0, middleware)
-        return true // then break the loop
+        stack.splice(i, 0, middleware);
+        return true; // then break the loop
       }
-    })
+    });
   }
 
-  return this
+  return this;
 };
 
 /**
@@ -155,12 +155,12 @@ Layer.prototype.param = function (param, fn) {
 
 Layer.prototype.setPrefix = function (prefix) {
   if (this.path) {
-    this.path = prefix + this.path
-    this.paramNames = []
-    this.regexp = pathToRegExp(this.path, this.paramNames, this.opts)
+    this.path = prefix + this.path;
+    this.paramNames = [];
+    this.regexp = pathToRegExp(this.path, this.paramNames, this.opts);
   }
-
-  return this
+  
+  return this;
 };
 
 /**
@@ -172,10 +172,10 @@ Layer.prototype.setPrefix = function (prefix) {
  * @private
  */
 
-function safeDecodeURIComponent (text) {
+function safeDecodeURIComponent(text) {
   try {
-    return decodeURIComponent(text)
+    return decodeURIComponent(text);
   } catch (e) {
-    return text
+    return text;
   }
 }

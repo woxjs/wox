@@ -5,15 +5,15 @@
  * @link https://github.com/alexmingoia/koa-router
  */
 
-import compose from '../service/compose'
-import Layer from './layer'
-import { Methods } from '../helper/index'
+import compose from '../service/compose';
+import Layer from './layer';
+import { Methods } from '../helper/index';
 
 /**
  * @module koa-router
  */
 
-export default Router
+export default Router;
 
 /**
  * Create a new router.
@@ -44,18 +44,18 @@ export default Router
  * @constructor
  */
 
-function Router (opts) {
+function Router(opts) {
   if (!(this instanceof Router)) {
-    return new Router(opts)
+    return new Router(opts);
   }
 
-  this.opts = opts || {}
+  this.opts = opts || {};
   this.methods = this.opts.methods || [
     'GET'
-  ]
+  ];
 
-  this.params = {}
-  this.stack = []
+  this.params = {};
+  this.stack = [];
 };
 
 /**
@@ -182,23 +182,23 @@ Methods.forEach(method => {
     var middleware
 
     if (typeof path === 'string' || path instanceof RegExp) {
-      middleware = Array.prototype.slice.call(arguments, 2)
+      middleware = Array.prototype.slice.call(arguments, 2);
     } else {
-      middleware = Array.prototype.slice.call(arguments, 1)
-      path = name
-      name = null
+      middleware = Array.prototype.slice.call(arguments, 1);
+      path = name;
+      name = null;
     }
-
+  
     this.register(path, [method.toUpperCase()], middleware, {
       name: name
     })
 
     return this
   }
-})
+});
 
 // Alias for `router.delete()` because delete is a reserved word
-Router.prototype.del = Router.prototype['delete']
+Router.prototype.del = Router.prototype['delete'];
 
 /**
  * Use given middleware.
@@ -231,44 +231,44 @@ Router.prototype.del = Router.prototype['delete']
  */
 
 Router.prototype.use = function () {
-  var router = this
-  var middleware = Array.prototype.slice.call(arguments)
-  var path
+  var router = this;
+  var middleware = Array.prototype.slice.call(arguments);
+  var path;
 
   // support array of paths
   if (Array.isArray(middleware[0]) && typeof middleware[0][0] === 'string') {
     middleware[0].forEach(function (p) {
-      router.use.apply(router, [p].concat(middleware.slice(1)))
-    })
+      router.use.apply(router, [p].concat(middleware.slice(1)));
+    });
 
-    return this
+    return this;
   }
 
-  var hasPath = typeof middleware[0] === 'string'
+  var hasPath = typeof middleware[0] === 'string';
   if (hasPath) {
-    path = middleware.shift()
+    path = middleware.shift();
   }
 
   middleware.forEach(function (m) {
     if (m.router) {
       m.router.stack.forEach(function (nestedLayer) {
-        if (path) nestedLayer.setPrefix(path)
-        if (router.opts.prefix) nestedLayer.setPrefix(router.opts.prefix)
-        router.stack.push(nestedLayer)
-      })
+        if (path) nestedLayer.setPrefix(path);
+        if (router.opts.prefix) nestedLayer.setPrefix(router.opts.prefix);
+        router.stack.push(nestedLayer);
+      });
 
       if (router.params) {
         Object.keys(router.params).forEach(function (key) {
-          m.router.param(key, router.params[key])
-        })
+          m.router.param(key, router.params[key]);
+        });
       }
     } else {
-      router.register(path || '(.*)', [], m, { end: false, ignoreCaptures: !hasPath })
+      router.register(path || '(.*)', [], m, { end: false, ignoreCaptures: !hasPath });
     }
-  })
+  });
 
-  return this
-}
+  return this;
+};
 
 /**
  * Set the path prefix for a Router instance that was already initialized.
@@ -284,16 +284,16 @@ Router.prototype.use = function () {
  */
 
 Router.prototype.prefix = function (prefix) {
-  prefix = prefix.replace(/\/$/, '')
+  prefix = prefix.replace(/\/$/, '');
 
-  this.opts.prefix = prefix
+  this.opts.prefix = prefix;
 
   this.stack.forEach(function (route) {
-    route.setPrefix(prefix)
-  })
+    route.setPrefix(prefix);
+  });
 
-  return this
-}
+  return this;
+};
 
 /**
  * Returns router middleware which dispatches a route matching the request.
@@ -302,47 +302,48 @@ Router.prototype.prefix = function (prefix) {
  */
 
 Router.prototype.routes = Router.prototype.middleware = function () {
-  var router = this
+  var router = this;
 
-  var dispatch = function dispatch (ctx, next) {
-    var path = router.opts.routerPath || ctx.routerPath || ctx.path
-    var matched = router.match(path, ctx.method)
-    var layerChain, layer, i
+  var dispatch = function dispatch(ctx, next) {
+
+    var path = router.opts.routerPath || ctx.routerPath || ctx.path;
+    var matched = router.match(path, ctx.method);
+    var layerChain, layer, i;
 
     if (ctx.matched) {
-      ctx.matched.push.apply(ctx.matched, matched.path)
+      ctx.matched.push.apply(ctx.matched, matched.path);
     } else {
-      ctx.matched = matched.path
+      ctx.matched = matched.path;
     }
 
-    ctx.router = router
+    ctx.router = router;
 
-    if (!matched.route) return next()
+    if (!matched.route) return next();
 
     var matchedLayers = matched.pathAndMethod
     var mostSpecificLayer = matchedLayers[matchedLayers.length - 1]
-    ctx._matchedRoute = mostSpecificLayer.path
+    ctx._matchedRoute = mostSpecificLayer.path;
     if (mostSpecificLayer.name) {
-      ctx._matchedRouteName = mostSpecificLayer.name
+      ctx._matchedRouteName = mostSpecificLayer.name;
     }
 
-    layerChain = matchedLayers.reduce(function (memo, layer) {
-      memo.push(function (ctx, next) {
-        ctx.captures = layer.captures(path, ctx.captures)
-        ctx.params = layer.params(path, ctx.captures, ctx.params)
-        ctx.routerName = layer.name
-        return next()
-      })
-      return memo.concat(layer.stack)
-    }, [])
+    layerChain = matchedLayers.reduce(function(memo, layer) {
+      memo.push(function(ctx, next) {
+        ctx.captures = layer.captures(path, ctx.captures);
+        ctx.params = layer.params(path, ctx.captures, ctx.params);
+        ctx.routerName = layer.name;
+        return next();
+      });
+      return memo.concat(layer.stack);
+    }, []);
 
-    return compose(layerChain)(ctx, next)
-  }
+    return compose(layerChain)(ctx, next);
+  };
 
-  dispatch.router = this
+  dispatch.router = this;
 
-  return dispatch
-}
+  return dispatch;
+};
 
 /**
  * Register route with all methods.
@@ -356,22 +357,22 @@ Router.prototype.routes = Router.prototype.middleware = function () {
  */
 
 Router.prototype.all = function (name, path, middleware) {
-  var middleware
+  var middleware;
 
   if (typeof path === 'string') {
-    middleware = Array.prototype.slice.call(arguments, 2)
+    middleware = Array.prototype.slice.call(arguments, 2);
   } else {
-    middleware = Array.prototype.slice.call(arguments, 1)
-    path = name
-    name = null
+    middleware = Array.prototype.slice.call(arguments, 1);
+    path = name;
+    name = null;
   }
 
   this.register(path, methods, middleware, {
     name: name
-  })
+  });
 
-  return this
-}
+  return this;
+};
 
 /**
  * Create and register a route.
@@ -384,18 +385,18 @@ Router.prototype.all = function (name, path, middleware) {
  */
 
 Router.prototype.register = function (path, methods, middleware, opts) {
-  opts = opts || {}
+  opts = opts || {};
 
-  var router = this
-  var stack = this.stack
+  var router = this;
+  var stack = this.stack;
 
   // support array of paths
   if (Array.isArray(path)) {
     path.forEach(function (p) {
-      router.register.call(router, p, methods, middleware, opts)
-    })
+      router.register.call(router, p, methods, middleware, opts);
+    });
 
-    return this
+    return this;
   }
 
   // create route
@@ -404,23 +405,23 @@ Router.prototype.register = function (path, methods, middleware, opts) {
     name: opts.name,
     sensitive: opts.sensitive || this.opts.sensitive || false,
     strict: opts.strict || this.opts.strict || false,
-    prefix: opts.prefix || this.opts.prefix || '',
+    prefix: opts.prefix || this.opts.prefix || "",
     ignoreCaptures: opts.ignoreCaptures
-  })
+  });
 
   if (this.opts.prefix) {
-    route.setPrefix(this.opts.prefix)
+    route.setPrefix(this.opts.prefix);
   }
 
   // add parameter middleware
   Object.keys(this.params).forEach(function (param) {
-    route.param(param, this.params[param])
-  }, this)
+    route.param(param, this.params[param]);
+  }, this);
 
-  stack.push(route)
+  stack.push(route);
 
-  return route
-}
+  return route;
+};
 
 /**
  * Lookup route with given `name`.
@@ -430,16 +431,16 @@ Router.prototype.register = function (path, methods, middleware, opts) {
  */
 
 Router.prototype.route = function (name) {
-  var routes = this.stack
+  var routes = this.stack;
 
-  for (var len = routes.length, i = 0; i < len; i++) {
+  for (var len = routes.length, i=0; i<len; i++) {
     if (routes[i].name && routes[i].name === name) {
-      return routes[i]
+      return routes[i];
     }
   }
 
-  return false
-}
+  return false;
+};
 
 /**
  * Match given `path` and return corresponding routes.
@@ -452,29 +453,29 @@ Router.prototype.route = function (name) {
  */
 
 Router.prototype.match = function (path, method) {
-  var layers = this.stack
-  var layer
+  var layers = this.stack;
+  var layer;
   var matched = {
     path: [],
     pathAndMethod: [],
     route: false
-  }
+  };
 
   for (var len = layers.length, i = 0; i < len; i++) {
-    layer = layers[i]
+    layer = layers[i];
 
     if (layer.match(path)) {
-      matched.path.push(layer)
+      matched.path.push(layer);
 
       if (layer.methods.length === 0 || ~layer.methods.indexOf(method)) {
-        matched.pathAndMethod.push(layer)
-        if (layer.methods.length) matched.route = true
+        matched.pathAndMethod.push(layer);
+        if (layer.methods.length) matched.route = true;
       }
     }
   }
 
-  return matched
-}
+  return matched;
+};
 
 /**
  * Run middleware for named route parameters. Useful for auto-loading or
@@ -507,9 +508,9 @@ Router.prototype.match = function (path, method) {
  */
 
 Router.prototype.param = function (param, middleware) {
-  this.params[param] = middleware
+  this.params[param] = middleware;
   this.stack.forEach(function (route) {
-    route.param(param, middleware)
-  })
-  return this
-}
+    route.param(param, middleware);
+  });
+  return this;
+};
