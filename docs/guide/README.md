@@ -41,6 +41,7 @@ next: ./install
 
 Email: [evio@vip.qq.com](mailto:evio@vip.qq.com)
 
+## 项目结构约定
 ```
 .
 ├─ README.md
@@ -50,53 +51,25 @@ Email: [evio@vip.qq.com](mailto:evio@vip.qq.com)
 ├─ app.vue
 ├─ app.js
 ├─ app
-│  ├─ controller
+│  ├─ controller  // controller的作用类似与vue-router，用于存放响应特定路由的句柄函数。
 │  │  └─ index.js
-│  ├─ middleware
+│  ├─ middleware  // 存放用于改装虚拟请求的中间件
 │  ├─ vue
 │  │  ├─ component
 │  │  ├─ directive
 │  │  ├─ filter
 │  │  └─ mixin
-│  ├─ webview
-│  │  └─ index.vue
-│  └─ service
+│  ├─ webview  // 存放用于响应页面级的路由导航的视图模型配置文件。
+│  │  └─ index.vue 
+│  └─ service  // 
 └─ config
-   ├─ plugin.json
-   ├─ config.development.json
-   ├─ config.production.json
-   ├─ plugin.development.json
-   └─ plugin.production.json
+   ├─ plugin.json  // 插件清单
+   ├─ config.development.json // 当前项目在开发环境中使用的配置文件
+   ├─ config.production.json  // 当前项目在生产环境中使用的配置文件
+   ├─ plugin.development.json // 插件在开发环境中使用的配置文件
+   └─ plugin.production.json  // 插件在生产环境中使用的配置文件
 ```
 
-### 主项目目录
-
-文件夹`/app/`下为主要的项目文件目录。主要有以下目录结构：
-
-- `controller/` controller的作用类似与vue-router，用于存放可异步获取的数据的路由规则。
-- `middleware/` middleware文件夹存放用于改装虚拟请求的中间件。
-- `service/` service文件夹用于存放
-- `webview/` 同步页面文件存放
-- `vue/component/` 组件文件存放
-- `vue/directives/` 指令文件存放
-- `vue/filter/` filter存放文件
-- `vue/mixin/` mixin文件存放
-
-
-### 插件配置目录
-
-文件夹 `/config/`下为主要的插件配置文件存放目录。主要有以下文件：
-
-- `plugin.json` 插件列表文件
-- `plugin.development.json` 开发环境插件配置文件
-- `plugin.production.json` 生产环境插件配置文件
-
-### 本项目配置目录
-
-本项目需要一些自定义的配置，那么我们可以通过配置此文件夹下的文件内容来改变：
-
-- `config.development.js` 开发环境配置文件
-- `config.production.js` 生产环境配置文件
 ## [MIT](http://opensource.org/licenses/MIT) License
 
 Copyright &lt;2019-present&gt; &lt;evio@vip.qq.com&gt;

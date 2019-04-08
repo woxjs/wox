@@ -21,12 +21,6 @@ module.exports = {
     sidebar: {
       '/guide/': [
         '',
-        'mvc',
-        'service',
-        'config',
-        'runtime',
-        'request',
-        'controller',
         'install',
         'usage',
         'virtual'
