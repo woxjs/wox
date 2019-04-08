@@ -15,11 +15,10 @@ footer: MIT Licensed | Copyright © 2018-present Evio Shen
 
 ## Create project easily
 
-```bash {5}
+```bash {3}
 # 安装脚手架工具
 $ npm i @evio/cli -g
 $ cli install @wox/cli
-$ npm install -g @vue/cli
 
 # 创建项目
 $ cli wox:new
@@ -30,7 +29,7 @@ $ npm run dev
 
 ## Example
 
-File: ~/demo/app/controller/index.js
+> 定义一个`controller`用来路由：*File: ~/demo/app/controller/index.js*
 
 ```javascript
 import { Http, Controller } from '@wox/wox';
@@ -48,7 +47,7 @@ export default class IndexController {
 }
 ```
 
-File: File: ~/demo/app/webview/index.vue
+> 定一个一个页面渲染模板：*File: ~/demo/app/webview/index.vue*
 
 ```vue
 <template>

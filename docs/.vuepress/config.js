@@ -1,4 +1,3 @@
-const path = require('path');
 module.exports = {
   title: 'WoX',
   description: 'A dynamic loader MVC architecture based on Vue.js development which use web virtual service and web virtual request mode.',
@@ -27,13 +26,18 @@ module.exports = {
         'config',
         'runtime',
         'request',
-        'controller'
+        'controller',
+        'install',
+        'usage',
+        'virtual'
       ],
       '/api/': [
         ''
       ],
       '/cli/': [
-        ''
+        '',
+        'factory',
+        'wox'
       ],
       '/plugins/': [
         '',
