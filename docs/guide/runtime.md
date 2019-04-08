@@ -162,7 +162,7 @@ webpack会根据`config/plugin.json`中启动的插件中的模块的根目录�
 </style>
 ```
 
-### plugin_config: object
+### plugin_configs: object
 
 webpack会读取主项目下的`config/plugin.${env}.json`中的内容作为所有插件的配置树，然后通过内部的逻辑分发到各自插件中去。每个插件可以通过以下代码获取到对应的配置参数
 
@@ -174,7 +174,7 @@ export default (app, plugin) => {
 
 安装插件的时候，我们需要在插件根目录下建立一个文件`.wox.config.json`来告诉我们的cli工具，安装完毕这个插件需要将这个模板数据添加到主项目的`config/plugin.${env}.json`中去。
 
-### custom_config: Array
+### custom_configs: Array
 
 webpack会读取主项目下的`config/config.${env}.json`中的内容作为主项目的配置树，具体参考 [配置](./config.html) 一章。
 

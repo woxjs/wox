@@ -5,7 +5,7 @@ sidebarDepth: 4
 
 为了便于交流，请让我们在使用wox的开发过程中遵照一些命名约定：
 
-- **wox** 表示由`require('@wox/wox)`返回的对象。
+- **wox** 表示`require('@wox/wox)`返回的对象。
 - **app** 表示 Wox 的实例。
 - **ctx** 表示虚拟请求的上下文对象。
 
@@ -13,16 +13,16 @@ sidebarDepth: 4
 
 ### wox.Wox
 
-wox.Wox(config: object)
+wox.Wox(configs: object)
 
 它是应用对象的母体
 
 *参数：*
 
-- **config** `.wox.js`文件 [配置](/guide/runtime.html#webpack%E8%81%9A%E5%90%88%E6%96%87%E4%BB%B6-wox-js)
+- **configs** `.wox.js`文件 [配置](/guide/runtime.html#webpack%E8%81%9A%E5%90%88%E6%96%87%E4%BB%B6-wox-js)
 
 ```javascript
-const app = new wox.Wox(config);
+const app = new wox.Wox(configs);
 ```
 
 > 注意：一般我们不会直接使用这个对象，供后期`TypeScript`化时候引用。
@@ -258,10 +258,10 @@ wox-cli 会对`webview`文件夹内的.vue文件中注入`leave`生命周期钩�
 
 ### app.$parser
 
-我们只需要关注一个对象`config`，用来提起`.wox.js`中的数据。
+我们只需要关注一个对象`configs`，用来提起`.wox.js`中的数据。
 
 ```javascript
-app.$parser.config;
+app.$parser.configs;
 ```
 
 ### app.$plugin
