@@ -51,7 +51,7 @@ Email: [evio@vip.qq.com](mailto:evio@vip.qq.com)
 ├─ app.vue
 ├─ app.js
 ├─ app
-│  ├─ controller  // controller的作用类似与vue-router，用于存放响应特定路由的句柄函数。
+│  ├─ controller  // controller的作用类似与vue-router，存放用于响应特定路由的句柄函数。
 │  │  └─ index.js
 │  ├─ middleware  // 存放用于改装虚拟请求的中间件
 │  ├─ vue
