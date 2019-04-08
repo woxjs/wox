@@ -12,3 +12,4 @@ npm-debug.log
 .wox.js
 dist
 src
+.gitignore
