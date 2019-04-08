@@ -28,9 +28,9 @@ export class PluginModule {
 }
 
 export class Container {
-  constructor (config) {
+  constructor (configs) {
     this.stacks = {}
-    this.config = config
+    this.configs = configs
     this.decorates = {}
   }
 
@@ -44,7 +44,7 @@ export class Container {
   }
 
   getConfig (name) {
-    return this.config[name]
+    return this.configs[name]
   }
 
   setDecorate (decorate) {
