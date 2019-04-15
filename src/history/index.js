@@ -14,7 +14,7 @@ export default class History extends EventEmitter {
     this.history_process_listener = null;
     this.history_stop_run_process = false;
     this.history_event_name = EventListenerName[type] || 'hashChange';
-    if (type === 'html5' && !window.history.pushState) {
+    if ((type === 'html5' && !window.history.pushState) || window.location.protocol === 'file:') {
       this.history_event_name = EventListenerName.hash;
     }
   }

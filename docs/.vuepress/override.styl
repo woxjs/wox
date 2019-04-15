@@ -1,0 +1,114 @@
+body{
+  color:#333!important;
+}
+#app{
+  width: 85rem;
+  margin: 0 auto;
+}
+.theme-container{
+  position relative;
+}
+.sidebar{
+  left:inherit!important;
+}
+blockquote{
+  font-size:13px!important;
+}
+
+div[class*="language-"]{
+  background-color: #fdfdfd!important;
+}
+
+.content pre code, .content pre[class*="language-"] code {
+  color:#333!important;
+  font-size:12px;
+}
+
+div[class*="language-"]::before{
+  color:#eee!important;
+  text-transform: uppercase;
+  font-weight: 700;
+  top: 5px!important;
+  right: 10px!important;
+  font-size:12px!important;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  transition: all .3s ease;
+  font-weight: 300;
+}
+
+div[class*="language-"]:hover:before{
+  color:#03a9f4!important;
+}
+
+div[class*="language-"].line-numbers-mode::after{
+  background-color: #fafafa!important;
+  border-color:rgba(0, 92, 197, 0.05)!important;
+}
+
+div[class*="language-"].line-numbers-mode .line-numbers-wrapper {
+  color:#ccc!important;
+}
+
+div[class*="language-"] .highlight-lines .highlighted, div[class*="language-"].line-numbers-mode .highlight-lines .highlighted:before{
+  background-color: rgba(0, 92, 197, 0.05)!important;
+}
+
+.token.selector, .token.important, .token.atrule, .token.keyword, .token.builtin {
+  color: #d73a49;
+}
+
+.token.property, .token.constant, .token.symbol {
+  color: #333;
+}
+
+.token.string, .token.char, .token.attr-value, .token.regex, .token.variable {
+  color: #17803f;
+}
+
+.token.boolean, .token.function {
+  color: #005cc5;
+}
+
+.token.punctuation {
+  color: #333;
+}
+
+.token.operator, .token.entity, .token.url {
+  color: #333;
+}
+
+.token.class-name {
+  color: #6f42c1;
+}
+
+.token.number{
+  color:#e611b3;
+}
+
+.token.tag, .token.attr-name, .token.namespace, .token.deleted {
+    color: #005cc5;
+}
+
+ul, ol{
+  color:#555;
+  font-size:14px;
+}
+ul{
+  list-style:square;
+}
+ul li strong, ol li strong {
+  color:#03a9f4;
+  font-weight: 300;
+}
+
+ul li code, ol li code, p code {
+  color: #3e965c!important;
+  margin: 0 6px!important;
+  font-weight: 300!important;
+  background-color: rgba(0, 92, 197, 0.05)!important;
+}
+em{
+  color:#005cc5;
+  font-size:13px;
+}
