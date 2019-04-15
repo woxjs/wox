@@ -127,8 +127,13 @@ this.ctx.params.id
 `this.$get` 调用虚拟请求
 
 ### vm.$post
-
-`this.$post` 调用虚拟请求
+*作用：*
+调用wox的虚拟请求
+*用法：*
+`this.$post(url: String, payload: JSON)` 
+*参数：*
+1. **url** 请求的资源的描述符
+2. **payload** 
 
 ### vm.$put
 
