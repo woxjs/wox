@@ -2,6 +2,7 @@ import EventEmitter from '../helper/events';
 import UrlParse from 'url-parse';
 import Response from './response';
 
+const BASE_URL = process.env.BASE_URL;
 const EventListenerName = {
   hash: 'hashchange',
   html5: 'popstate'
@@ -25,6 +26,13 @@ export default class History extends EventEmitter {
     req.isapi = !!object.isapi;
     req.method = object.method ? object.method.toUpperCase() : 'GET';
     req.referer = this.history_referer;
+    if (!req.isapi && this.history_event_name === 'popstate') {
+      if (req.pathname.indexOf(BASE_URL) === 0) {
+        req.router = req.pathname.replace(BASE_URL, '') || '/';
+      } else {
+        req.router = req.pathname;
+      }
+    }
     return {
       next: !req.isapi ? err => {
         if (!err) this.history_referer = req.href;
@@ -80,6 +88,11 @@ export default class History extends EventEmitter {
 
   async redirect(url, sync) {
     let result;
+    if (this.history_event_name === 'popstate') {
+      if (url.indexOf(BASE_URL) === -1) {
+        url = BASE_URL.substring(0, BASE_URL.length - 1) + url;
+      }
+    }
     switch (this.history_event_name) {
       case EventListenerName.html5:
         if (sync) {
@@ -105,6 +118,11 @@ export default class History extends EventEmitter {
 
   async replace(url, sync) {
     let result;
+    if (this.history_event_name === 'popstate') {
+      if (url.indexOf(BASE_URL) === -1) {
+        url = BASE_URL.substring(0, BASE_URL.length - 1) + url;
+      }
+    }
     switch (this.history_event_name) {
       case EventListenerName.html5:
         if (sync) {

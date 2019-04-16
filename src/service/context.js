@@ -37,7 +37,8 @@ request.access('search')
   .getter('hostname')
   .getter('secure')
   .getter('isapi')
-  .access('referer');
+  .access('referer')
+  .access('routerPath');
 
 
 export default proto;
