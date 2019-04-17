@@ -29,7 +29,7 @@ export default class History extends EventEmitter {
     if (!req.isapi && this.history_event_name === 'popstate') {
       if (req.pathname.indexOf(BASE_URL) === 0) {
         req.router = req.pathname.replace(BASE_URL, '');
-        if (req.router.indexOf('/') === -1) req.router = '/' + req.router;
+        if (req.router.charAt(0) !== '/') req.router = '/' + req.router;
       } else {
         req.router = req.pathname;
       }
