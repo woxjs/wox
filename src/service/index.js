@@ -50,6 +50,7 @@ export default class ApplicationService extends History {
           }
         }
       } else {
+        if (ctx.status === 408) ctx.status = 200;
         if (ctx.body !== undefined) {
           if (ctx.status === 404) {
             ctx.status = 200;
