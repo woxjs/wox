@@ -50,7 +50,6 @@ export default class ApplicationService extends History {
           }
         }
       } else {
-        if (ctx.status === 408) ctx.status = 200;
         if (ctx.body !== undefined) {
           if (ctx.status === 404) {
             ctx.status = 200;
@@ -58,6 +57,7 @@ export default class ApplicationService extends History {
         };
       }
       switch (ctx.status) {
+        case 408: return Promise.reject(ctx.error('url redirected', 408));
         case 404: return Promise.reject(ctx.error('Not Find Request Path: ' + ctx.path, 404));
         case 440: 
           if (!ctx.isapi) {
