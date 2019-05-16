@@ -51,7 +51,7 @@ export function Middleware(...args) {
       parentMiddlewares.unshift(...args);
       Reflect.defineMetadata('Middleware', parentMiddlewares, target);
     } else {
-      let childMiddlewares = Reflect.getMetadata('Middleware', target);
+      let childMiddlewares = Reflect.getMetadata('Middleware', descriptor.value);
       if (!childMiddlewares) childMiddlewares = [];
       childMiddlewares.unshift(...args);
       Reflect.defineMetadata('Middleware', childMiddlewares, descriptor.value);
