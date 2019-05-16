@@ -2,6 +2,7 @@ import EventEmitter from '../helper/events';
 import UrlParse from 'url-parse';
 import Response from './response';
 
+const BASE_URL = process.env.BASE_URL || '/';
 const EventListenerName = {
   hash: 'hashchange',
   html5: 'popstate'
@@ -24,10 +25,18 @@ export default class History extends EventEmitter {
     req.body = object.body;
     req.isapi = !!object.isapi;
     req.method = object.method ? object.method.toUpperCase() : 'GET';
-    req.referer = this.history_referer;
+    req.referer = this.history_referer || (req.pathname + (req.search || ''));
+    if (!req.isapi && this.history_event_name === 'popstate') {
+      if (req.pathname.indexOf(BASE_URL) === 0) {
+        req.router = req.pathname.replace(BASE_URL, '');
+        if (req.router.charAt(0) !== '/') req.router = '/' + req.router;
+      } else {
+        req.router = req.pathname;
+      }
+    }
     return {
       next: !req.isapi ? err => {
-        if (!err) this.history_referer = req.href;
+        if (!err) this.history_referer = req.pathname + (req.search || '');
         this.history_stop_run_process = false;
       } : () => this.history_stop_run_process = false,
       request: req,
@@ -80,12 +89,24 @@ export default class History extends EventEmitter {
 
   async redirect(url, sync) {
     let result;
+    if (this.history_event_name === 'popstate') {
+      if (url.indexOf(BASE_URL) === -1) {
+        url = BASE_URL.substring(0, BASE_URL.length - 1) + url;
+      }
+    }
     switch (this.history_event_name) {
       case EventListenerName.html5:
         if (sync) {
           this.history_stop_run_process = true;
-          result = await this.history_run_process({ url, isapi: false });
-          window.history.pushState({}, window.document.title, url);
+          let redirected = false;
+          result = await this.history_run_process({ url, isapi: false }).catch(e => {
+            if (e.status === 408) {
+              redirected = true;
+            } else {
+              return Promise.reject(e);
+            }
+          });
+          !redirected && window.history.pushState({}, window.document.title, url);
         } else {
           window.history.pushState({}, window.document.title, url);
           result = await this.reload();
@@ -93,8 +114,15 @@ export default class History extends EventEmitter {
         break;
       default:
         if (sync) {
-          result = await this.history_run_process({ url, isapi: false });
-          window.location.hash = url;
+          let redirected = false;
+          result = await this.history_run_process({ url, isapi: false }).catch(e => {
+            if (e.status === 408) {
+              redirected = true;
+            } else {
+              return Promise.reject(e);
+            }
+          });
+          !redirected && (window.location.hash = url);
         } else {
           window.location.hash = url;
           result = await this.reload();
@@ -105,12 +133,24 @@ export default class History extends EventEmitter {
 
   async replace(url, sync) {
     let result;
+    if (this.history_event_name === 'popstate') {
+      if (url.indexOf(BASE_URL) === -1) {
+        url = BASE_URL.substring(0, BASE_URL.length - 1) + url;
+      }
+    }
     switch (this.history_event_name) {
       case EventListenerName.html5:
         if (sync) {
           this.history_stop_run_process = true;
-          result = await this.history_run_process({ url, isapi: false });
-          window.history.replaceState({}, window.document.title, url);
+          let redirected = false;
+          result = await this.history_run_process({ url, isapi: false }).catch(e => {
+            if (e.status === 408) {
+              redirected = true;
+            } else {
+              return Promise.reject(e);
+            }
+          });
+          !redirected && window.history.replaceState({}, window.document.title, url);
         } else {
           window.history.replaceState({}, window.document.title, url);
           result = await this.reload();
@@ -118,8 +158,15 @@ export default class History extends EventEmitter {
         break;
       default:
         if (sync) {
-          result = await this.history_run_process({ url, isapi: false });
-          replaceUriWithHash(url);
+          let redirected = false;
+          result = await this.history_run_process({ url, isapi: false }).catch(e => {
+            if (e.status === 408) {
+              redirected = true;
+            } else {
+              return Promise.reject(e);
+            }
+          });
+          !redirected && replaceUriWithHash(url);
         } else {
           replaceUriWithHash(url);
           result = await this.reload();

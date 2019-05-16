@@ -31,5 +31,8 @@ export default {
   },
   get referer() {
     return this.req.referer;
+  },
+  get routerPath() {
+    return this.req.router;
   }
 };
