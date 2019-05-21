@@ -76,6 +76,7 @@ export default class History extends EventEmitter {
       if (!this.history_stop_run_process) {
         this.history_run_process();
       }
+      this.history_stop_run_process = false;
     };
     window.addEventListener(this.history_event_name, listener);
     this.history_installed = true;
@@ -97,7 +98,6 @@ export default class History extends EventEmitter {
     switch (this.history_event_name) {
       case EventListenerName.html5:
         if (sync) {
-          this.history_stop_run_process = true;
           let redirected = false;
           result = await this.history_run_process({ url, isapi: false }).catch(e => {
             if (e.status === 408) {
@@ -106,6 +106,7 @@ export default class History extends EventEmitter {
               return Promise.reject(e);
             }
           });
+          this.history_stop_run_process = true;
           !redirected && window.history.pushState({}, window.document.title, url);
         } else {
           window.history.pushState({}, window.document.title, url);
@@ -122,6 +123,7 @@ export default class History extends EventEmitter {
               return Promise.reject(e);
             }
           });
+          this.history_stop_run_process = true;
           !redirected && (window.location.hash = url);
         } else {
           window.location.hash = url;
@@ -141,7 +143,6 @@ export default class History extends EventEmitter {
     switch (this.history_event_name) {
       case EventListenerName.html5:
         if (sync) {
-          this.history_stop_run_process = true;
           let redirected = false;
           result = await this.history_run_process({ url, isapi: false }).catch(e => {
             if (e.status === 408) {
@@ -150,6 +151,7 @@ export default class History extends EventEmitter {
               return Promise.reject(e);
             }
           });
+          this.history_stop_run_process = true;
           !redirected && window.history.replaceState({}, window.document.title, url);
         } else {
           window.history.replaceState({}, window.document.title, url);
@@ -166,10 +168,10 @@ export default class History extends EventEmitter {
               return Promise.reject(e);
             }
           });
+          this.history_stop_run_process = true;
           !redirected && replaceUriWithHash(url);
         } else {
           replaceUriWithHash(url);
-          result = await this.reload();
         }
     }
     return result;
