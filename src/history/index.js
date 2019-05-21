@@ -127,7 +127,6 @@ export default class History extends EventEmitter {
           !redirected && (window.location.hash = url);
         } else {
           window.location.hash = url;
-          result = await this.reload();
         }
     }
     return result;
