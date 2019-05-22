@@ -23,6 +23,50 @@ export default class Wox extends Application {
     this.$plugin = new Container(parsedConfigs.plugin_configs);
     Object.defineProperty(this, '$config', { get() { return parsedConfigs.custom_configs; } });
     parser.VueInjectRender(this);
+    window.addEventListener("unhandledrejection", e => {
+      e.preventDefault();
+      this.emit('error', e, {
+        trigger: 'window.addEventListener:unhandledrejection',
+        url: e.filename || window.location.href, 
+        row: e.lineno || 0, 
+        col: e.colno || 0,
+        time: e.timeStamp || Date.now(),
+        name: e.type || e.name
+      });
+    });
+    window.addEventListener('error', (e) => {
+      e.preventDefault();
+      this.emit('error', e, {
+        trigger: 'window.addEventListener:error',
+        url: e.filename || window.location.href, 
+        row: e.lineno, 
+        col: e.colno,
+        time: e.timeStamp || Date.now(),
+        name: e.type || e.name
+      });
+    }, true);
+    window.onerror = (msg, url, row, col, error) => {
+      this.emit('error', error, {
+        trigger: 'window.onerror',
+        url, row, col,
+        time: error.timeStamp || Date.now(),
+        name: e.type || e.name
+      });
+    };
+    Vue.config.errorHandler = (err, vm, info) => {
+      this.emit('error', err, {
+        trigger: 'Vue.config.errorHandler',
+        url: window.location.href,
+        vue: {
+          name: vm.$options.name,
+          info: info
+        },
+        row: 0, 
+        col: 0,
+        time: err.timeStamp || Date.now(),
+        name: err.type || err.name
+      });
+    }
   }
 
   async $fetch(...args) {
