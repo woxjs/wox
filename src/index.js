@@ -25,7 +25,7 @@ export default class Wox extends Application {
     parser.VueInjectRender(this);
     window.addEventListener("unhandledrejection", e => {
       e.preventDefault();
-      this.emit('error', e, {
+      this.emit('error', e.reason, {
         trigger: 'window.addEventListener:unhandledrejection',
         url: e.filename || window.location.href, 
         row: e.lineno || 0, 
