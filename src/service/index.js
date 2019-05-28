@@ -130,11 +130,17 @@ export default class ApplicationService extends History {
         })
         .catch(e => {
           next(e);
+          let ignore = false;
+          e.preventDefault = () => ignore = true;
           return Promise.all([
             ctx.emit('error', e),
             this.emit('error', e),
             this.emit('stop', ctx)
-          ]).catch(x => Promise.resolve());
+          ]).then(() => {
+            if (!ignore) {
+              return Promise.reject(e);
+            }
+          }).catch(x => Promise.reject(e));
         });
     });
     this.listener = super.history_listen();

@@ -25,7 +25,7 @@ export default class Wox extends Application {
     parser.VueInjectRender(this);
     window.addEventListener("unhandledrejection", e => {
       e.preventDefault();
-      this.emit('error', e.reason, {
+      this.emit('unhandlederror', e.reason, {
         trigger: 'window.addEventListener:unhandledrejection',
         url: e.filename || window.location.href, 
         row: e.lineno || 0, 
@@ -36,7 +36,7 @@ export default class Wox extends Application {
     });
     window.addEventListener('error', (e) => {
       e.preventDefault();
-      this.emit('error', e, {
+      this.emit('unhandlederror', e, {
         trigger: 'window.addEventListener:error',
         url: e.filename || window.location.href, 
         row: e.lineno, 
@@ -46,7 +46,7 @@ export default class Wox extends Application {
       });
     }, true);
     window.onerror = (msg, url, row, col, error) => {
-      this.emit('error', error, {
+      this.emit('unhandlederror', error, {
         trigger: 'window.onerror',
         url, row, col,
         time: error.timeStamp || Date.now(),
@@ -54,7 +54,7 @@ export default class Wox extends Application {
       });
     };
     Vue.config.errorHandler = (err, vm, info) => {
-      this.emit('error', err, {
+      this.emit('unhandlederror', err, {
         trigger: 'Vue.config.errorHandler',
         url: window.location.href,
         vue: {
