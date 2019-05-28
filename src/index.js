@@ -35,7 +35,7 @@ export default class Wox extends Application {
         row: e.lineno || 0, 
         col: e.colno || 0,
         time: e.timeStamp || Date.now(),
-        name: e.type || e.name
+        name: e.type || e.name || e.reason.type || e.reason.name
       }).catch(e => Promise.resolve());
     });
     window.addEventListener('error', (e) => {
