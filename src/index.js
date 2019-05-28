@@ -16,6 +16,7 @@ export default class Wox extends Application {
     const parser = new Parser(config);
     const parsedConfigs = parser.render();
     super(parsedConfigs.custom_configs.mode || 'hash');
+    this.errorListener();
     Vue.prototype.$app = this;
     this.$parser = parser;
     this.$router = new Router();
@@ -23,6 +24,9 @@ export default class Wox extends Application {
     this.$plugin = new Container(parsedConfigs.plugin_configs);
     Object.defineProperty(this, '$config', { get() { return parsedConfigs.custom_configs; } });
     parser.VueInjectRender(this);
+  }
+
+  errorListener() {
     window.addEventListener("unhandledrejection", e => {
       e.preventDefault();
       this.emit('unhandlederror', e.reason, {
