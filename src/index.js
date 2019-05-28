@@ -36,7 +36,7 @@ export default class Wox extends Application {
         col: e.colno || 0,
         time: e.timeStamp || Date.now(),
         name: e.type || e.name
-      });
+      }).catch(e => Promise.resolve());
     });
     window.addEventListener('error', (e) => {
       e.preventDefault();
@@ -48,7 +48,7 @@ export default class Wox extends Application {
           col: e.colno,
           time: e.timeStamp || Date.now(),
           name: e.type || e.name
-        });
+        }).catch(e => Promise.resolve());
       }
     }, true);
     window.onerror = (msg, url, row, col, error) => {
@@ -57,7 +57,7 @@ export default class Wox extends Application {
         url, row, col,
         time: error.timeStamp || Date.now(),
         name: e.type || e.name
-      });
+      }).catch(e => Promise.resolve());
     };
     Vue.config.errorHandler = (err, vm, info) => {
       this.emit('unhandlederror', err, {
@@ -71,7 +71,7 @@ export default class Wox extends Application {
         col: 0,
         time: err.timeStamp || Date.now(),
         name: err.type || err.name
-      });
+      }).catch(e => Promise.resolve());
     }
   }
 
