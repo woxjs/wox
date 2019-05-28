@@ -40,14 +40,16 @@ export default class Wox extends Application {
     });
     window.addEventListener('error', (e) => {
       e.preventDefault();
-      this.emit('unhandlederror', e, {
-        trigger: 'window.addEventListener:error',
-        url: e.filename || window.location.href, 
-        row: e.lineno, 
-        col: e.colno,
-        time: e.timeStamp || Date.now(),
-        name: e.type || e.name
-      });
+      if (e.srcElement instanceof HTMLScriptElement || e.srcElement instanceof HTMLLinkElement || e.srcElement instanceof HTMLImageElement) {
+        this.emit('unhandlederror', e, {
+          trigger: 'window.addEventListener:error',
+          url: e.filename || window.location.href, 
+          row: e.lineno, 
+          col: e.colno,
+          time: e.timeStamp || Date.now(),
+          name: e.type || e.name
+        });
+      }
     }, true);
     window.onerror = (msg, url, row, col, error) => {
       this.emit('unhandlederror', error, {
